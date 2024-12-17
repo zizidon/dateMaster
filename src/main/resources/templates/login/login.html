@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 	<head>
 		<meta charset="UTF-8">
@@ -12,14 +11,18 @@
 		<div class="login-container">
 			<h2>ログイン</h2>
 			<form th:action="@{/dateMaster/login}" th:method="post">
+				<label for="userid" >ユーザーID</labe>
+				<input type="text" id="userid" th:name="userid">
 
-				<label th:text="#{label.name}">ユーザーID</label>
-				<input type="text" th:id="userid" th:name="userid">
+				<label for="password" >パスワード</label>
+				<input type="password" id="password" th:name="password">
 
-				<label th:text="#{label.password}">パスワード</label>
-				<input type="password" th:name="password" >
+				<input type="submit">
+			</form>
+		</div>
+	</body>
 
-				<input type="submit" th:text="#{label.submit}">
+</html>
 
 
 
@@ -43,8 +46,4 @@
 				<a href="signup.html">新規登録</a>
 			</div>> 
 		-->
-			</form>
-		</div>
-	</body>
-
-	</html>
+	
