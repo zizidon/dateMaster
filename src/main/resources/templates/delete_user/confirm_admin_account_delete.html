@@ -1,0 +1,35 @@
+<!-- confirm_admin_account_delete.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>アカウント削除</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>アカウント削除確認</h1>
+    
+  </header>
+  <main>
+    <div class="back-button">
+      <button type="button" onclick="history.back()">戻る</button>
+    </div>
+    <div class="delete-confirmation">
+      <p>本当に削除しますか？</p>
+      <div class="button-group">
+        <button type="button" onclick="location.href='account_delete_complete.html'">はい</button>
+        <button type="button" onclick="history.back()">いいえ</button>
+      </div>
+    </div>
+  </main>
+  <script>
+    // はいボタンをクリックしたときの処理
+    document.querySelector('.button-group button:first-child').addEventListener('click', function() {
+      // 完了のポップアップを表示
+      alert('削除完了');
+    });
+  </script>
+</body>
+</html>
