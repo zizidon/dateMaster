@@ -11,15 +11,17 @@
 		<div class="login-container">
 			<h2>ログイン</h2>
 			<form th:action="@{/dateMaster/login}" th:method="post">
-				<label for="userid" >ユーザーID</labe>
-				<input type="text" id="userid" th:name="userid">
+				<label for="userid" >ユーザーID</label>
+				<input type="text" id="userid" th:name="userid"><br><br>
 
 				<label for="password" >パスワード</label>
-				<input type="password" id="password" th:name="password">
+				<input type="password" id="password" th:name="password"><br><br>
 
 				<input type="submit">
 			</form>
 		</div>
+		
+		<p>アカウントをお持ちでない方は<a th:href="@{/dateMaster/register}">新規登録</a></p>
 	</body>
 
 </html>
