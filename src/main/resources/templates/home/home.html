@@ -1,37 +1,36 @@
-<!-- home.html -->
 <!DOCTYPE html>
-<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DatingMaster</title>
-  <link rel="stylesheet" href="styles.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ホーム画面</title>
 </head>
+
 <body>
-  <header>
-    <h1>DatingMaster</h1>
-    <div class="hamburger-menu">
-		<span>デート</span>
-		<span>診断</span>
-		<span>パートナー</span>
-		<span>設定</span>
-		<span>ログアウト</span>
-    </div>
-  </header>
-  <main>
-    <div class="user-info">
-      <img src="icon.png" alt="アイコン">
-      <p>名前</p>
-	  <div class="user-info">
-	        <img src="icon.png" alt="アイコン">
-	        <p>名前</p>
-    </div>
-    <div class="button-group">
-      <button type="button" onclick="location.href='date.html'">デート</button>
-      <button type="button" onclick="location.href='diagnosis.html'">診断</button>
-      <button type="button" onclick="location.href='partner.html'">パートナー機能</button>
-      <button type="button" onclick="location.href='setting.html'">設定</button>
-    </div>
-  </main>
+	<header>
+		<h1>DatingMaster</h1>
+
+	</header>
+	<main>
+		<div class="user-info">
+			<img src="icon.png" alt="アイコン">
+			<p>名前</p>
+		</div>
+
+		<div class="button-group">
+			<!-- デートボタンを押すと、date.html に遷移するリンク-->
+			<a th:href="@{/dateMaster/date}"><button type="button">デート</button></a>
+
+
+
+			<!-- ほかのボタン -->
+			<button type="button" onclick="location.href='diagnosis.html'">診断</button>
+			<button type="button" onclick="location.href='partner.html'">パートナー機能</button>
+			<button type="button" onclick="location.href='setting.html'">設定</button>
+		</div>
+
+	</main>
 </body>
+
 </html>
