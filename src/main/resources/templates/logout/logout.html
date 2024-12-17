@@ -4,23 +4,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ログアウト画面</title>
+  <title>ログアウト</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <nav>
-      <ul>
-        <li><a href="#" class="hamburger-menu">☰</a></li>
-        <li><a href="#" class="logout-button">ログアウト</a></li>
-      </ul>
-    </nav>
+    <h1>ログアウト</h1>
+    <div class="hamburger-menu">
+      <span>デート</span>
+      <span>診断</span>
+      <span>パートナー</span>
+	  <span>設定</span>
+	  <span>ログアウト</span>
+    </div>
   </header>
   <main>
-    <h2>ログアウトしてよろしいですか?</h2>
-    <p>ログアウトすると、すべてのセッション情報が削除されます。</p>
-    <button class="back-button">戻る</button>
-    <button class="logout-confirm-button">ログアウト</button>
+    <div class="back-button">
+      <button type="button" onclick="history.back()">戻る</button>
+    </div>
+    <p>ログアウトしますか？</p>
+    <button type="button" onclick="logout()">ログアウト</button>
   </main>
+  <footer>
+    <button type="button" onclick="history.back()">戻る</button>
+  </footer>
 </body>
 </html>
