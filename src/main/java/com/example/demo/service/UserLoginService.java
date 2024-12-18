@@ -22,7 +22,7 @@ public class UserLoginService {
 		session.setAttribute("password", password);
 
 		//ユーザーが存在するか確認
-		boolean isExists = userRepo.existsById(userid);
+		boolean isExists = userRepo.existsById(Long.valueOf(userid));
 
 		if (!isExists) {
 
@@ -30,7 +30,7 @@ public class UserLoginService {
 		}
 
 		//ユーザー情報を取得
-		Optional<Users> user = userRepo.findById(userid);
+		Optional<Users> user = userRepo.findById(Long.valueOf(userid));
 
 		//パスワードが一致しているかの確認
 		if (!password.equals(user.get().getPassword())) {
