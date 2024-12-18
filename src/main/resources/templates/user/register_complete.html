@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>新規登録完了画面</title>
+</head>
+
+<body>
+	<header>
+		<h1>新規登録完了画面</h1>
+	</header>
+
+	<main>
+		<p>ユーザーが登録されました。</p>
+		<form th:action="@{/dateMaster/login}" th:method="get">
+			<input type="submit" value="ログイン">
+		</form>
+	</main>
+</body>
+
+</html>
