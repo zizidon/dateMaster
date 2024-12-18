@@ -16,16 +16,16 @@
 
 	<form th:action="@{/dateMaster/register/send}" th:method="post">
 		<label for="name">名前</label>
-		<input type="text" id="name" th:name="name"><br><br>
-
-		<label for="id">ユーザーID</label>
-		<input type="text" id="id" th:name="id"><br><br>
+		<input type="text" id="name" th:name="name" required><br><br>
 
 		<label for="password">パスワード</label>
-		<input type="password" id="password" th:name="password"><br><br>
+		<input type="password" id="password" th:name="password" required><br><br>
 
 		<label for="confirm-password">確認用パスワード</label>
-		<input type="password" id="confirmPassword" th:name="confirmPassword"><br><br>
+		<input type="password" id="confirmPassword" th:name="confirmPassword" required><br><br>
+
+		<!-- エラーメッセージ-->
+		<p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
 
 		<button type="submit">登録</button>
 	</form>

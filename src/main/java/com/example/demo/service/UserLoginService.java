@@ -17,35 +17,33 @@ public class UserLoginService {
 	@Autowired
 	UserRepository userRepo;
 
-	public boolean login(String userid, String password) {
+	public String login(String userid, String password) {
 		session.setAttribute("userid", userid);
 		session.setAttribute("password", password);
 
-		boolean isExists;
+		//ユーザーが存在するか確認
+		boolean isExists = userRepo.existsById(userid);
 
-		isExists = userRepo.existsById(userid);
+		if (!isExists) {
 
-		if (isExists) {
-
-			Optional<Users> user = userRepo.findById(userid);
-
-			
-			//パスワードが一致しているかの確認
-			if (password.equals(user.get().getPassword())) {
-				System.out.println("一致");
-
-				return true;
-
-			} else {
-				System.out.println("不一致");
-				return false;
-			}
-
-		} else {
-
-			return false;
-
+			return "ユーザーIDが存在しません。";
 		}
 
+		//ユーザー情報を取得
+		Optional<Users> user = userRepo.findById(userid);
+
+		//パスワードが一致しているかの確認
+		if (!password.equals(user.get().getPassword())) {
+			System.out.println("一致");
+
+			return "パスワードが一致しません。";
+
+		}
+		
+		//ログイン成功
+		System.out.println("ログイン成功");
+		return "OK";
+
 	}
+
 }

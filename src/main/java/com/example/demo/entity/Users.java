@@ -12,9 +12,8 @@ import lombok.NoArgsConstructor;
 public class Users{
 	
 	@Id
-	private String id;
+	private Long id; //自動採番
 	private String name;
-	private String email;
 	private String password;
 
 }

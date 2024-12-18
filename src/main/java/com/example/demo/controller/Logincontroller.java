@@ -29,11 +29,14 @@ public class Logincontroller {
 	@PostMapping("login")
 	public ModelAndView login(@RequestParam String userid, @RequestParam String password, ModelAndView mav) {
 
-		if (userLoginService.login(userid, password)) {
+		String result = userLoginService.login(userid, password);
+		
+		if ("OK".equals(result)) {
 
-			mav.setViewName("home/home");
+			mav.setViewName("home/home"); // ログイン成功後、ホーム画面に遷移
 
 		} else {
+			mav.addObject("errorMessage", result); //エラーメッセージを画面に表示
 			mav.setViewName("login/login");
 		}
 
@@ -47,14 +50,17 @@ public class Logincontroller {
 	}
 
 	@PostMapping("/register/send")
-	public ModelAndView register(@RequestParam String id, @RequestParam String name, @RequestParam String password,
+	public ModelAndView register(@RequestParam String name, @RequestParam String password,
 			@RequestParam String confirmPassword, ModelAndView mav) {
 
-		if (userRegisterService.register(name, id, password, confirmPassword)) {
+		String result = userRegisterService.register(name, password, confirmPassword);
 
-			mav.setViewName("login/login");
+		if (result.equals("登録完了")) {
+
+			mav.setViewName("login/login");//登録成功後、ログイン画面に遷移
 
 		} else {
+			mav.addObject("errorMessage", result); //エラーメッセージを画面に表示
 			mav.setViewName("user/register");
 		}
 
