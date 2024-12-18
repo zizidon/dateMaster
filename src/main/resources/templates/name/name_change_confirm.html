@@ -29,18 +29,11 @@
     </div>
     <div class="button-group">
       <button type="button" onclick="history.back()">戻る</button>
-      <button type="button" id="change-button">変更確定</button>
+      <button type="button" onclick="location.href='mypage.html'">変更確定</button>
     </div>
-    <div class="popup" id="popup">
-      <p>変更が完了しました</p>
-      <button type="button" onclick="location.href='mypage.html'">ユーザー管理機能一覧画面にもどる</button>
-    </div>
+    
   </main>
-  <script>
-    document.getElementById("change-button").addEventListener("click", function() {
-      document.getElementById("popup").style.display = "block";
-    });
-  </script>
+  
 </body>
 </html>
 

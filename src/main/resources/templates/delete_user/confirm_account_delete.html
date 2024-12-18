@@ -1,4 +1,4 @@
-<!-- account_delete.html -->
+<!-- confirm_account_delete.html -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -34,25 +34,7 @@
   <script>
     // はいボタンをクリックしたときの処理
     document.getElementById("yes-button").addEventListener('click', function() {
-      // 削除完了のポップアップウィンドウを表示
-      var popup = document.createElement("div");
-      popup.innerHTML = <p>削除完了しました</p>;
-	  
-	  <button type='button' id='login-button'>ログイン画面に遷移</button>
-	  		//popup.style.position = "fixed";
-	        //popup.style.top = "50%";
-	        //popup.style.left = "50%";
-	        //popup.style.transform = "translate(-50%, -50%)";
-	        //popup.style.background = "#fff";
-	        //popup.style.padding = "20px";
-	        //popup.style.border = "1px solid #ddd";
-	        //popup.style.borderRadius = "10px";
-	        //popup.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.2)";
-      document.body.appendChild(popup);
-      // ログイン画面に遷移するボタンをクリックしたときの処理
-      document.getElementById("login-button").addEventListener('click', function() {
-        location.href = "login.html";
-      });
+      location.href = "login.html";
     });
   </script>
 </body>

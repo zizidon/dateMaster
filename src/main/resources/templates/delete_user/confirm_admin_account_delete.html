@@ -19,17 +19,16 @@
     <div class="delete-confirmation">
       <p>本当に削除しますか？</p>
       <div class="button-group">
-        <button type="button" onclick="location.href='account_delete_complete.html'">はい</button>
-        <button type="button" onclick="history.back()">いいえ</button>
-      </div>
-    </div>
-  </main>
-  <script>
-    // はいボタンをクリックしたときの処理
-    document.querySelector('.button-group button:first-child').addEventListener('click', function() {
-      // 完了のポップアップを表示
-      alert('削除完了');
-    });
-  </script>
+		<button type="button" id="yes-button">はい</button>
+		<button type="button" onclick="history.back()">いいえ</button>
+		      </div>
+		    </div>
+		  </main>
+		  <script>
+		    // はいボタンをクリックしたときの処理
+		    document.getElementById("yes-button").addEventListener('click', function() {
+		      location.href = "login.html";
+		    });
+		  </script>
 </body>
 </html>
