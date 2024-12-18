@@ -1,0 +1,45 @@
+<!-- name_change_confirm.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>名前変更確認</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>名前変更確認</h1>
+    <div class="hamburger-menu">
+      <ul>
+        <li><a href="date.html">デート</a></li>
+        <li><a href="diagnosis.html">診断</a></li>
+        <li><a href="partner.html">パートナー</a></li>
+        <li><a href="setting.html">設定</a></li>
+        <li><a href="logout.html">ログアウト</a></li>
+      </ul>
+    </div>
+  </header>
+  <main>
+    <div class="back-button">
+      <button type="button" onclick="history.back()">戻る</button>
+    </div>
+    <div class="confirm-message">
+      <p>名前を{{ new_name }}に変更します。よろしいですか？</p>
+    </div>
+    <div class="button-group">
+      <button type="button" onclick="history.back()">戻る</button>
+      <button type="button" id="change-button">変更確定</button>
+    </div>
+    <div class="popup" id="popup">
+      <p>変更が完了しました</p>
+      <button type="button" onclick="location.href='mypage.html'">ユーザー管理機能一覧画面にもどる</button>
+    </div>
+  </main>
+  <script>
+    document.getElementById("change-button").addEventListener("click", function() {
+      document.getElementById("popup").style.display = "block";
+    });
+  </script>
+</body>
+</html>
