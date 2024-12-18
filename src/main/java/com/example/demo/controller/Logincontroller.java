@@ -21,11 +21,15 @@ public class Logincontroller {
 	@Autowired
 	UserRegisterService userRegisterService;
 
+	
+	//ログイン画面に移動する
 	@GetMapping("")
 	public String loginTop() {
 		return "login/login";
 	}
 
+	
+	//ログイン処理
 	@PostMapping("login")
 	public ModelAndView login(@RequestParam String userid, @RequestParam String password, ModelAndView mav) {
 
@@ -44,11 +48,13 @@ public class Logincontroller {
 
 	}
 
+	//新規登録画面に移動する
 	@GetMapping("/register")
 	public String registerTop() {
 		return "user/register";
 	}
 
+	//新規登録処理
 	@PostMapping("/register/send")
 	public ModelAndView register(@RequestParam String name, @RequestParam String password,
 			@RequestParam String confirmPassword, ModelAndView mav) {
