@@ -17,7 +17,7 @@ public class Logincontroller {
 
 	@Autowired
 	UserLoginService userLoginService;
-	
+
 	@Autowired
 	UserRegisterService userRegisterService;
 
@@ -45,9 +45,18 @@ public class Logincontroller {
 	public String registerTop() {
 		return "user/register";
 	}
-	
+
 	@PostMapping("/register/send")
-	public ModelAndView register(@RequestParam String name, @RequestParam String password, @RequestParam String confirmPassword, ModelAndView mav) {
+	public ModelAndView register(@RequestParam String id, @RequestParam String name, @RequestParam String password,
+			@RequestParam String confirmPassword, ModelAndView mav) {
+
+		if (userRegisterService.register(name, id, password, confirmPassword)) {
+
+			mav.setViewName("login/login");
+
+		} else {
+			mav.setViewName("user/register");
+		}
 
 		return mav;
 	}

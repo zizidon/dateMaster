@@ -29,6 +29,8 @@ public class UserLoginService {
 
 			Optional<Users> user = userRepo.findById(userid);
 
+			
+			//パスワードが一致しているかの確認
 			if (password.equals(user.get().getPassword())) {
 				System.out.println("一致");
 
