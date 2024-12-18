@@ -13,6 +13,7 @@ public class Namecontroller {
 		
 		//name_change.htmlを返す
 		
+		
 		return "name/name_change";
 	}
 }
