@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.example.demo.service.NameChangeService;
+import com.example.demo.service.PasswordChangeService;
 import com.example.demo.service.UserLoginService;
 import com.example.demo.service.UserRegisterService;
 
@@ -25,4 +26,8 @@ public class AppConfig {
 		return new NameChangeService();
 	}
 	
+	@Bean
+	public PasswordChangeService passwordChangeService() {
+		return new PasswordChangeService();
+	}
 }
