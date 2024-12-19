@@ -22,8 +22,6 @@ public class UserLoginService {
 		//ユーザーが存在するか確認
 		Optional<Users> user = userRepo.findById(Long.valueOf(userid));
 
-		//boolean isExists = userRepo.existsById(Long.valueOf(userid));
-
 		if (user.isEmpty()) {
 
 			return "ユーザーIDが存在しません。";

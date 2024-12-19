@@ -1,32 +1,40 @@
-<!-- name_change_confirm.html -->
 <!DOCTYPE html>
-<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>名前変更確認</title>
-  <link rel="stylesheet" href="styles.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>名前変更確認画面</title>
 </head>
+
 <body>
-  <header>
-    <h1>名前変更確認</h1>
-    
-  </header>
-  <main>
-    <div class="back-button">
-      <button type="button" onclick="history.back()">戻る</button>
-    </div>
-    <div class="confirm-message">
-      <p>名前を{{ new_name }}に変更します。よろしいですか？</p>
-    </div>
-    <div class="button-group">
-      <button type="button" onclick="history.back()">戻る</button>
-      <button type="button" onclick="location.href='name_change_complete.html'">変更確定</button>
-    </div>
-    
-  </main>
-  
+	<header>
+		<h1>名前変更確認</h1>
+
+	</header>
+	<main>
+		<!-- 戻るボタン -->
+		<div class="back-button">
+			<button type="button" onclick="history.back()">戻る</button>
+		</div>
+
+		<!-- 確認メッセージ -->
+		<div class="confirm-message">
+			<p>現在の名前: <span th:text="${currentName}">現在の名前</span></p>
+			<p>変更後の名前: <span th:text="${newName}">変更後の名前</span></p>
+			<p>名前を変更します。よろしいですか？</p>
+		</div>
+
+		<!-- ボタン -->
+		<div class="button-group">
+			<button type="button" onclick="history.back()">戻る</button>
+			<form th:action="@{/dateMaster/complete}" method="post">
+				<button type="submit">変更確定</button>
+			</form>
+		</div>
+
+	</main>
+
 </body>
+
 </html>
-
-

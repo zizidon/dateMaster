@@ -3,6 +3,7 @@ package com.example.demo.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.demo.service.NameChangeService;
 import com.example.demo.service.UserLoginService;
 import com.example.demo.service.UserRegisterService;
 
@@ -13,10 +14,15 @@ public class AppConfig {
 	public UserLoginService userLoginService() {
 		return new UserLoginService();
 	}
-	
+
 	@Bean
 	public UserRegisterService userRegisterService() {
 		return new UserRegisterService();
 	}
 
+	@Bean
+	public NameChangeService nameChangeService() {
+		return new NameChangeService();
+	}
+	
 }

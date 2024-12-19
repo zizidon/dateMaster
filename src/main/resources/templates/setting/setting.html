@@ -22,12 +22,12 @@
 	</header>
 	<main>
 
-		<!-- 前の画面に戻るボタン　-->
+		<!-- 前の画面に戻るボタン -->
 		<div class="back-button">
-			<button type="button" onclick="history.back()">戻る</button>
+			<a th:href="@{'/dateMaster/home'}"><button type="button">戻る</button></a>
 		</div>
-		<br>
 
+		<br>
 
 		<div class="button-group">
 			<!-- ユーザー管理ボタンを押すと、user_management.htmlに遷移するリンク -->
@@ -37,7 +37,7 @@
 			<a th:href="@{/dateMaster/mypage}"><button type="button">マイページ</button></a>
 
 			<!-- お問い合わせボタンを押すと、に遷移するリンク -->
-			
+
 		</div>
 	</main>
 </body>
