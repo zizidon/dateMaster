@@ -18,29 +18,26 @@ public class UserLoginService {
 	UserRepository userRepo;
 
 	public String login(String userid, String password) {
-		session.setAttribute("userid", userid);
-		session.setAttribute("password", password);
 
 		//ユーザーが存在するか確認
-		boolean isExists = userRepo.existsById(Long.valueOf(userid));
+		Optional<Users> user = userRepo.findById(Long.valueOf(userid));
 
-		if (!isExists) {
+		//boolean isExists = userRepo.existsById(Long.valueOf(userid));
+
+		if (user.isEmpty()) {
 
 			return "ユーザーIDが存在しません。";
 		}
 
-		//ユーザー情報を取得
-		Optional<Users> user = userRepo.findById(Long.valueOf(userid));
-
 		//パスワードが一致しているかの確認
 		if (!password.equals(user.get().getPassword())) {
-			System.out.println("一致");
 
 			return "パスワードが一致しません。";
 
 		}
-		
-		//ログイン成功
+
+		//ログイン成功 - セッションにユーザー情報を保存
+		session.setAttribute("loginUser", user.get()); // Usersオブジェクトを保存
 		System.out.println("ログイン成功");
 		return "OK";
 

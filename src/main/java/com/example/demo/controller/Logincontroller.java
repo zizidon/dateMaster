@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.entity.Users;
 import com.example.demo.service.UserLoginService;
 import com.example.demo.service.UserRegisterService;
 
@@ -21,22 +24,24 @@ public class Logincontroller {
 	@Autowired
 	UserRegisterService userRegisterService;
 
-	
+	@Autowired
+	HttpSession session;
+
 	//ログイン画面に移動する
 	@GetMapping("")
 	public String loginTop() {
 		return "login/login";
 	}
 
-	
 	//ログイン処理
 	@PostMapping("login")
 	public ModelAndView login(@RequestParam String userid, @RequestParam String password, ModelAndView mav) {
 
 		String result = userLoginService.login(userid, password);
-		
-		if ("OK".equals(result)) {
 
+		if ("OK".equals(result)) {
+			Users user = (Users) session.getAttribute("loginUser"); //セッションからユーザー情報を取得
+			mav.addObject("user", user); //モデルにユーザー情報を追加
 			mav.setViewName("home/home"); // ログイン成功後、ホーム画面に遷移
 
 		} else {

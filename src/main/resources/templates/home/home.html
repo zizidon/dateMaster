@@ -22,7 +22,8 @@
 	<main>
 		<div class="user-info">
 			<img src="icon.png" alt="アイコン">
-			<p>名前</p>
+			<!-- ユーザー名を表示-->
+			<p th:text="${user.name}">ユーザー名</p>
 		</div>
 
 		<div class="button-group">
