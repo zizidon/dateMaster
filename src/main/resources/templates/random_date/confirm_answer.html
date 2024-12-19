@@ -1,0 +1,31 @@
+<!-- confirm_answer.html -->
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ランダムデートプラン</title>
+</head>
+<body>
+  <header>
+    <h1>ランダムデートプラン</h1>
+  </header>
+  <main>
+	<div class="back-button">
+	      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
+	    </div>
+    <div class="confirm-message">
+      <p>以下の回答を確認してください</p>
+    </div>
+    <div class="confirm-answer">
+      <p>質問1: <span th:text="${answer1}"></span></p>
+      <p>質問2: <span th:text="${answer2}"></span></p>
+      <p>質問3: <span th:text="${answer3}"></span></p>
+    </div>
+    <div class="button-group">
+      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
+      <button class="submit-button" th:href="@{/dateMaster/submit}">作成する</button>
+    </div>
+  </main>
+</body>
+</html>

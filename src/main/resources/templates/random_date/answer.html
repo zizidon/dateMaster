@@ -1,6 +1,6 @@
 <!-- answer.html -->
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,19 +9,11 @@
 <body>
   <header>
     <h1>ランダムデートプラン</h1>
-    <div class="hamburger-menu">
-      <ul>
-        <li><a href="date.html">デート</a></li>
-        <li><a href="diagnosis.html">診断</a></li>
-        <li><a href="partner.html">パートナー</a></li>
-        <li><a href="setting.html">設定</a></li>
-        <li><a href="logout.html">ログアウト</a></li>
-      </ul>
-    </div>
+    
   </header>
   <main>
     <div class="back-button">
-      <button type="button" onclick="history.back()">戻る</button>
+      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
     </div>
     <div class="question-message">
       <p>以下の質問に答えてください</p>
@@ -54,16 +46,10 @@
 	      </div>
 	    </div>
     <div class="button-group">
-      <button type="button" onclick="history.back()">戻る</button>
-      <button type="button" id="next-button">次へ進む</button>
+      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
+      <button class="next-button" th:href="@{/dateMaster/confirm}">次へ進む</button>
     </div>
   </main>
-  <script>
-    // 次へ進むボタンをクリックしたときの処理
-    document.getElementById("next-button").addEventListener('click', function() {
-      // 確認画面に遷移
-      location.href = "confirm_answer.html";
-    });
-  </script>
+  
 </body>
 </html>

@@ -1,0 +1,69 @@
+<!-- date_idea_list.html -->
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ランダムデートプラン</title>
+</head>
+<body>
+  <header>
+    <h1>ランダムデートプラン</h1>
+  </header>
+  <main>
+	<div class="back-button">
+	      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
+	    </div>
+		<div class="plan">
+			<div class="plan-header">プラン1: アウトドアデート</div>
+			
+			    <a href="outdoor_park_details.html">
+			        <img src="https://via.placeholder.com/250x200?text=Park" alt="公園">
+			    </a>
+			    <div class="arrow">➡</div>
+			    <a href="outdoor_restaurant_details.html">
+			        <img src="https://via.placeholder.com/250x200?text=Restaurant" alt="レストラン">
+			    </a>
+			
+			               <div class="suggestion-text">公園で散歩して、近くのレストランでランチを楽しんでください。</div>
+			               <!-- これにするボタン -->
+						  <button class="button" th:href="@{/plan_confirmation(plan=1)}">これにする</button>
+		              </div>
+
+		           <!-- プラン2 -->
+		           <div class="plan">
+		               <div class="plan-header">プラン2: ロマンチックデート</div>
+		               <a href="romantic_beach_details.html">
+		                   <img src="https://via.placeholder.com/250x200?text=Beach" alt="ビーチ">
+		               </a>
+		               <div class="arrow">➡</div>
+		               <a href="romantic_cafe_details.html">
+		                   <img src="https://via.placeholder.com/250x200?text=Cafe" alt="カフェ">
+		               </a>
+		               <div class="suggestion-text">ビーチで夕日を見た後、カフェでゆっくり過ごすプランです。</div>
+		               <!-- これにするボタン -->
+		               <button class="button" th:href="@{/plan_confirmation(plan=2)}">これにする</button>
+		           </div>
+
+		           <!-- プラン3 -->
+		           <div class="plan">
+		               <div class="plan-header">プラン3: アドベンチャーデート</div>
+		               <a href="adventure_hiking_details.html">
+		                   <img src="https://via.placeholder.com/250x200?text=Hiking" alt="ハイキング">
+		               </a>
+		               <div class="arrow">➡</div>
+		               <a href="adventure_bbq_details.html">
+		                   <img src="https://via.placeholder.com/250x200?text=BBQ" alt="BBQ">
+		               </a>
+		               <div class="suggestion-text">ハイキング後にBBQで楽しむアウトドアなデートです。</div>
+		               <!-- これにするボタン -->
+		               <button class="button" th:href="@{/plan_confirmation(plan=3)}">これにする</button>
+		           </div>
+		       </div>
+			   <br>
+			   <br>
+			   <br>
+    
+  </main>
+</body>
+</html>
