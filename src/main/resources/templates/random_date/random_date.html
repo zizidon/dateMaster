@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ランダムデートプラン</title>
+  
+</head>
+<body>
+  <header>
+    <h1>ランダムデートプラン</h1>
+  </header>
+  <main>
+    <div id="map"></div>
+	<div class="plan-detail">
+	        <img th:src="${spot1.image}" alt="${spot1.name}">
+	        <div class="arrow">➡</div>
+	        <img th:src="${spot2.image}" alt="${spot2.name}">
+	      </div>
+    <div class="button-group">
+      <button class="partner-share-button">パートナー共有</button>
+      <button class="date-list-button" onclick="location.href='date.html'">デート機能一覧</button>
+    </div>
+  </main>
+<!--  <script>-->
+<!--    // Google Maps APIを使用して地図を表示する-->
+<!--    function initMap() {-->
+<!--      const map = new google.maps.Map(document.getElementById("map"), {-->
+<!--        center: { lat: 35.6895, lng: 139.7670 },-->
+<!--        zoom: 13,-->
+<!--      });-->
+<!--      // プランのルートを表示する-->
+<!--      const route = new google.maps.Polyline({-->
+<!--        path: [-->
+<!--          { lat: 35.6895, lng: 139.7670 },-->
+<!--          { lat: 35.6905, lng: 139.7680 },-->
+<!--        ],-->
+<!--        strokeColor: "#FF0000",-->
+<!--        strokeOpacity: 1.0,-->
+<!--        strokeWeight: 2,-->
+<!--      });-->
+<!--      route.setMap(map);-->
+<!--    }-->
+<!--    initMap();-->
+<!--  </script>-->
+<!--  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>-->
+</body>
+</html>
