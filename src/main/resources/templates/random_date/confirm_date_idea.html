@@ -1,0 +1,32 @@
+<!-- confirm_date_idea.html -->
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プラン確認</title>
+</head>
+<body>
+  <header>
+    <h1>プラン確認</h1>
+  </header>
+  <main>
+    <div class="back-button">
+      <button class="back-button" th:href="@{/date_idea_list}">戻る</button>
+    </div>
+    <div class="plan-confirmation">
+      <h2>このプランでいいですか？</h2>
+      <div class="plan-detail">
+        <img th:src="${spot1.image}" alt="${spot1.name}">
+        <div class="arrow">➡</div>
+        <img th:src="${spot2.image}" alt="${spot2.name}">
+      </div>
+      
+    </div>
+    <div class="button-group">
+      <button class="back-button" th:href="@{/date_idea_list}">戻る</button>
+      <button class="decision-button" th:href="@{/plan_decision}">決定</button>
+    </div>
+  </main>
+</body>
+</html>
