@@ -1,36 +1,46 @@
-<!-- user_management.html -->
 <!DOCTYPE html>
-<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ユーザー管理</title>
-  <link rel="stylesheet" href="styles.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ユーザー管理画面</title>
 </head>
+
 <body>
-  <header>
-    <h1>ユーザー管理</h1>
-    <div class="hamburger-menu">
-      <ul>
-        <li><a href="date.html">デート</a></li>
-        <li><a href="diagnosis.html">診断</a></li>
-        <li><a href="partner.html">パートナー</a></li>
-        <li><a href="setting.html">設定</a></li>
-        <li><a href="logout.html">ログアウト</a></li>
-      </ul>
-    </div>
-  </header>
-  <main>
-    <div class="button-group">
-      <button type="button" onclick="location.href='name_change.html'">名前変更</button>
-	  <br>
-      <button type="button" onclick="location.href='password_change.html'">パスワード変更</button>
-      <br>
-	  <button type="button" onclick="location.href='email_change.html'">メールアドレス変更</button>
-      <br>
-	  <button type="button" onclick="location.href='account_delete.html'">アカウント削除</button>
-      <br>
-  </div>
-  </main>
+	<header>
+		<h1>ユーザー管理</h1>
+		<div class="hamburger-menu">
+			<ul>
+				<li><a href="date.html">デート</a></li>
+				<li><a href="diagnosis.html">診断</a></li>
+				<li><a href="partner.html">パートナー</a></li>
+				<li><a href="setting.html">設定</a></li>
+				<li><a href="logout.html">ログアウト</a></li>
+			</ul>
+		</div>
+	</header>
+	<main>
+
+		<!-- 前の画面に戻るボタン　-->
+		<div class="back-button">
+			<button type="button" onclick="history.back()">戻る</button>
+		</div>
+		<br>
+
+		<div class="button-group">
+			<!-- 名前変更ボタンを押すと、name_change.htmlに遷移するリンク -->
+			<a th:href="@{/dateMaster/name}"><button type="button">名前変更</button></a>
+
+			<!-- パスワード変更ボタンを押すと、に遷移するリンク-->
+
+			<!-- メールアドレス変更ボタンを押すと、に遷移するリンク-->
+
+			<!-- アカウント削除ボタンを押すと、に遷移するリンク-->
+
+		
+		</div>
+	</main>
 </body>
+
 </html>
