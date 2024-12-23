@@ -1,0 +1,25 @@
+<!-- complete.html -->
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>パートナー削除</title>
+  <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+  <header>
+    <h1 th:text="パートナー削除">パートナー削除</h1>
+  </header>
+
+  <main>
+    <div class="complete">
+      <h2>削除しました..............</h2>
+      <button type="button" th:onclick="'@{/partner/approval}'">パートナー画面に戻る</button>
+    </div>
+  </main>
+</body>
+
+</html>
