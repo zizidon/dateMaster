@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>パートナー申請</title>
+  <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+  <header>
+    <h1 th:text="パートナー申請">パートナー申請</h1>
+  </header>
+
+  <main>
+    <div th:if="${partner}" class="partner-exists">
+      <p>パートナーがいます。浮気は許しません。</p>
+      <button type="button" th:onclick="history.back()">戻る</button>
+    </div>
+    <div th:unless="${partner}" class="partner-search">
+      <h2>パートナーのIDを検索</h2>
+      <input type="text" id="partner-id" th:name="partner-id">
+      <button type="button" th:onclick="'@{/partner/search/{partnerId}(partnerId=${partnerId})}'">検索</button>
+      <div th:if="${partnerDetail}" class="partner-detail">
+        <h2>パートナーの詳細</h2>
+        <p th:text="名前: ${partnerDetail.name}">名前: {{ partnerDetail.name }}</p>
+        <p th:text="ID: ${partnerDetail.id}">ID: {{ partnerDetail.id }}</p>
+        <button type="button" th:onclick="'@{/partner/apply/{partnerId}(partnerId=${partnerId})}'">申請</button>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
