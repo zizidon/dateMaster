@@ -13,10 +13,10 @@
 
 		<form th:action="@{/dateMaster/login}" th:method="post">
 			<label for="userid">ユーザーID</label>
-			<input type="text" id="userid" th:name="userid"><br><br>
+			<input type="text" id="userid" th:name="userid" required><br><br>
 
 			<label for="password">パスワード</label>
-			<input type="password" id="password" th:name="password"><br><br>
+			<input type="password" id="password" th:name="password" required><br><br>
 
 			<!-- エラーメッセージ-->
 			<p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
