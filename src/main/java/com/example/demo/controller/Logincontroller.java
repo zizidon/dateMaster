@@ -64,14 +64,12 @@ public class Logincontroller {
 	public ModelAndView register(@RequestParam String name, @RequestParam String password,
 			@RequestParam String confirmPassword, ModelAndView mav) {
 
-		String result = userRegisterService.register(name, password, confirmPassword);
-
-		if (result.equals("登録完了")) {
-
-			mav.setViewName("login/login");//登録成功後、ログイン画面に遷移
-
-		} else {
-			mav.addObject("errorMessage", result); //エラーメッセージを画面に表示
+		try {
+			Long userId = userRegisterService.register(name, password, confirmPassword);
+			mav.addObject("userId", userId);
+			mav.setViewName("user/register_complete");
+		} catch (IllegalArgumentException e) {
+			mav.addObject("errorMessage", e.getMessage());
 			mav.setViewName("user/register");
 		}
 

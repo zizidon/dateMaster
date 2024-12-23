@@ -15,12 +15,11 @@ public class UserRegisterService {
 	@Autowired
 	UserRepository userRepo;
 
-	public String register(String name, String password, String confirmPassword) {
+	public Long register(String name, String password, String confirmPassword) {
 
 		//パスワード確認
 		if (!password.equals(confirmPassword)) {
-			System.out.println("パスワードが一致しません。");
-			return "パスワードが一致しません";
+			throw new IllegalArgumentException("パスワードが一致しません。");
 
 		}
 
@@ -30,8 +29,7 @@ public class UserRegisterService {
 		user.setPassword(password);
 
 		userRepo.save(user);//idは自動採番される
-		System.err.println("登録完了");
-		return "登録完了";
+		return user.getId(); //新規ユーザーのIDを返す
 	}
 
 }

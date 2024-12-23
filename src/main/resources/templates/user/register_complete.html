@@ -14,9 +14,8 @@
 
 	<main>
 		<p>ユーザーが登録されました。</p>
-		<form th:action="@{/dateMaster/login}" th:method="get">
-			<input type="submit" value="ログイン">
-		</form>
+		<p>登録されたID: <span th:text="${userId}"></span></p>
+		<p><a th:href="@{/dateMaster}">ログイン画面に戻る</a></p>
 	</main>
 </body>
 
