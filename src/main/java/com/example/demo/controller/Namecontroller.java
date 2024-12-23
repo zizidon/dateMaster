@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,18 +21,7 @@ public class Namecontroller {
 	@Autowired
 	HttpSession session;
 
-	//名前変更画面へ移動する
-	@GetMapping("/name")
-	public ModelAndView showNamePage(ModelAndView mav) {
-
-		//セッションからユーザー情報を取得
-		Users user = (Users) session.getAttribute("loginUser");
-
-		mav.addObject("user", user); //モデルにユーザー情報を追加
-		mav.setViewName("name/name_change"); //名前変更画面へ遷移
-
-		return mav;
-	}
+	
 
 	//名前変更確認画面へ移動する
 	@PostMapping("/confirm")

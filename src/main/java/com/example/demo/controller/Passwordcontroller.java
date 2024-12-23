@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,21 +21,6 @@ public class Passwordcontroller {
 
 	@Autowired
 	PasswordChangeService passwordChangeService;
-
-	//パスワード変更画面表示
-	@GetMapping("/password")
-	public ModelAndView passwordChange(ModelAndView mav) {
-
-		//セッションからユーザー情報を取得
-		Users user = (Users) session.getAttribute("loginUser");
-
-		if (user != null) {
-			mav.addObject("user", user);
-			mav.setViewName("password_change/password_change");
-		}
-
-		return mav;
-	}
 
 	//パスワード変更確認・更新処理
 	@PostMapping("/confirmPass")
