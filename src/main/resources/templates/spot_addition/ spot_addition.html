@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- ヘッダー -->
+	<header>
+	  <h1>デートスポット追加</h1>
+	  <button class="back-button">戻る</button>
+	</header>
+
+	<!-- デートスポット情報入力 -->
+	<div class="date-spot-info">
+	  <label for="spot-name">スポット名:</label>
+	  <input type="text" id="spot-name" name="spot-name"><br><br>
+	  <label for="address">住所:</label>
+	  <input type="text" id="address" name="address"><br><br>
+	  <label for="photo">写真:</label>
+	  <input type="file" id="photo" name="photo"><br><br>
+	  <label for="business-hours">営業時間:</label>
+	  <table>
+	    <tr>
+	      <th>曜日</th>
+	      <th>開始時間</th>
+	      <th>終了時間</th>
+	    </tr>
+	    <tr>
+	      <td>月曜日</td>
+	      <td><input type="time" id="mon-start" name="mon-start"></td>
+	      <td><input type="time" id="mon-end" name="mon-end"></td>
+	    </tr>
+	    <tr>
+	      <td>火曜日</td>
+	      <td><input type="time" id="tue-start" name="tue-start"></td>
+	      <td><input type="time" id="tue-end" name="tue-end"></td>
+	    </tr>
+	    <tr>
+	      <td>水曜日</td>
+	      <td><input type="time" id="wed-start" name="wed-start"></td>
+	      <td><input type="time" id="wed-end" name="wed-end"></td>
+	    </tr>
+	    <tr>
+	      <td>木曜日</td>
+	      <td><input type="time" id="thu-start" name="thu-start"></td>
+	      <td><input type="time" id="thu-end" name="thu-end"></td>
+	    </tr>
+	    <tr>
+	      <td>金曜日</td>
+	      <td><input type="time" id="fri-start" name="fri-start"></td>
+	      <td><input type="time" id="fri-end" name="fri-end"></td>
+	    </tr>
+	    <tr>
+	      <td>土曜日</td>
+	      <td><input type="time" id="sat-start" name="sat-start"></td>
+	      <td><input type="time" id="sat-end" name="sat-end"></td>
+	    </tr>
+	    <tr>
+	      <td>日曜日</td>
+	      <td><input type="time" id="sun-start" name="sun-start"></td>
+	      <td><input type="time" id="sun-end" name="sun-end"></td>
+	    </tr>
+	  </table>
+	</div>
+
+	<!-- ボタン群 -->
+	<div class="button-group">
+	  <button class="back-button">戻る</button>
+	  <button class="add-button">追加する</button>
+	</div>
+</body>
+</html>
