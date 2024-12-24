@@ -1,0 +1,43 @@
+<!-- problem-create.html -->
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>パートナーコーチング問題作成</title>
+  <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+  <header>
+    <h1 th:text="パートナーコーチング">パートナーコーチング</h1>
+  </header>
+
+  <main>
+    <div class="problem-create">
+      <button type="button" th:onclick="'@{/partner/coaching}'">戻る</button>
+      <h2 th:text="問題を入力してください">問題を入力してください</h2>
+      <form>
+        <textarea name="question" rows="4" cols="50" placeholder="問題を入力してください"></textarea>
+        <h3 th:text="回答を入力してください">回答を入力してください</h3>
+        <div class="answer-input">
+          <input type="text" name="answer1" placeholder="正解を入力してください">
+		  <br>
+          <input type="text" name="answer2" placeholder="不正解を入力してください">
+		  <br>
+          <input type="text" name="answer3" placeholder="不正解を入力してください">
+		  <br>
+          <input type="text" name="answer4" placeholder="不正解を入力してください">
+        </div>
+        <div class="button-group">
+          <button type="button" th:onclick="'@{/partner/coaching/problem/create/confirm}'">作成する</button>
+          <button type="button" th:onclick="'@{/partner/coaching}'">戻る</button>
+          
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
+
+</html>
