@@ -1,0 +1,45 @@
+<!-- problem-edit.html -->
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>問題編集</title>
+  <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+  <header>
+    <h1 th:text="問題編集">問題編集</h1>
+  </header>
+
+  <main>
+    <div class="problem-edit">
+      
+      <ul th:each="problem : ${problems}">
+        <li>
+          <h3 th:text="${problem.title}">問題1</h3>
+		  <p th:text="${problem.description}">問題1の説明</p>
+          <button type="button" th:onclick="'@{/partner/coaching/problem/delete/{id}(id=${problem.id})}'">削除</button>
+        </li>
+        <li>
+          <h3 th:text="${problem.title}">問題2</h3>
+		  <p th:text="${problem.description}">問題2の説明</p>
+          <button type="button" th:onclick="'@{/partner/coaching/problem/delete/{id}(id=${problem.id})}'">削除</button>
+        </li>
+        <li>
+          <h3 th:text="${problem.title}">問題3</h3>
+		  <p th:text="${problem.description}">問題3の説明</p>
+          <button type="button" th:onclick="'@{/partner/coaching/problem/delete/{id}(id=${problem.id})}'">削除</button>
+        </li>
+      </ul>
+    </div>
+    <button type="button" th:onclick="'@{/partner/coaching/problem/create}'">+</button>
+	<br>
+	<br>
+    <button type="button" th:onclick="'@{/partner/coaching}'">完了</button>
+  </main>
+</body>
+
+</html>
