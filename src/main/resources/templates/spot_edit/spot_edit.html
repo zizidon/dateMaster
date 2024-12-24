@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>スポット編集画面</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>スポット編集画面</h1>
+        <button th:onclick="'javascript:history.back()'">戻る</button>
+    </header>
+    <main>
+        <form th:action="@{/spot-editing-screen}" method="post">
+            <input type="text" name="spotName" placeholder="スポット名で検索">
+            <button type="submit">検索</button>
+        </form>
+        <div th:if="${spots}">
+            <ul>
+                <li th:each="spot : ${spots}">
+                    <img th:src="${spot.image}" alt="${spot.name}">
+                    <span th:text="${spot.name}"></span>
+                    <button th:onclick="'javascript:location.href=\"/spot-editing-screen/edit/\" + ${spot.id}'">編集</button>
+                </li>
+            </ul>
+        </div>
+    </main>
+</body>
+</html>
