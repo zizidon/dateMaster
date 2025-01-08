@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>スポット編集画面</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>スポット編集画面</h1>
+    </header>
+    <main>
+        <form th:action="@{/spot-editing-screen/edit/{spotId}(spotId=${spot.id})}" method="post">
+            <label>スポット名:</label>
+            <input type="text" name="spotName" th:value="${spot.name}">
+            <br>
+            <label>住所:</label>
+            <input type="text" name="address" th:value="${spot.address}">
+            <br>
+            <label>写真:</label>
+            <input type="file" name="image">
+            <br>
+			<label>営業時間:</label>
+			<table>
+			    <tr>
+			        <th>曜日</th>
+			        <th>開店時間</th>
+			        <th>閉店時間</th>
+			        <th>休み</th>
+			    </tr>
+			    <tr>
+			        <td>月曜日</td>
+			        <td><input type="time" name="openingTime" th:value="${spot.businessHours['mon'].openingTime}"></td>
+			        <td><input type="time" name="closingTime" th:value="${spot.businessHours['mon'].closingTime}"></td>
+			        <td><input type="checkbox" name="isHoliday" th:checked="${spot.businessHours['mon'].isHoliday}"></td>
+			    </tr>
+			    <tr>
+			        <td>火曜日</td>
+			        <td><input type="time" name="openingTime" th:value="${spot.businessHours['tue'].openingTime}"></td>
+			        <td><input type="time" name="closingTime" th:value="${spot.businessHours['tue'].closingTime}"></td>
+			        <td><input type="checkbox" name="isHoliday" th:checked="${spot.businessHours['tue'].isHoliday}"></td>
+			    </tr>
+			    <tr>
+			        <td>水曜日</td>
+			        <td><input type="time" name="openingTime" th:value="${spot.businessHours['wed'].openingTime}"></td>
+			        <td><input type="time" name="closingTime" th:value="${spot.businessHours['wed'].closingTime}"></td>
+			        <td><input type="checkbox" name="isHoliday" th:checked="${spot.businessHours['wed'].isHoliday}"></td>
+			    </tr>
+			    <tr>
+			        <td>木曜日</td>
+			        <td><input type="time" name="openingTime" th:value="${spot.businessHours['thu'].openingTime}"></td>
+			        <td><input type="time" name="closingTime" th:value="${spot.businessHours['thu'].closingTime}"></td>
+			        <td><input type="checkbox" name="isHoliday" th:checked="${spot.businessHours['thu'].isHoliday}"></td>
+			    </tr>
+			    <tr>
+			        <td>金曜日</td>
+			        <td><input type="time" name="openingTime" th:value="${spot.businessHours['fri'].openingTime}"></td>
+			        <td><input type="time" name="closingTime" th:value="${spot.businessHours['fri'].closingTime}"></td>
+			        <td><input type="checkbox" name="isHoliday" th:checked="${spot.businessHours['fri'].isHoliday}"></td>
+			    </tr>
+			    <tr>
+			        <td>土曜日</td>
+			        <td><input type="time" name="openingTime" th:value="${spot.businessHours['sat'].openingTime}"></td>
+			        <td><input type="time" name="closingTime" th:value="${spot.businessHours['sat'].closingTime}"></td>
+			        <td><input type="checkbox" name="isHoliday" th:checked="${spot.businessHours['sat'].isHoliday}"></td>
+			    </tr>
+			    <tr>
+			        <td>日曜日</td>
+			        <td><input type="time" name="openingTime" th:value="${spot.businessHours['sun'].openingTime}"></td>
+			        <td><input type="time" name="closingTime" th:value="${spot.businessHours['sun'].closingTime}"></td>
+			        <td><input type="checkbox" name="isHoliday" th:checked="${spot.businessHours['sun'].isHoliday}"></td>
+			    </tr>
+			</table>        </form>
+        <div class="button-container">
+            <button th:onclick="'javascript:history.back()'">戻る</button>
+            <button type="submit">確定</button>
+        </div>
+    </main>
+</body>
+</html>

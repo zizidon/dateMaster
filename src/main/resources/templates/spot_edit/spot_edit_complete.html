@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>スポット編集完了</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>スポット編集完了</h1>
+  </header>
+  <div th:if="${complete}">
+    <p>スポットの編集が完了しました。</p>
+    <div class="button-container">
+      <button th:onclick="window.location.href='/spot/edit'">さらに編集する</button>
+      <button th:onclick="window.location.href='/spot/manage'">機能一覧に戻る</button>
+    </div>
+  </div>
+</body>
+</html>
