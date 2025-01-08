@@ -15,5 +15,6 @@ public class Users {
 	private Long id; //自動採番
 	private String name; //ユーザー名
 	private String password; //パスワード
+	private Long partner; // パートナー名
 
 }

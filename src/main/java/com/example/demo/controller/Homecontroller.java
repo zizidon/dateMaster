@@ -17,6 +17,7 @@ public class Homecontroller {
 	@Autowired
 	HttpSession session;
 
+	//デート機能一覧画面へ遷移
 	@GetMapping("/date")
 	public String showDatePage() {
 
@@ -25,6 +26,7 @@ public class Homecontroller {
 		return "date/date";
 	}
 
+	//ホーム画面へ遷移
 	@GetMapping("/home")
 	public ModelAndView showHome(ModelAndView mav) {
 
@@ -35,4 +37,5 @@ public class Homecontroller {
 
 		return mav;
 	}
+
 }
