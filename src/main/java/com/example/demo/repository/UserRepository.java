@@ -6,5 +6,4 @@ import com.example.demo.entity.Users;
 
 public interface UserRepository extends CrudRepository<Users, Long> {
 
-
 }

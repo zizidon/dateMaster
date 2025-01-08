@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users{
-	
+public class Users {
+
 	@Id
 	private Long id; //自動採番
-	private String name;
-	private String password;
+	private String name; //ユーザー名
+	private String password; //パスワード
+	private Long partner; // パートナー名
 
 }
