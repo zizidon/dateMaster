@@ -8,22 +8,42 @@
 <body>
   <header>
     <h1>デート機能一覧</h1>
-    
   </header>
   <main>
-	<div class="back-button">
-	  <button type="button" onclick="history.back()">戻る</button>
-	</div>
+    <!-- 戻るボタン -->
+    <div class="back-button">
+      <button type="button" onclick="history.back()">戻る</button>
+    </div>
+
     <div class="button-group">
-      <button type="button" onclick="location.href='date_search.html'">ランダムデートプラン</button>
+      <!-- ランダムデートプランリンク -->
+      <a href="#" th:href="@{/randomDate}" class="button-link">
+        <button type="button">ランダムデートプラン</button>
+      </a>
       <p>質問に答えるだけで、手軽にデートプランを作成してくれる機能です♡</p>
-      <button type="button" onclick="location.href='date_request.html'">デートプラン</button>
+
+      <!-- デートプランリンク -->
+      <a href="#" th:href="@{/dateCreate}" class="button-link">
+        <button type="button">デートプラン</button>
+      </a>
       <p>自分でプランを作成することができる機能です</p>
-      <button type="button" onclick="location.href='date_schedule.html'">デートミッション</button>
+
+      <!-- デートミッションリンク -->
+      <a href="#" th:href="@{/dateMission}" class="button-link">
+        <button type="button">デートミッション</button>
+      </a>
       <p>レベルで別れたミッションをデート中に実践できる機能です</p>
-      <button type="button" onclick="location.href='date_review.html'">デートプランランキング</button>
+
+      <!-- デートプランランキングリンク -->
+      <a href="#" th:href="@{/datePlanRanking}" class="button-link">
+        <button type="button">デートプランランキング</button>
+      </a>
       <p>シチュエーションごとのプランをランキングで閲覧できる機能です</p>
-      <button type="button" onclick="location.href='date_setting.html'">デートプラン共有</button>
+
+      <!-- デートプラン共有リンク -->
+      <a href="#" th:href="@{/datePlanShare}" class="button-link">
+        <button type="button">デートプラン共有</button>
+      </a>
       <p>お互いが作成したプランを共有できる機能です</p>
     </div>
   </main>

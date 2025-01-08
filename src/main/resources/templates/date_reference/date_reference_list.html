@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+  <meta charset="UTF-8">
+  <title>デートプラン共有</title>
 </head>
 <body>
-	<!-- ヘッダー -->
-	<header>
-	  <h1>デートプラン共有</h1>
-	  <button class="back-button">戻る</button>
-	</header>
+  <!-- ヘッダー -->
+  <header>
+    <h1>デートプラン共有</h1>
+    
+  </header>
+	<button class="back-button" onclick="history.back()">戻る</button>
+  <!-- 自分のデートプラン -->
+  <div class="my-plan">
+    <h2>自分のデートプラン</h2>
+    <div class="plan-info">
+      <img th:src="@{${myPlanImage}}" alt="自分のデートプランの写真">
+      <span>→</span>
+      <img th:src="@{${myPlanImage2}}" alt="自分のデートプランの写真2">
+    </div>
+    <button class="refer-button">参照する</button>
+  </div>
 
-	<!-- 自分のデートプラン -->
-	<div class="my-plan">
-	  <h2>自分のデートプラン</h2>
-	  <div class="plan-info">
-	    <img src="my-plan-image.jpg" alt="自分のデートプランの写真">
-	    <span>→</span>
-	    <img src="my-plan-image2.jpg" alt="自分のデートプランの写真2">
-	  </div>
-	  <button class="refer-button">参照する</button>
-	</div>
-
-	<!-- パートナーのデートプラン -->
-	<div class="partner-plan">
-	  <h2>パートナーのデートプラン</h2>
-	  <p>デートプランが共有されていません。。</p>
-	</div>
+  <!-- パートナーのデートプラン -->
+  <div class="partner-plan">
+    <h2>パートナーのデートプラン</h2>
+    <p th:text="${partnerPlanMessage}">デートプランが共有されていません。。</p>
+  </div>
 </body>
 </html>

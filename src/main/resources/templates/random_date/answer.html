@@ -9,11 +9,10 @@
 <body>
   <header>
     <h1>ランダムデートプラン</h1>
-    
   </header>
   <main>
     <div class="back-button">
-      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
+      <button type="button" onclick="history.back()">戻る</button>
     </div>
     <div class="question-message">
       <p>以下の質問に答えてください</p>
@@ -36,20 +35,25 @@
         <button type="button" id="answer-2-4">雪</button>
       </div>
     </div>
-	<div class="question-3">
-	      <p>質問3: デートプランの数を選択してね！</p>
-	      <div class="answer-button">
-	        <button type="button" id="answer-3-1">一個</button>
-	        <button type="button" id="answer-3-2">二個</button>
-	        <button type="button" id="answer-3-3">三個</button>
-	      
-	      </div>
-	    </div>
+    <div class="question-3">
+      <p>質問3: デートプランの数を選択してね！</p>
+      <div class="answer-button">
+        <button type="button" id="answer-3-1">一個</button>
+        <button type="button" id="answer-3-2">二個</button>
+        <button type="button" id="answer-3-3">三個</button>
+      </div>
+    </div>
     <div class="button-group">
-      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
-      <button class="next-button" th:href="@{/dateMaster/confirm}">次へ進む</button>
+      <a href="#" class="back-button" th:href="@{/dateMaster/back}">
+        <button type="button">戻る</button>
+      </a>
+	  
+	  
+	  
+      <a href="#" class="next-button" th:href="@{/dateMaster/confirm}">
+        <button type="button">次へ進む</button>
+      </a>
     </div>
   </main>
-  
 </body>
 </html>
