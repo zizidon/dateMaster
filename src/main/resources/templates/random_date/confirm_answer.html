@@ -11,20 +11,21 @@
     <h1>ランダムデートプラン</h1>
   </header>
   <main>
-	<div class="back-button">
-	      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
-	    </div>
+    <div class="back-button">
+      <button type="button" onclick="history.back()">戻る</button>
+    </div>
     <div class="confirm-message">
       <p>以下の回答を確認してください</p>
     </div>
     <div class="confirm-answer">
-      <p>質問1: <span th:text="${answer1}"></span></p>
-      <p>質問2: <span th:text="${answer2}"></span></p>
-      <p>質問3: <span th:text="${answer3}"></span></p>
+      <p>質問1: 今のデートの気分はどっち? <span th:text="${answers.answer1}"></span></p>
+      <p>質問2: 今の天気はなに? <span th:text="${answers.answer2}"></span></p>
+      <p>質問3: デートプランの数を選択してね！ <span th:text="${answers.answer3}"></span></p>
     </div>
     <div class="button-group">
-      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
-      <button class="submit-button" th:href="@{/dateMaster/submit}">作成する</button>
+      <form action="/dateMaster/submit" method="get">
+        <button type="submit">作成する</button>
+      </form>
     </div>
   </main>
 </body>

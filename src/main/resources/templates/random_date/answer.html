@@ -17,43 +17,37 @@
     <div class="question-message">
       <p>以下の質問に答えてください</p>
     </div>
-    <div class="question-1">
-      <p>質問1: 今のデートの気分はどっち?</p>
-      <div class="answer-button">
-        <button type="button" id="answer-1-1">ロマンチック</button>
-        <button type="button" id="answer-1-2">アクティブ</button>
-        <button type="button" id="answer-1-3">リラックス</button>
-        <button type="button" id="answer-1-4">その他</button>
+    <form action="/dateMaster/confirm" method="post">
+      <!-- 質問1 -->
+      <div class="question-1">
+        <p>質問1: 今のデートの気分はどっち?</p>
+        <div class="answer-button">
+          <button type="submit" name="answer1" value="ロマンチック">ロマンチック</button>
+          <button type="submit" name="answer1" value="アクティブ">アクティブ</button>
+          <button type="submit" name="answer1" value="リラックス">リラックス</button>
+          <button type="submit" name="answer1" value="その他">その他</button>
+        </div>
       </div>
-    </div>
-    <div class="question-2">
-      <p>質問2: 今の天気はなに?</p>
-      <div class="answer-button">
-        <button type="button" id="answer-2-1">晴れ</button>
-        <button type="button" id="answer-2-2">曇り</button>
-        <button type="button" id="answer-2-3">雨</button>
-        <button type="button" id="answer-2-4">雪</button>
+      <!-- 質問2 -->
+      <div class="question-2">
+        <p>質問2: 今の天気はなに?</p>
+        <div class="answer-button">
+          <button type="submit" name="answer2" value="晴れ">晴れ</button>
+          <button type="submit" name="answer2" value="曇り">曇り</button>
+          <button type="submit" name="answer2" value="雨">雨</button>
+          <button type="submit" name="answer2" value="雪">雪</button>
+        </div>
       </div>
-    </div>
-    <div class="question-3">
-      <p>質問3: デートプランの数を選択してね！</p>
-      <div class="answer-button">
-        <button type="button" id="answer-3-1">一個</button>
-        <button type="button" id="answer-3-2">二個</button>
-        <button type="button" id="answer-3-3">三個</button>
+      <!-- 質問3 -->
+      <div class="question-3">
+        <p>質問3: デートプランの数を選択してね！</p>
+        <div class="answer-button">
+          <button type="submit" name="answer3" value="一個">一個</button>
+          <button type="submit" name="answer3" value="二個">二個</button>
+          <button type="submit" name="answer3" value="三個">三個</button>
+        </div>
       </div>
-    </div>
-    <div class="button-group">
-      <a href="#" class="back-button" th:href="@{/dateMaster/back}">
-        <button type="button">戻る</button>
-      </a>
-	  
-	  
-	  
-      <a href="#" class="next-button" th:href="@{/dateMaster/confirm}">
-        <button type="button">次へ進む</button>
-      </a>
-    </div>
+    </form>
   </main>
 </body>
 </html>
