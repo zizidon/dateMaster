@@ -1,4 +1,3 @@
-<!-- confirm_answer.html -->
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,20 +10,27 @@
     <h1>ランダムデートプラン</h1>
   </header>
   <main>
-	<div class="back-button">
-	      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
-	    </div>
+    <!-- 戻るボタン -->
+    <div class="back-button">
+      <a href="#" onclick="history.back()">
+        <button type="button">戻る</button>
+      </a>
+    </div>
+
     <div class="confirm-message">
       <p>以下の回答を確認してください</p>
     </div>
+
     <div class="confirm-answer">
-      <p>質問1: <span th:text="${answer1}"></span></p>
-      <p>質問2: <span th:text="${answer2}"></span></p>
-      <p>質問3: <span th:text="${answer3}"></span></p>
+      <p>質問1: 今のデートの気分はどっち? <span th:text="${selectedMood}"></span></p>
+      <p>質問2: 今の天気はなに? <span th:text="${selectedWeather}"></span></p>
+      <p>質問3: デートプランの数を選択してね！ <span th:text="${selectedPlanCount}"></span></p>
     </div>
+
     <div class="button-group">
-      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
-      <button class="submit-button" th:href="@{/dateMaster/submit}">作成する</button>
+      <form action="/dateMaster/submit" method="get">
+        <button type="submit">作成する</button>
+      </form>
     </div>
   </main>
 </body>
