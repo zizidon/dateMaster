@@ -18,7 +18,12 @@
 
 		<div class="button-group">
 			<button type="button" th:onclick="history.back()">いいえ</button>
-			<button type="button" th:onclick="'@{/dateMaster/partner/deleteComplete}'">はい</button>
+
+			<form name="form1" th:action="@{/dateMaster/partnerDeleteComplete}" method="post">
+				<button type="submit">はい</button>
+
+			</form>
+
 		</div>
 </body>
 

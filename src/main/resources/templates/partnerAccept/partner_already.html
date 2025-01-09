@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>浮気禁止</title>
+	<link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+	<header>
+		<h1>浮気禁止</h1>
+	</header>
+
+	<main>
+		<p>浮気は許されません👁👁</p>
+		<button type="button" th:onclick="history.back()">戻る</button>
+	</main>
+</body>
+
+</html>

@@ -16,5 +16,5 @@ public class Users {
 	private String name; //ユーザー名
 	private String password; //パスワード
 	private Long partner; // パートナー名
-
+	private Long applicant; // 申請者名
 }
