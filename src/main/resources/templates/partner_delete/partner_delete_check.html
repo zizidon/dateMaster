@@ -1,28 +1,25 @@
-<!-- delete-confirm.html -->
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>削除確認</title>
-  <link rel="stylesheet" th:href="@{/styles.css}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>削除確認画面</title>
+	<link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 
 <body>
-  <header>
-    <h1 th:text="削除確認">パートナー削除</h1>
-  </header>
+	<header>
+		<h1>削除確認</h1>
+	</header>
 
-  <main>
-    <div class="delete-confirm">
-      <h2>削除確認</h2>
-      <p th:text="ID: ${userId}">ID: [[${userId}]]</p>
-      <p th:text="名前: ${userName}">名前: [[${userName}]]</p>
-      <button type="button" th:onclick="'@{/delete/{userId}(userId=${userId})}'">削除する</button>
-      <button type="button" th:onclick="'@{/delete}'">戻る</button>
-    </div>
-  </main>
+	<main>
+		<p>本当に削除していいんですか...？</p>
+
+		<div class="button-group">
+			<button type="button" th:onclick="history.back()">いいえ</button>
+			<button type="button" th:onclick="'@{/dateMaster/partner/deleteComplete}'">はい</button>
+		</div>
 </body>
 
 </html>
