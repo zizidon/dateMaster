@@ -1,4 +1,3 @@
-<!-- answer.html -->
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -8,7 +7,7 @@
   <script>
     // JavaScriptでボタンをクリックした際に選択肢を設定する
     function setChoice(question, value) {
-      document.getElementById(question).value = value;
+      document.getElementById(question).value = value;  // 選択された値をhidden inputにセット
     }
   </script>
 </head>
@@ -23,7 +22,8 @@
       </a>
     </div>
     
-    <form action="#" method="post" th:action="@{/dateMaster/confirm}">
+    <!-- 質問フォーム -->
+    <form action="#" method="post" th:action="@{/dateMaster/date_confirm}">
       <div class="question-message">
         <p>以下の質問に答えてください</p>
       </div>
@@ -37,7 +37,7 @@
           <button type="button" onclick="setChoice('mood', 'リラックス')">リラックス</button>
           <button type="button" onclick="setChoice('mood', 'その他')">その他</button>
         </div>
-        <input type="hidden" id="mood" name="mood">
+        <input type="hidden" id="mood" name="mood"> <!-- 隠しフィールドに選択肢をセット -->
       </div>
       
       <!-- 質問2 -->
@@ -49,7 +49,7 @@
           <button type="button" onclick="setChoice('weather', '雨')">雨</button>
           <button type="button" onclick="setChoice('weather', '雪')">雪</button>
         </div>
-        <input type="hidden" id="weather" name="weather">
+        <input type="hidden" id="weather" name="weather"> <!-- 隠しフィールドに選択肢をセット -->
       </div>
       
       <!-- 質問3 -->
@@ -60,21 +60,21 @@
           <button type="button" onclick="setChoice('planCount', '二個')">二個</button>
           <button type="button" onclick="setChoice('planCount', '三個')">三個</button>
         </div>
-        <input type="hidden" id="planCount" name="planCount">
+        <input type="hidden" id="planCount" name="planCount"> <!-- 隠しフィールドに選択肢をセット -->
       </div>
-      
-	  <div class="back-button">
-	    <a href="#" th:href="@{/dateMaster/back}">
-	      <button type="button">戻る</button>
-	    </a>
-	  </div>
 
-	  
+      <!-- 戻るボタン -->
+      <div class="back-button">
+        <a href="#" th:href="@{/dateMaster/back}">
+          <button type="button">戻る</button>
+        </a>
+      </div>
+
       <!-- 次へ進むボタン -->
       <div class="button-group">
-        <button type="submit">次へ進む</button>
+        <button type="submit">次へ進む</button> <!-- フォーム送信 -->
       </div>
     </form>
   </main>
-</body>
+</body> 
 </html>

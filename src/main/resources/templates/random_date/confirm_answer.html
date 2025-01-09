@@ -3,35 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ランダムデートプラン</title>
+  <title>確認画面</title>
 </head>
 <body>
   <header>
     <h1>ランダムデートプラン</h1>
   </header>
   <main>
-    <!-- 戻るボタン -->
-    <div class="back-button">
-      <a href="#" onclick="history.back()">
-        <button type="button">戻る</button>
-      </a>
+    <div>
+		<button class="back-button" onclick="history.back()">戻る</button>
+      <h2>以下の内容でよろしいですか？</h2>
+      <p>デートの気分: <span th:text="${mood}"></span></p>
+      <p>天気: <span th:text="${weather}"></span></p>
+      <p>デートプランの数: <span th:text="${planCount}"></span></p>
     </div>
-
-    <div class="confirm-message">
-      <p>以下の回答を確認してください</p>
-    </div>
-
-    <div class="confirm-answer">
-      <p>質問1: 今のデートの気分はどっち? <span th:text="${selectedMood}"></span></p>
-      <p>質問2: 今の天気はなに? <span th:text="${selectedWeather}"></span></p>
-      <p>質問3: デートプランの数を選択してね！ <span th:text="${selectedPlanCount}"></span></p>
-    </div>
-
-    <div class="button-group">
-      <form action="/dateMaster/submit" method="get">
-        <button type="submit">作成する</button>
-      </form>
-    </div>
+    
+    <form action="#" th:action="@{/dateMaster/finalize}" method="post">
+      <div class="button-group">
+        <button type="submit">確定</button>
+      </div>
+    </form>
   </main>
 </body>
 </html>
