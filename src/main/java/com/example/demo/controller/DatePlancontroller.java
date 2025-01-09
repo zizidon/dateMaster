@@ -7,43 +7,44 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class Datecontroller {
+public class DatePlancontroller {
 
     // デートプラン作成ページを表示する
     @GetMapping("/dateCreate")
     public ModelAndView showDateCreatePage() {
-        ModelAndView mav = new ModelAndView("/dateplun/date_create"); // ここで、date_create.html を返す
-        // 必要に応じてデータをモデルに追加
-        // mav.addObject("someData", someValue);
+        ModelAndView mav = new ModelAndView("dateplun/date_create"); // date_create.htmlに遷移
+        // 必要なデータをモデルに追加する場合は、ここでモデルにデータを追加
+        // mav.addObject("key", value);
         return mav;
     }
 
-    // デートスポットを追加する処理（＋ボタン）
-    @PostMapping("/addDateSpot")
-    public String addDateSpot(@RequestParam("spotDetails") String spotDetails) {
-        // 新しいデートスポットを追加する処理
-        // spotDetailsを使って処理を実行
-        return "redirect:/dateCreate"; // 追加後、dateCreateページにリダイレクト
-    }
+    
 
     // デートスポットを削除する処理（削除ボタン）
     @PostMapping("/deleteDateSpot")
     public String deleteDateSpot(@RequestParam("spotId") Long spotId) {
         // デートスポットを削除する処理
+        // 例えば、データベースから削除する
         return "redirect:/dateCreate"; // 削除後、同じページにリダイレクト
     }
 
     // 機能一覧ページに戻る
     @GetMapping("/featureList")
     public String goToFeatureList() {
-        return "redirect:/dateMaster"; // 必要に応じてURLを変更
+        return "date/date"; // 機能一覧ページに遷移
+    }
+
+    // 検索画面に遷移
+    @GetMapping("/search")
+    public ModelAndView showSearchPage() {
+        ModelAndView mav = new ModelAndView("dateplun/date_add"); // 検索画面 (date_add.html)
+        return mav;
     }
 
     // デートプラン作成ページに遷移
     @GetMapping("/createDatePlan")
     public ModelAndView goToCreateDatePlan() {
-        ModelAndView mav = new ModelAndView("createDatePlan");
-        // 必要に応じてデータをモデルに追加
+        ModelAndView mav = new ModelAndView("createDatePlan"); // createDatePlan.htmlに遷移
         return mav;
     }
 }
