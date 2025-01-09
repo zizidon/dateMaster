@@ -19,7 +19,7 @@ public class Partnercontroller {
 	HttpSession session;
 
 	@Autowired
-	UserRepository userRepository;
+	UserRepository userRepo;
 
 	//パートナー画面へ遷移
 	@GetMapping("/partner")
@@ -30,7 +30,7 @@ public class Partnercontroller {
 		if (user != null && user.getPartner() != null) {
 
 			//パートナーの情報をデータベースから取得
-			Users partner = userRepository.findById(user.getPartner()).orElse(null);
+			Users partner = userRepo.findById(user.getPartner()).orElse(null);
 			mav.addObject("partner", partner);
 		} else {
 			mav.addObject("partner", null);
@@ -39,4 +39,38 @@ public class Partnercontroller {
 		return mav;
 	}
 
+	//パートナー削除画面へ遷移
+	@GetMapping("/partner/delete")
+	public ModelAndView showPartnerDeletePage(ModelAndView mav) {
+		Users user = (Users) session.getAttribute("loginUser");
+
+		if (user != null && user.getPartner() != null) {
+			Users partner = userRepo.findById(user.getPartner()).orElse(null);
+			mav.addObject("partner", partner);
+		} else {
+			mav.addObject("partner", null);
+		}
+		mav.setViewName("partner_delete/partner_delete");
+		return mav;
+	}
+
+	//パートナー削除確認画面へ遷移
+	public ModelAndView showPartnerDeleteCheckPage(ModelAndView mav) {
+		mav.setViewName("partner_delete/partner_delete_check");
+		return mav;
+	}
+
+	//パートナー削除処理
+	public ModelAndView deletePartner(ModelAndView mav) {
+		Users user = (Users) session.getAttribute("loginUser");
+
+		if (user != null && user.getPartner() != null) {
+			user.setPartner(null);
+			userRepo.save(user);
+		}
+
+		mav.setViewName("partner_delete/partner_complete");
+
+		return mav;
+	}
 }
