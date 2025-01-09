@@ -1,4 +1,3 @@
-<!-- answer.html -->
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,9 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ランダムデートプラン</title>
   <script>
-    // JavaScriptでボタンをクリックした際に選択肢を設定する
-    function setChoice(question, value) {
+    // JavaScriptでボタンを押したか確認
+    function setChoice(question, value, buttonElement) {
       document.getElementById(question).value = value;
+
+      // クリックされたボタンを無効化
+      const buttons = document.querySelectorAll(`#${question} .answer-button button`);
+      buttons.forEach(button => button.disabled = true);
+    }
+
+    // フォーム送信時に未選択項目があれば警告を表示
+    function validateForm(event) {
+      // 必須項目のIDを配列に格納
+      const requiredFields = ['mood', 'weather', 'planCount'];
+      let isValid = true;
+      let missingFields = [];
+
+      // 各項目が選ばれているか確認
+      requiredFields.forEach(function(fieldId) {
+        const field = document.getElementById(fieldId);
+        if (!field.value) {
+          missingFields.push(fieldId);  // 未選択の項目を追加
+        }
+      });
+
+      // 未選択項目があれば一度だけ警告を表示
+      if (missingFields.length > 0) {
+        alert('すべての質問に回答してください！');
+        isValid = false;
+      }
+
+      // 未選択項目があれば送信を防ぐ
+      if (!isValid) {
+        event.preventDefault();
+      }
     }
   </script>
 </head>
@@ -23,7 +53,8 @@
       </a>
     </div>
     
-    <form action="#" method="post" th:action="@{/dateMaster/confirm}">
+    <!-- 質問フォーム -->
+    <form action="#" method="post" th:action="@{/dateMaster/date_confirm}" onsubmit="validateForm(event)">
       <div class="question-message">
         <p>以下の質問に答えてください</p>
       </div>
@@ -32,49 +63,49 @@
       <div class="question-1">
         <p>質問1: 今のデートの気分はどっち?</p>
         <div class="answer-button">
-          <button type="button" onclick="setChoice('mood', 'ロマンチック')">ロマンチック</button>
-          <button type="button" onclick="setChoice('mood', 'アクティブ')">アクティブ</button>
-          <button type="button" onclick="setChoice('mood', 'リラックス')">リラックス</button>
-          <button type="button" onclick="setChoice('mood', 'その他')">その他</button>
+          <button type="button" onclick="setChoice('mood', 'ロマンチック', this)">ロマンチック</button>
+          <button type="button" onclick="setChoice('mood', 'アクティブ', this)">アクティブ</button>
+          <button type="button" onclick="setChoice('mood', 'リラックス', this)">リラックス</button>
+          <button type="button" onclick="setChoice('mood', 'その他', this)">その他</button>
         </div>
-        <input type="hidden" id="mood" name="mood">
+        <input type="hidden" id="mood" name="mood"> <!-- 隠しフィールドに選択肢をセット -->
       </div>
       
       <!-- 質問2 -->
       <div class="question-2">
         <p>質問2: 今の天気はなに?</p>
         <div class="answer-button">
-          <button type="button" onclick="setChoice('weather', '晴れ')">晴れ</button>
-          <button type="button" onclick="setChoice('weather', '曇り')">曇り</button>
-          <button type="button" onclick="setChoice('weather', '雨')">雨</button>
-          <button type="button" onclick="setChoice('weather', '雪')">雪</button>
+          <button type="button" onclick="setChoice('weather', '晴れ', this)">晴れ</button>
+          <button type="button" onclick="setChoice('weather', '曇り', this)">曇り</button>
+          <button type="button" onclick="setChoice('weather', '雨', this)">雨</button>
+          <button type="button" onclick="setChoice('weather', '雪', this)">雪</button>
         </div>
-        <input type="hidden" id="weather" name="weather">
+        <input type="hidden" id="weather" name="weather"> <!-- 隠しフィールドに選択肢をセット -->
       </div>
       
       <!-- 質問3 -->
       <div class="question-3">
         <p>質問3: デートプランの数を選択してね！</p>
         <div class="answer-button">
-          <button type="button" onclick="setChoice('planCount', '一個')">一個</button>
-          <button type="button" onclick="setChoice('planCount', '二個')">二個</button>
-          <button type="button" onclick="setChoice('planCount', '三個')">三個</button>
+          <button type="button" onclick="setChoice('planCount', '一個', this)">一個</button>
+          <button type="button" onclick="setChoice('planCount', '二個', this)">二個</button>
+          <button type="button" onclick="setChoice('planCount', '三個', this)">三個</button>
         </div>
-        <input type="hidden" id="planCount" name="planCount">
+        <input type="hidden" id="planCount" name="planCount"> <!-- 隠しフィールドに選択肢をセット -->
       </div>
-      
-	  <div class="back-button">
-	    <a href="#" th:href="@{/dateMaster/back}">
-	      <button type="button">戻る</button>
-	    </a>
-	  </div>
 
-	  
+      <!-- 戻るボタン -->
+      <div class="back-button">
+        <a href="#" th:href="@{/dateMaster/back}">
+          <button type="button">戻る</button>
+        </a>
+      </div>
+
       <!-- 次へ進むボタン -->
       <div class="button-group">
-        <button type="submit">次へ進む</button>
+        <button type="submit">次へ進む</button> <!-- フォーム送信 -->
       </div>
     </form>
   </main>
-</body>
+</body> 
 </html>
