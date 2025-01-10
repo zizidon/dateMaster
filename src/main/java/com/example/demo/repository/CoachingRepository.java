@@ -8,4 +8,6 @@ public interface CoachingRepository extends CrudRepository<Coaching, Long> {
 
 	Iterable<Coaching> findByUserId(Long userId); // userIdに基づいてCoachingを検索
 
+	Iterable<Coaching> findByPartnerId(Long partnerId); // partnerIdに基づいてCoachingを検索
+
 }

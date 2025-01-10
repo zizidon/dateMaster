@@ -141,7 +141,7 @@ public class Partnercontroller {
 			user.setPartner(user.getApplicant());
 			user.setApplicant(null);
 			userRepo.save(user);
-			
+
 			//applicantのpartnerに自分のIDを設定
 			Users applicant = userRepo.findById(applicantId).orElse(null);
 			if (applicant != null) {
@@ -149,8 +149,6 @@ public class Partnercontroller {
 				userRepo.save(applicant);
 			}
 		}
-		
-		
 
 		return "redirect:/dateMaster/partner";
 	}
@@ -254,6 +252,22 @@ public class Partnercontroller {
 	@GetMapping("/shareComplete")
 	public ModelAndView showShareCompletePage(ModelAndView mav) {
 		mav.setViewName("question_share/question_share_complete");
+		return mav;
+	}
+
+	// 共有問題一覧画面へ遷移
+	@GetMapping("/questionAnswerShare")
+	public ModelAndView showQuestionAnswerSharePage(ModelAndView mav) {
+		Users user = (Users) session.getAttribute("loginUser");
+
+		// ユーザーが存在し、partnerIdが設定されている場合、共有された問題を取得
+		if (user != null && user.getPartner() != null) {
+			// partnerIdが一致する問題をCoachingテーブルから取得
+			Iterable<Coaching> sharedCoachingList = coachingRepo.findByPartnerId(user.getId());
+			mav.addObject("sharedCoachingList", sharedCoachingList);
+		}
+
+		mav.setViewName("question_answer/question_answer_share");
 		return mav;
 	}
 
