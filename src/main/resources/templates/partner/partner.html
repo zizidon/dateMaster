@@ -47,7 +47,11 @@
 				<button type="submit" th:if="${partner != null}">パートナー削除</button>
 			</form>
 
-			<button type="button" th:onclick="'@{/partner_coaching}'">パートナーコーチング</button>
+			<!-- パートナーコーチング機能 -->
+			<form name="form1" th:action="@{/dateMaster/partnerCoaching}" method="get">
+				<button type="submit">パートナーコーチング</button>
+			</form>
+
 		</div>
 	</main>
 </body>
