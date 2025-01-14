@@ -1,0 +1,62 @@
+<!-- problem-share.html -->
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>共有問題</title>
+  <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+  <header>
+    <h1 th:text="パートナーコーチング">パートナーコーチング</h1>
+  </header>
+
+  <main>
+    <!-- 戻るボタン -->
+    <button type="button" th:onclick="'@{/partner/coaching}'" class="back-button">戻る</button>
+    
+    <!-- フォーム（問題文と選択肢を送信） -->
+    <form th:action="@{/partner/coaching/problem/share/complete}" method="post">
+      <div class="problem-share">
+        <!-- 問題文 -->
+        <p th:text="${problem.text}">${problem.text}</p> <!-- ここに問題文のみ表示 -->
+        
+        <!-- 問題の選択肢を表示 -->
+        <ul>
+          <li>
+            <span th:text="${answer1}">${answer1}</span>
+          </li>
+          <li>
+            <span th:text="${answer2}">${answer2}</span>
+          </li>
+          <li>
+            <span th:text="${answer3}">${answer3}</span>
+          </li>
+          <li>
+            <span th:text="${answer4}">${answer4}</span>
+          </li>
+        </ul>
+        
+        <!-- 問題と選択肢のデータをhiddenフィールドとして送信 -->
+        <input type="hidden" name="problemText" th:value="${problem.text}">
+        <input type="hidden" name="answer1Text" th:value="${answer1}">
+        <input type="hidden" name="answer2Text" th:value="${answer2}">
+        <input type="hidden" name="answer3Text" th:value="${answer3}">
+        <input type="hidden" name="answer4Text" th:value="${answer4}">
+        
+        <div class="button-group">
+          <!-- 戻るボタン -->
+          <button type="button" th:onclick="'@{/partner/coaching}'">戻る</button>
+          
+          <!-- 共有するボタン（フォーム送信） -->
+          <button type="submit">共有する</button>
+        </div>
+      </div>
+    </form>
+  </main>
+</body>
+
+</html>

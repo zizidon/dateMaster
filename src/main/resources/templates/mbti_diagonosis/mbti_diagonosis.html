@@ -1,46 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>MBTI診断質問</title>
 </head>
 <body>
-	<!-- ヘッダー -->
-	<header>
-	  <h1>MBTI診断</h1>
-	  <button class="back-button">戻る</button>
-	</header>
-
-	<!-- 診断説明 -->
-	<div class="diagnosis-explanation">
-	  <p>質問の回答によってあなたのMBTIを診断します♪</p>
+	<h1>MBTI診断 - 質問画面</h1>
+	<form action="/mbti/confirm" method="post"">
+	<div th:each="question : ${questions}" class="question">
+		<label th:for="question" th:text="{question.text}"></label><br>
+		<input type="radio" th:name="answers[${question.id}]" value="1" id="positive-${question.id}"required>はい
+		<input type="radio" th:name="answers[${question.id}]" value="-1" id="negative-${question.id}"> いいえ
 	</div>
-
-	<!-- 質問1 -->
-	<div class="question">
-	  <p>初対面の人と話すのが楽しいと感じますか？</p>
-	  <button class="yes-button">はい</button>
-	  <button class="no-button">いいえ</button>
-	</div>
-
-	<!-- 質問2 -->
-	<div class="question">
-	  <p>細かい事実や手順を確認するのが得意ですか？</p>
-	  <button class="yes-button">はい</button>
-	  <button class="no-button">いいえ</button>
-	</div>
-
-	<!-- 質問3 -->
-	<div class="question">
-	  <p>人と接するときに、論理よりも感情を優先しますか？</p>
-	  <button class="yes-button">はい</button>
-	  <button class="no-button">いいえ</button>
-	</div>
-
-	<!-- ボタン -->
-	<div class="buttons">
-	  <button class="back-button">戻る</button>
-	  <button class="result-button">結果を見る</button>
-	</div>
+	<button type="submit" class="button">確認</button>
+</form>
 </body>
 </html>
