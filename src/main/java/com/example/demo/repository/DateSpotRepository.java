@@ -44,7 +44,7 @@ public class DateSpotRepository {
             spot.setSpotName(rs.getString("spot_name"));
             spot.setDescription(rs.getString("category"));
             spot.setSpotAddress(rs.getString("spot_address"));
-            spot.setOpeningMonday(rs.getString("monday"));
+            spot.setOpeningMonday(rs.getString("opening_Monday"));
             return spot;
         }
     }

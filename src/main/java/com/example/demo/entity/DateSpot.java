@@ -11,13 +11,13 @@ public class DateSpot {
     private double longitude;  // 経度
     
     // 営業時間（曜日ごとの営業時間を追加）
-    private String openingMonday; 
-    private String openingTuesday;
-    private String openingWednesday;
-    private String openingThursday;
-    private String openingFriday;
-    private String openingSaturday;
-    private String openingSunday;
+    private String opening_Monday; 
+    private String opening_Tuesday;
+    private String opening_Wednesday;
+    private String opening_Thursday;
+    private String opening_Friday;
+    private String opening_Saturday;
+    private String opening_Sunday;
 
     // ゲッターとセッター（プロパティアクセス用）
 
@@ -83,58 +83,58 @@ public class DateSpot {
 
     // 各曜日の営業時間の取得と設定
     public String getOpeningMonday() {
-        return openingMonday;
+        return opening_Monday;
     }
 
     public void setOpeningMonday(String openingMonday) {
-        this.openingMonday = openingMonday;
+        this.opening_Monday = openingMonday;
     }
 
     public String getOpeningTuesday() {
-        return openingTuesday;
+        return opening_Tuesday;
     }
 
     public void setOpeningTuesday(String openingTuesday) {
-        this.openingTuesday = openingTuesday;
+        this.opening_Tuesday = openingTuesday;
     }
 
     public String getOpeningWednesday() {
-        return openingWednesday;
+        return opening_Wednesday;
     }
 
     public void setOpeningWednesday(String openingWednesday) {
-        this.openingWednesday = openingWednesday;
+        this.opening_Wednesday = openingWednesday;
     }
 
     public String getOpeningThursday() {
-        return openingThursday;
+        return opening_Thursday;
     }
 
     public void setOpeningThursday(String openingThursday) {
-        this.openingThursday = openingThursday;
+        this.opening_Thursday = openingThursday;
     }
 
     public String getOpeningFriday() {
-        return openingFriday;
+        return opening_Friday;
     }
 
     public void setOpeningFriday(String openingFriday) {
-        this.openingFriday = openingFriday;
+        this.opening_Friday = openingFriday;
     }
 
     public String getOpeningSaturday() {
-        return openingSaturday;
+        return opening_Saturday;
     }
 
     public void setOpeningSaturday(String openingSaturday) {
-        this.openingSaturday = openingSaturday;
+        this.opening_Saturday = openingSaturday;
     }
 
     public String getOpeningSunday() {
-        return openingSunday;
+        return opening_Sunday;
     }
 
     public void setOpeningSunday(String openingSunday) {
-        this.openingSunday = openingSunday;
+        this.opening_Sunday = openingSunday;
     }
 }
