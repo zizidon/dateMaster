@@ -1,47 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+  <meta charset="UTF-8">
+  <title>スポット検索</title>
+  <script>
+    // 検索処理
+    function searchSpots() {
+      const searchQuery = document.getElementById("search-bar").value;
+
+      fetch(`/searchSpots?query=${encodeURIComponent(searchQuery)}`)
+        .then(response => response.json())
+        .then(data => {
+          const resultContainer = document.getElementById("searchResults");
+          resultContainer.innerHTML = '';
+
+          data.forEach(spot => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+              <span>${spot.spotName}</span> - ${spot.description} - ${spot.spotAddress} - ${spot.openingHours}
+              <button onclick="addSpotToParent(${spot.spotId}, '${spot.spotName}', '${spot.description}', '${spot.spotAddress}', '${spot.openingHours}')">選択</button>
+            `;
+            resultContainer.appendChild(listItem);
+          });
+        });
+    }
+
+    // 親ページにスポットデータを送る
+    function addSpotToParent(spotId, spotName, description, address, openingHours) {
+      // 親ページに情報を追加
+      if (window.opener && window.opener.addSpotToForm) {
+        window.opener.addSpotToForm(spotId, spotName, description, address, openingHours);
+      }
+      window.close(); // 検索ウィンドウを閉じる
+    }
+  </script>
 </head>
 <body>
-	<!-- ヘッダー -->
-	<header>
-	  <h1>デートプラン追加</h1>
-	  <button type="button" onclick="history.back()">戻る</button>
-	</header>
+  <h1>スポット検索</h1>
 
-	<!-- 検索バー -->
-	<form>
-	  <input type="search" id="search-bar" placeholder="デートスポットを検索">
-	  <button class="search-button">検索</button>
-	</form>
+  <div>
+    <label for="search-bar">デートスポット検索:</label>
+    <input type="text" id="search-bar" placeholder="スポット名で検索" />
+    <button type="button" onclick="searchSpots()">検索</button>
+  </div>
 
-	<!-- マップ -->
-	<div id="map"></div>
-
-	<!-- 検索結果 -->
-	<div class="search-result">
-	  <h2>検索結果</h2>
-	  <ul>
-	    <!-- 検索結果のスポットを表示 -->
-	    <li>
-	      <h3>スポット名</h3>
-	      <p>スポットの概要</p>
-	    </li>
-	  </ul>
-	</div>
-
-	<!-- スポットの詳細 -->
-	<div class="spot-detail">
-	  <h2>スポットの詳細</h2>
-	  <p>スポットの詳細説明</p>
-	</div>
-
-	<!-- 追加ボタン -->
-	<button class="add-button">追加する！</button>
-
-	<!-- 戻るボタン -->
-	<button type="button" onclick="history.back()">戻る</button>
+  <div id="searchResults">
+    <!-- 検索結果が動的に表示されます -->
+  </div>
 </body>
 </html>
