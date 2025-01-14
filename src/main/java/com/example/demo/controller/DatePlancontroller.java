@@ -26,7 +26,7 @@ public class DatePlancontroller {
     }
 
     // スポット検索ページを表示するメソッド
-    @GetMapping("/plan/search")
+    @GetMapping("/searchSpots")
     public String showSearchPage(@RequestParam(value = "query", required = false) String query, Model model) {
         List<DateSpot> spots;
         if (query != null && !query.isEmpty()) {
