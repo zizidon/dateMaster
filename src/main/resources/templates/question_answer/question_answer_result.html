@@ -1,39 +1,40 @@
-<!-- result.html -->
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" th:href="@{/styles.css}">
-  <title>結果画面</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/styles.css}">
+
 </head>
 
 <body>
-  <header>
-    <h1 th:text="パートナーコーチング">パートナーコーチング</h1>
-  </header>
+	<header>
+		<h1>答え合わせ結果</h1>
+	</header>
 
-  <main>
-    <div class="result">
-      <h2 th:text="${result}">${result}</h2>
+	<main>
+		<p th:text="'ただいまの問題は...' + (${isCorrect} ? '正解' : '不正解')"></p>
+		<h2 th:text="${coaching.question}"></h2>
 
-      <div class="chosen-answer">
-        <h3>あなたの答え</h3>
-        <p th:text="${chosenAnswer}">${chosenAnswer}</p>
-      </div>
+		<p>正解:
+			<span th:if="${coaching.correctOption == 1}" th:text="${coaching.option1}"></span>
+			<span th:if="${coaching.correctOption == 2}" th:text="${coaching.option2}"></span>
+			<span th:if="${coaching.correctOption == 3}" th:text="${coaching.option3}"></span>
+			<span th:if="${coaching.correctOption == 4}" th:text="${coaching.option4}"></span>
+		</p>
 
-      <div class="correct-answer">
-        <h3>正解</h3>
-        <p th:text="${correctAnswer}">${correctAnswer}</p>
-      </div>
+		<p>選択した回答:
+			<span th:if="${selectedOption == 1}" th:text="${coaching.option1}"></span>
+			<span th:if="${selectedOption == 2}" th:text="${coaching.option2}"></span>
+			<span th:if="${selectedOption == 3}" th:text="${coaching.option3}"></span>
+			<span th:if="${selectedOption == 4}" th:text="${coaching.option4}"></span>
+		</p>
 
-      <div class="button-group">
-        <button type="button" th:onclick="'@{/partner/coaching/problem/share/list}'">共有問題一覧</button>
-        <button type="button" th:onclick="'@{/partner/coaching}'">コーチング画面に戻る</button>
-      </div>
-    </div>
-  </main>
+		<form th:action="@{/dateMaster/questionAnswerShare}" method="get">
+			<button type="submit">共有問題一覧に戻る</button>
+		</form>
+	</main>
 </body>
 
 </html>

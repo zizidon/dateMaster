@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.entity.Coaching;
@@ -268,6 +269,79 @@ public class Partnercontroller {
 		}
 
 		mav.setViewName("question_answer/question_answer_share");
+		return mav;
+	}
+
+	//問題選択画面へ遷移
+	@GetMapping("/questionAnswer")
+	public ModelAndView showQuestionAnswerPage(Long coachingId, ModelAndView mav) {
+		Coaching coaching = coachingRepo.findById(coachingId).orElse(null);
+		mav.addObject("coaching", coaching); // 問題を渡す
+		mav.setViewName("question_answer/question_answer");
+		return mav;
+	}
+
+	//選択肢を保存する
+	@PostMapping("/selectOption")
+	public String selectOption(Long coachingId, int selectedOption) {
+		session.setAttribute("selectedOption", selectedOption); // セッションに選択肢を保存
+		return "redirect:/dateMaster/questionAnswer?coachingId=" + coachingId;
+	}
+
+	@PostMapping("/questionAnswerCheck")
+	public ModelAndView checkAnswer(@RequestParam Long coachingId, @RequestParam String selectedOption,
+			ModelAndView mav) {
+		// 入力チェック
+		if (selectedOption == null || selectedOption.isEmpty()) {
+			mav.addObject("errorMessage", "選択肢を選んでください。");
+			mav.setViewName("question_answer/question_answer");
+			return mav;
+		}
+
+		// Coachingデータ取得
+		Coaching coaching = coachingRepo.findById(coachingId).orElse(null);
+
+		if (coaching != null) {
+			// selectedOptionを整数に変換
+			int selectedOptionInt = Integer.parseInt(selectedOption);
+			String selectedAnswer = "";
+			switch (selectedOptionInt) {
+			case 1:
+				selectedAnswer = coaching.getOption1();
+				break;
+			case 2:
+				selectedAnswer = coaching.getOption2();
+				break;
+			case 3:
+				selectedAnswer = coaching.getOption3();
+				break;
+			case 4:
+				selectedAnswer = coaching.getOption4();
+				break;
+			}
+
+			mav.addObject("coaching", coaching); // coachingをビューに渡す
+			mav.addObject("question", coaching.getQuestion());
+			mav.addObject("selectedAnswer", selectedAnswer);
+			mav.addObject("selectedOption", selectedOptionInt); // 数値として渡す
+		} else {
+			mav.addObject("errorMessage", "問題が見つかりませんでした。");
+		}
+
+		mav.setViewName("question_answer/question_answer_check");
+		return mav;
+	}
+
+	@GetMapping("/questionAnswerResult")
+	public ModelAndView showQuestionAnswerResultPage(Long coachingId, ModelAndView mav) {
+		Coaching coaching = coachingRepo.findById(coachingId).orElse(null);
+		Integer selectedOption = (Integer) session.getAttribute("selectedOption");
+
+		boolean isCorrect = selectedOption != null && coaching != null && selectedOption == coaching.getCorrectOption();
+		mav.addObject("coaching", coaching);
+		mav.addObject("selectedOption", selectedOption);
+		mav.addObject("isCorrect", isCorrect);
+		mav.setViewName("question_answer/question_answer_result");
 		return mav;
 	}
 

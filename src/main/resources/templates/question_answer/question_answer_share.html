@@ -19,7 +19,8 @@
 				<p th:text="${coaching.question}"></p>
 
 				<!-- 回答ボタン -->
-				<form name="answerForm" th:action="@{/dateMaster/answerQuestion}" method="get">
+				<form th:action="@{/dateMaster/questionAnswer}" method="get">
+					<input type="hidden" th:value="${coaching.id}" name="coachingId">
 					<button type="submit">回答する</button>
 				</form>
 			</div>

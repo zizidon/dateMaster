@@ -1,49 +1,48 @@
-<!-- problem-answer.html -->
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" th:href="@{/styles.css}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 
 <body>
-  <header>
-    <h1 th:text="パートナーコーチング">パートナーコーチング</h1>
-  </header>
+	<header>
+		<h1>問題選択</h1>
+	</header>
 
-  <main>
-    <button type="button" th:onclick="'@{/partner/coaching}'">戻る</button>
+	<main>
+		<h2 th:text="${coaching.question}"></h2>
 
-    <div class="problem-answer">
-      <p th:text="${problem.description}">${problem.description}</p>
+		<form th:action="@{/dateMaster/questionAnswerCheck}" method="post">
+			<div>
+				<label>選択肢を選んでください:</label>
+				<select name="selectedOption" required>
+					<option value="" disabled selected>選択してください</option>
+					<option value="1" th:text="${coaching.option1}"></option>
+					<option value="2" th:text="${coaching.option2}"></option>
+					<option value="3" th:text="${coaching.option3}"></option>
+					<option value="4" th:text="${coaching.option4}"></option>
+				</select>
+			</div>
+			<input type="hidden" th:value="${coaching.id}" name="coachingId">
+			<button type="submit">答え合わせ</button>
+		</form>
 
-      <ul>
-        <li>
-          <span>選択肢1</span>
-          <button type="button">選択</button>
-        </li>
-        <li>
-          <span>選択肢2</span>
-          <button type="button">選択</button>
-        </li>
-        <li>
-          <span>選択肢3</span>
-          <button type="button">選択</button>
-        </li>
-        <li>
-          <span>選択肢4</span>
-          <button type="button">選択</button>
-        </li>
-      </ul>
-    </div>
+		<!-- エラーメッセージの表示 -->
+		<div th:if="${errorMessage}" style="color: red;">
+			<p th:text="${errorMessage}"></p>
+		</div>
 
-    <div class="button-group">
-      <button type="button" th:onclick="'@{/partner/coaching/problem/share/list}'">戻る</button>
-      <button type="button" th:onclick="'@{/partner/coaching/problem/share/answer/check/' + ${problem.id}}">答え合わせ</button>
-    </div>
-  </main>
+		<br>
+
+		<div>
+			<form th:action="@{/dateMaster/questionAnswerShare}" method="get">
+				<button type="submit">一覧に戻る</button>
+			</form>
+		</div>
+	</main>
 </body>
 
 </html>
