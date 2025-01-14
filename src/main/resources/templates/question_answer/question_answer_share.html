@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+	<header>
+		<h1>パートナーコーチング</h1>
+	</header>
+
+	<main>
+		<div th:if="${sharedCoachingList}">
+
+			<div th:each="coaching : ${sharedCoachingList}">
+				<p th:text="${coaching.question}"></p>
+
+				<!-- 回答ボタン -->
+				<form th:action="@{/dateMaster/questionAnswer}" method="get">
+					<input type="hidden" th:value="${coaching.id}" name="coachingId">
+					<button type="submit">回答する</button>
+				</form>
+			</div>
+		</div>
+
+		<!-- 戻るボタン -->
+		<form name="backForm" th:action="@{/dateMaster/partnerCoaching}" method="get">
+			<button type="submit">戻る</button>
+		</form>
+	</main>
+</body>
+
+</html>

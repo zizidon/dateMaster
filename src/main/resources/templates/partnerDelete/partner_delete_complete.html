@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>削除完了画面</title>
+	<link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+	<header>
+		<h1>削除完了</h1>
+	</header>
+
+	<main>
+		<p>削除が完了しました...</p>
+
+
+
+		<form name="form1" th:action="@{/dateMaster/partner}" method="get">
+			<button type="submit">パートナー画面に戻る</button>
+		</form>
+
+
+	</main>
+</body>
+
+</html>

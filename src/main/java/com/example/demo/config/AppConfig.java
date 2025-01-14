@@ -31,9 +31,10 @@ public class AppConfig {
 	public PasswordChangeService passwordChangeService() {
 		return new PasswordChangeService();
 	}
-	
+
 	@Bean
 	public UserDeleteService userDeleteService() {
 		return new UserDeleteService();
 	}
+
 }

@@ -4,25 +4,27 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>共有完了</title>
+	<title>削除確認画面</title>
 	<link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 
 <body>
 	<header>
-		<h1>共有完了</h1>
+		<h1>削除確認</h1>
 	</header>
 
 	<main>
-		<p>共有が完了しました！</p>
+		<p>本当に削除していいんですか...？</p>
 
 		<div class="button-group">
-			<!-- 問題一覧に戻るボタン -->
-			<form th:action="@{/dateMaster/partnerCoachingList}" method="get">
-				<button type="submit">戻る</button>
+			<button type="button" th:onclick="history.back()">いいえ</button>
+
+			<form name="form1" th:action="@{/dateMaster/partnerDeleteComplete}" method="post">
+				<button type="submit">はい</button>
+
 			</form>
+
 		</div>
-	</main>
 </body>
 
 </html>

@@ -1,47 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+  <meta charset="UTF-8">
+  <title>デートプランランキング</title>
 </head>
 <body>
-	<!-- ヘッダー -->
-	<header>
-	  <h1>デートプランランキング</h1>
-	  <button class="back-button">戻る</button>
-	  <select class="filter-select">
-	    <option value="all">すべて</option>
-	    <option value="spot1">スポット1</option>
-	    <option value="spot2">スポット2</option>
-	    <option value="spot3">スポット3</option>
-	  </select>
-	</header>
+  <!-- ヘッダー -->
+  <header>
+    <h1>デートプランランキング</h1>
+    <button class="back-button" onclick="history.back()">戻る</button>
 
-	<!-- ランキング -->
-	<div class="ranking">
-	  <h2>ランキング</h2>
-	  <ul>
-	    <li>
-	      <img src="rank1-image.jpg" alt="ランキング1位">
-	      <p>ランキング1位：スポット名</p>
-	    </li>
-	    <li>
-	      <img src="rank2-image.jpg" alt="ランキング2位">
-	      <p>ランキング2位：スポット名</p>
-	    </li>
-	    <li>
-	      <img src="rank3-image.jpg" alt="ランキング3位">
-	      <p>ランキング3位：スポット名</p>
-	    </li>
-	    <li>
-	      <img src="rank4-image.jpg" alt="ランキング4位">
-	      <p>ランキング4位：スポット名</p>
-	    </li>
-	    <li>
-	      <img src="rank5-image.jpg" alt="ランキング5位">
-	      <p>ランキング5位：スポット名</p>
-	    </li>
-	  </ul>
-	</div>
+    <!-- フィルター -->
+    <select class="filter-select">
+      <option value="all">すべて</option>
+      <option value="spot1">スポット1</option>
+      <option value="spot2">スポット2</option>
+      <option value="spot3">スポット3</option>
+    </select>
+  </header>
+
+  <!-- ランキング -->
+  <div class="ranking">
+    <h2>ランキング</h2>
+    <ul>
+      <li>
+        <img src="rank1-image.jpg" alt="ランキング1位">
+        <p>ランキング1位：スポット名</p>
+      </li>
+      <li>
+        <img src="rank2-image.jpg" alt="ランキング2位">
+        <p>ランキング2位：スポット名</p>
+      </li>
+      <li>
+        <img src="rank3-image.jpg" alt="ランキング3位">
+        <p>ランキング3位：スポット名</p>
+      </li>
+      <li>
+        <img src="rank4-image.jpg" alt="ランキング4位">
+        <p>ランキング4位：スポット名</p>
+      </li>
+      <li>
+        <img src="rank5-image.jpg" alt="ランキング5位">
+        <p>ランキング5位：スポット名</p>
+      </li>
+    </ul>
+  </div>
 </body>
 </html>

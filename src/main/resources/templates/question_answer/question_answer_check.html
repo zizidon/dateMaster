@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+	<header>
+		<h1>答え合わせ確認</h1>
+	</header>
+
+	<main>
+		<p>以下の回答でよろしいでしょうか？</p>
+		<h2 th:text="${coaching.question}"></h2>
+		<p>選択した回答:
+			<span th:if="${selectedOption == 1}" th:text="${coaching.option1}"></span>
+			<span th:if="${selectedOption == 2}" th:text="${coaching.option2}"></span>
+			<span th:if="${selectedOption == 3}" th:text="${coaching.option3}"></span>
+			<span th:if="${selectedOption == 4}" th:text="${coaching.option4}"></span>
+		</p>
+
+		<form th:action="@{/dateMaster/questionAnswer}" method="get">
+			<input type="hidden" th:value="${coaching.id}" name="coachingId">
+			<button type="submit">回答選択に戻る</button>
+		</form>
+		<form th:action="@{/dateMaster/questionAnswerResult}" method="get">
+			<input type="hidden" th:value="${coaching.id}" name="coachingId">
+			<button type="submit">確定</button>
+		</form>
+	</main>
+</body>
+
+</html>

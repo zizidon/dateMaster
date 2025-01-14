@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+<body>
+	<header>
+		<h1>問題選択</h1>
+	</header>
+
+	<main>
+		<h2 th:text="${coaching.question}"></h2>
+
+		<form th:action="@{/dateMaster/questionAnswerCheck}" method="post">
+			<div>
+				<label>選択肢を選んでください:</label>
+				<select name="selectedOption" required>
+					<option value="" disabled selected>選択してください</option>
+					<option value="1" th:text="${coaching.option1}"></option>
+					<option value="2" th:text="${coaching.option2}"></option>
+					<option value="3" th:text="${coaching.option3}"></option>
+					<option value="4" th:text="${coaching.option4}"></option>
+				</select>
+			</div>
+			<input type="hidden" th:value="${coaching.id}" name="coachingId">
+			<button type="submit">答え合わせ</button>
+		</form>
+
+		<!-- エラーメッセージの表示 -->
+		<div th:if="${errorMessage}" style="color: red;">
+			<p th:text="${errorMessage}"></p>
+		</div>
+
+		<br>
+
+		<div>
+			<form th:action="@{/dateMaster/questionAnswerShare}" method="get">
+				<button type="submit">一覧に戻る</button>
+			</form>
+		</div>
+	</main>
+</body>
+
+</html>
