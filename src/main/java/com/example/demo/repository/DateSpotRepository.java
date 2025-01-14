@@ -21,7 +21,7 @@ public class DateSpotRepository {
     public List<DateSpot> findBySpotNameContaining(String spotName) {
         // 名前に部分一致するスポットを検索するSQLクエリ
         String sql = "SELECT * FROM date_spots WHERE spot_name LIKE ?";
-        
+
         // JdbcTemplateを使ってクエリを実行し、結果をDateSpotオブジェクトに変換して返す
         return jdbcTemplate.query(sql, new Object[]{"%" + spotName + "%"}, new DateSpotRowMapper());
     }
@@ -30,7 +30,7 @@ public class DateSpotRepository {
     public List<DateSpot> findAll() {
         // すべてのスポットを取得するSQLクエリ
         String sql = "SELECT * FROM date_spots";
-        
+
         // JdbcTemplateを使ってクエリを実行し、結果をDateSpotオブジェクトに変換して返す
         return jdbcTemplate.query(sql, new DateSpotRowMapper());
     }
@@ -44,7 +44,20 @@ public class DateSpotRepository {
             spot.setSpotName(rs.getString("spot_name"));
             spot.setDescription(rs.getString("category"));
             spot.setSpotAddress(rs.getString("spot_address"));
+            
+            // 営業時間を曜日ごとに設定
             spot.setOpeningMonday(rs.getString("opening_Monday"));
+            spot.setOpeningTuesday(rs.getString("opening_Tuesday"));
+            spot.setOpeningWednesday(rs.getString("opening_Wednesday"));
+            spot.setOpeningThursday(rs.getString("opening_Thursday"));
+            spot.setOpeningFriday(rs.getString("opening_Friday"));
+            spot.setOpeningSaturday(rs.getString("opening_Saturday"));
+            spot.setOpeningSunday(rs.getString("opening_Sunday"));
+
+            // 緯度・経度の取得
+            spot.setLatitude(rs.getDouble("latitude"));
+            spot.setLongitude(rs.getDouble("longitude"));
+            
             return spot;
         }
     }
