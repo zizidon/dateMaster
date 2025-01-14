@@ -25,23 +25,19 @@ public class DatePlancontroller {
         return "dateplun/date_create";  // date_create.htmlに遷移
     }
 
-    // スポット検索ページを表示するメソッド
     @GetMapping("/searchSpots")
     public String searchSpots(@RequestParam(value = "query", required = false) String query, Model model) {
-        List<DateSpot> spots;
+        List<DateSpot> spots = new ArrayList<>();
         boolean noResults = false;
 
         if (query != null && !query.isEmpty()) {
             // 部分一致検索を実行
             spots = dateSpotRepository.findBySpotNameContaining(query);
-            
+
             // 検索結果が空の場合、エラーメッセージを表示するフラグを設定
             if (spots.isEmpty()) {
                 noResults = true;  // 検索結果がなければフラグを立てる
             }
-        } else {
-            // クエリが空の場合、全スポットを返す
-            spots = dateSpotRepository.findAll();
         }
 
         // 検索結果をモデルに渡す
@@ -51,6 +47,7 @@ public class DatePlancontroller {
 
         return "dateplun/date_add";  // date_add.htmlを表示
     }
+
 
     // デートプランを作成するメソッド
     @PostMapping("/createDatePlan")

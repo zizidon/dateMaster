@@ -20,7 +20,7 @@
     </div>
 
     <!-- 検索結果がある場合にスポットのリストを表示 -->
-    <div th:if="${spots != null && !noResults}">
+    <div th:if="${spots != null && !spots.isEmpty()}">
         <h2>検索結果</h2>
         <ul>
             <li th:each="spot : ${spots}">
@@ -40,5 +40,5 @@
         }
     </script>
 
-</body>
+</body> 
 </html>
