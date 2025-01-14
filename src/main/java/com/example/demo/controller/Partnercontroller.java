@@ -32,8 +32,6 @@ public class Partnercontroller {
 	@Autowired
     PartnerRequestService partnerRequestService;
 
-	UserRepository userRepo;
-
 	@Autowired
 	CoachingRepository coachingRepo;
 
@@ -46,7 +44,7 @@ public class Partnercontroller {
 		if (user != null && user.getPartner() != null) {
 
 			//パートナーの情報をデータベースから取得
-			Users partner = userRepo.findById(user.getPartner()).orElse(null);
+			Users partner = userRepository.findById(user.getPartner()).orElse(null);
 			mav.addObject("partner", partner);
 		} else {
 			mav.addObject("partner", null);
@@ -124,7 +122,7 @@ public class Partnercontroller {
 		Users user = (Users) session.getAttribute("loginUser");
 
 		if (user != null && user.getPartner() != null) {
-			Users partner = userRepo.findById(user.getPartner()).orElse(null);
+			Users partner = userRepository.findById(user.getPartner()).orElse(null);
 			mav.addObject("partner", partner);
 		} else {
 			mav.addObject("partner", null);
@@ -151,13 +149,13 @@ public class Partnercontroller {
 
 			//ユーザーのパートナー情報を削除
 			user.setPartner(null);
-			userRepo.save(user);
+			userRepository.save(user);
 
 			//相手(パートナー)のパートナー情報を削除
-			Users partner = userRepo.findById(partnerId).orElse(null);
+			Users partner = userRepository.findById(partnerId).orElse(null);
 			if (partner != null) {
 				partner.setPartner(null);
-				userRepo.save(partner);
+				userRepository.save(partner);
 			}
 		}
 
@@ -181,7 +179,7 @@ public class Partnercontroller {
 			// applicant 情報を取得
 			Users applicant = null;
 			if (user.getApplicant() != null) {
-				applicant = userRepo.findById(user.getApplicant()).orElse(null);
+				applicant = userRepository.findById(user.getApplicant()).orElse(null);
 			}
 			mav.addObject("applicant", applicant);
 		}
@@ -197,7 +195,7 @@ public class Partnercontroller {
 
 		if (user != null) {
 			user.setApplicant(null);
-			userRepo.save(user);
+			userRepository.save(user);
 		}
 
 		return "redirect:/dateMaster/partner";
@@ -213,13 +211,13 @@ public class Partnercontroller {
 			Long applicantId = user.getApplicant();
 			user.setPartner(user.getApplicant());
 			user.setApplicant(null);
-			userRepo.save(user);
+			userRepository.save(user);
 
 			//applicantのpartnerに自分のIDを設定
-			Users applicant = userRepo.findById(applicantId).orElse(null);
+			Users applicant = userRepository.findById(applicantId).orElse(null);
 			if (applicant != null) {
 				applicant.setPartner(user.getId());
-				userRepo.save(applicant);
+				userRepository.save(applicant);
 			}
 		}
 
