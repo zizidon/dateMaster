@@ -27,17 +27,15 @@ public class Partnercontroller {
 	HttpSession session;
 
 	@Autowired
-<<<<<<< HEAD
 	UserRepository userRepository;
 	
 	@Autowired
     PartnerRequestService partnerRequestService;
-=======
+
 	UserRepository userRepo;
 
 	@Autowired
 	CoachingRepository coachingRepo;
->>>>>>> branch 'master' of https://github.com/zizidon/dateMaster.git
 
 	//パートナー画面へ遷移
 	@GetMapping("partner")
@@ -75,7 +73,6 @@ public class Partnercontroller {
     public String search(@RequestParam Long id, Model model) {
         Optional<Users> userOpt = partnerRequestService.getUserById(id);
 
-<<<<<<< HEAD
         if (userOpt.isPresent()) {
             model.addAttribute("searchedUser", userOpt.get());
             model.addAttribute("message", null);
@@ -120,7 +117,7 @@ public class Partnercontroller {
 
         return "partner_request/partner_request";
     }
-=======
+
 	//パートナー削除画面へ遷移
 	@GetMapping("/partnerDelete")
 	public ModelAndView showPartnerDeletePage(ModelAndView mav) {
@@ -419,6 +416,4 @@ public class Partnercontroller {
 		mav.setViewName("question_answer/question_answer_result");
 		return mav;
 	}
-
->>>>>>> branch 'master' of https://github.com/zizidon/dateMaster.git
 }

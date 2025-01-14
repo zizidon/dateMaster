@@ -16,10 +16,6 @@ public class Users {
 	private String name; //ユーザー名
 	private String password; //パスワード
 	private Long partner; // パートナー名
-<<<<<<< HEAD
-	private Long applicant; //申請元ID
-=======
 	private Long applicant; // 申請者名
 	private Long coaching_id; // コーチングの問題
->>>>>>> branch 'master' of https://github.com/zizidon/dateMaster.git
 }
