@@ -2,33 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>デートミッションランク選択画面</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デートミッションランク選択画面</title>
 </head>
 
 <body>
-	<header>
-		<h1>デートミッションランク選択</h1>
-	</header>
-	<main>
+    <header>
+        <h1>デートミッションランク選択</h1>
+    </header>
+    <main>
 
-		<div class="back-button">
-			<button type="button" onclick="history.back()">戻る</button>
-		</div>
+        <!-- ホーム画面に戻るボタン -->
+        <div class="back-button">
+			<a th:href="@{/date}" class="button-link">
+			   <button type="button">戻る</button>
+			</a>
+        </div>
 
-		<br>
+        <br>
 
-		<!-- ランク選択ボタン -->
-		<div class="button-group">
-			<button type="button" th:href="@{/dateMission/rank_row}">初級</button>
-			<br>
-			<button type="button" th:href="@{/dateMission/rank_mid}">中級</button>
-			<br>
-			<button type="button" th:href="@{/dateMission/rank_high}">上級</button>
-		</div>
+        <p>ミッションのランクを選択してね</p>
+        <!-- ランク選択ボタン -->
+        <div class="button-group">
+            <a th:href="@{/rank_row}" class="button-link">
+                <button type="button">初級</button>
+            </a>
+            <br>
+            <a th:href="@{/rank_mid}" class="button-link">
+                <button type="button">中級</button>
+            </a>
+            <br>
+            <a th:href="@{/rank_high}" class="button-link">
+                <button type="button">上級</button>
+            </a>
+        </div>
 
-	</main>
+    </main>
 </body>
 
 </html>
