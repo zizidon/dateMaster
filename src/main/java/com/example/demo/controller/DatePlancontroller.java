@@ -15,7 +15,7 @@ import com.example.demo.entity.DateSpot;
 import com.example.demo.repository.DateSpotRepository;
 
 @Controller
-@SessionAttributes("selectedSpots")  // ここでセッションに「selectedSpots」を保持
+@SessionAttributes("selectedSpots")
 public class DatePlancontroller {
 
     @Autowired
@@ -24,13 +24,12 @@ public class DatePlancontroller {
     // デートプラン作成画面
     @GetMapping("/dateCreate")
     public String showDateCreatePage(Model model) {
-        // 初期の選択されたスポットリストをセッションから取得
         List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
         if (selectedSpots == null) {
             selectedSpots = new ArrayList<>(); // 初めての場合は空のリスト
         }
-        model.addAttribute("selectedSpots", selectedSpots);  // セッションから取得したスポットリストを渡す
-        return "dateplun/date_create";  // date_create.htmlに遷移
+        model.addAttribute("selectedSpots", selectedSpots); // セッションから取得したスポットリストを渡す
+        return "dateplun/date_create"; // date_create.htmlに遷移
     }
 
     // スポット検索画面
@@ -51,63 +50,53 @@ public class DatePlancontroller {
             }
         }
 
-        // リダイレクト後に選択されたスポットリストを取得（セッションから）
         List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
         if (selectedSpots == null) {
             selectedSpots = new ArrayList<>();
         }
 
         model.addAttribute("spots", spots);
-        model.addAttribute("selectedSpots", selectedSpots);  // スポットリストを渡す
+        model.addAttribute("selectedSpots", selectedSpots);
         model.addAttribute("noResults", noResults);
         model.addAttribute("query", query);
 
-        return "dateplun/date_add";  // 検索結果画面
+        return "dateplun/date_add"; // 検索結果画面
     }
 
-   
- // スポットをデートプランに追加
+    // スポットをデートプランに追加
     @PostMapping("/addSpotToPlan")
     public String addSpotToPlan(@RequestParam("spotName") String spotName,
-                                @RequestParam("spotDescription") String spotDescription,
-                                @RequestParam("spotAddress") String spotAddress,
-                                @RequestParam("spotOpening") String spotOpening,
-                                Model model,
-                                @RequestParam(value = "query", required = false) String query) {
+                                 @RequestParam("spotDescription") String spotDescription,
+                                 @RequestParam("spotAddress") String spotAddress,
+                                 @RequestParam("spotOpeningMonday") String spotOpeningMonday,
+                                 Model model,
+                                 @RequestParam(value = "query", required = false) String query) {
 
-        // 新しいスポットを作成
         DateSpot selectedSpot = new DateSpot();
         selectedSpot.setSpotName(spotName);
         selectedSpot.setDescription(spotDescription);
         selectedSpot.setSpotAddress(spotAddress);
-        selectedSpot.setOpeningMonday(spotOpening);
+        selectedSpot.setMonday(spotOpeningMonday);
 
-        // セッションから現在の選択スポットリストを取得
         List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
         if (selectedSpots == null) {
             selectedSpots = new ArrayList<>();
         }
 
-        // 重複チェック：スポット名がすでに選択リストに含まれていないか確認
+        // 既に追加されているかを確認
         boolean isDuplicate = selectedSpots.stream()
                                            .anyMatch(spot -> spot.getSpotName().equals(selectedSpot.getSpotName()));
 
         if (!isDuplicate) {
-            // スポットを追加
             selectedSpots.add(selectedSpot);
         } else {
-            // 重複している場合は追加しない
             model.addAttribute("message", "このスポットはすでに追加されています。");
         }
 
-        // セッションに選ばれたスポットを保存
         model.addAttribute("selectedSpots", selectedSpots);
-
-        // 検索クエリも保持
         model.addAttribute("query", query);
 
-        // 最後にデートプラン作成画面にリダイレクト
-        return "redirect:/dateCreate";  // リダイレクト先を修正
+        return "redirect:/dateCreate"; // リダイレクト先を修正
     }
 
     // デートプラン確認
@@ -118,7 +107,6 @@ public class DatePlancontroller {
                                  @RequestParam("spotOpenings") String spotOpenings,
                                  Model model) {
 
-        // 送信されたデータを使ってスポットオブジェクトを作成
         List<DateSpot> selectedSpots = new ArrayList<>();
 
         String[] spotNameArray = spotNames.split(",");
@@ -131,15 +119,13 @@ public class DatePlancontroller {
             spot.setSpotName(spotNameArray[i]);
             spot.setDescription(spotDescriptionArray[i]);
             spot.setSpotAddress(spotAddressArray[i]);
-            spot.setOpeningMonday(spotOpeningArray[i]);
+            spot.setMonday(spotOpeningArray[i]);
 
             selectedSpots.add(spot);
         }
 
-        // モデルに選ばれたスポットを渡す
         model.addAttribute("spots", selectedSpots);
 
-        // 最終的にdate_create.htmlに遷移
-        return "dateplun/date_create_check";
+        return "dateplun/date_create_check"; // 確認画面
     }
 }

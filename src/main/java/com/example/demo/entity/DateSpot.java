@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-// デートスポットを表すエンティティクラス
 public class DateSpot {
 
     private Long spotId;  // スポットID（データベースの主キー）
@@ -22,72 +21,58 @@ public class DateSpot {
 
     // ゲッターとセッター（プロパティアクセス用）
 
-    // スポットIDの取得
     public Long getSpotId() {
         return spotId;
     }
 
-    // スポットIDの設定
     public void setSpotId(Long spotId) {
         this.spotId = spotId;
     }
 
-    // スポット名の取得
     public String getSpotName() {
         return spotName;
     }
 
-    // スポット名の設定
     public void setSpotName(String spotName) {
         this.spotName = spotName;
     }
 
-    // スポット説明の取得
     public String getDescription() {
         return description;
     }
 
-    // スポット説明の設定
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    //スポットの種類（晴れ、雨、曇り、全て可能など）
+
     public Long getSpotType() {
-    	return spotType;
-    }
-    
-    //スポット種類の取得
-    public void setSpotType(Long spotType) {
-    	this.spotType = spotType;
+        return spotType;
     }
 
-    // スポット住所の取得
+    public void setSpotType(Long spotType) {
+        this.spotType = spotType;
+    }
+
     public String getSpotAddress() {
         return spotAddress;
     }
 
-    // スポット住所の設定
     public void setSpotAddress(String spotAddress) {
         this.spotAddress = spotAddress;
     }
 
-    // 緯度の取得
     public double getLatitude() {
         return latitude;
     }
 
-    // 緯度の設定
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    // 経度の取得
     public double getLongitude() {
         return longitude;
     }
 
-    // 経度の設定
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
@@ -147,5 +132,5 @@ public class DateSpot {
 
     public void setSunday(String Sunday) {
         this.Sunday = Sunday;
-    }
+    } 
 }

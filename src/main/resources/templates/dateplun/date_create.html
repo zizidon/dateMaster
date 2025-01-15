@@ -14,46 +14,62 @@
 
         <h2>選択されたスポット</h2>
 
-		<div th:if="${selectedSpots != null and !selectedSpots.isEmpty()}">
-		    
-		    <ul>
-		        <li th:each="spot : ${selectedSpots}">
-		            <div>
-		                <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
-		            </div>
-		            <div>
-		                <strong>説明:</strong> <span th:text="${spot.description}">説明</span>
-		            </div>
-		            <div>
-		                <strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span>
-		            </div>
-		            <div>
-		                <strong>営業時間:</strong> <span th:text="${spot.openingMonday}">営業時間</span>
-		            </div>
-		        </li>
-		    </ul>
-		</div>
-
+        <div th:if="${selectedSpots != null and !selectedSpots.isEmpty()}">
+            <ul>
+                <li th:each="spot : ${selectedSpots}">
+                    <div>
+                        <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
+                    </div>
+                    <div>
+                        <strong>説明:</strong> <span th:text="${spot.description}">説明</span>
+                    </div>
+                    <div>
+                        <strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span>
+                    </div>
+                    <div>
+                        <strong>営業時間:</strong>
+                        <div>
+                            <strong>月曜日:</strong> <span th:text="${spot.Monday}">月曜日</span>
+                        </div>
+                        <div>
+                            <strong>火曜日:</strong> <span th:text="${spot.Tuesday}">火曜日</span>
+                        </div>
+                        <div>
+                            <strong>水曜日:</strong> <span th:text="${spot.Wednesday}">水曜日</span>
+                        </div>
+                        <div>
+                            <strong>木曜日:</strong> <span th:text="${spot.Thursday}">木曜日</span>
+                        </div>
+                        <div>
+                            <strong>金曜日:</strong> <span th:text="${spot.Friday}">金曜日</span>
+                        </div>
+                        <div>
+                            <strong>土曜日:</strong> <span th:text="${spot.Saturday}">土曜日</span>
+                        </div>
+                        <div>
+                            <strong>日曜日:</strong> <span th:text="${spot.Sunday}">日曜日</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
 
         <div th:if="${selectedSpots == null or selectedSpots.isEmpty()}">
             <p>スポットが追加されていません。</p>
         </div>
 
-        <!-- 追加されたスポット情報をhiddenフィールドとして送信 -->
         <form action="/createDatePlan" method="post">
             <input type="hidden" name="spotNames" th:value="${spotNamesCsv}" />
             <input type="hidden" name="spotDescriptions" th:value="${spotDescriptionsCsv}" />
             <input type="hidden" name="spotAddresses" th:value="${spotAddressesCsv}" />
             <input type="hidden" name="spotOpenings" th:value="${spotOpeningsCsv}" />
 
-            <!-- 送信ボタンを追加 -->
             <button type="submit">デートプラン作成</button>
         </form>
 
         <div class="button-group">
             <button type="button" onclick="location.href='/searchSpots'">スポット追加</button>
         </div>
-        
     </main>
 </body>
 </html>
