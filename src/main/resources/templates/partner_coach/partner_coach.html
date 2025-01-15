@@ -1,31 +1,40 @@
-<!-- partner-coach.html -->
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>パートナーコーチング</title>
-  <link rel="stylesheet" th:href="@{/styles.css}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>パートナーコーチング</title>
+	<link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 
 <body>
-  <header>
-    <h1 th:text="パートナーコーチング">パートナーコーチング</h1>
-  </header>
+	<header>
+		<h1>パートナーコーチング</h1>
+	</header>
 
-  <main>
-    <div class="partner-coaching">
-      <button type="button" th:onclick="'@{/}'">戻る</button>
-      <h2>問題のジャンルを選択してください</h2>
-      <div class="genre-button">
-        <button type="button" th:onclick="'@{/partner/coaching/problem}'">問題一覧</button>
-        <br>
-		<br>
-		<button type="button" th:onclick="'@{/partner/coaching/shared-problem}'">共有問題一覧</button>
-      </div>
-    </div>
-  </main>
+	<main>
+
+		<form name="form1" th:action="@{/dateMaster/partner}" method="get">
+			<button type="submit">戻る</button>
+		</form>
+
+		<p>問題のジャンルを選択してください♪</p>
+
+		<div class="button-group">
+			<!-- 問題一覧ボタン -->
+			<form name="form2" th:action="@{/dateMaster/partnerCoachingList}" method="get">
+				<button type="submit">問題一覧</button>
+			</form>
+
+			<br>
+			
+			<!-- 共有問題一覧ボタン -->
+			<form name="form3" th:action="@{/dateMaster/questionAnswerShare}" method="get">
+				<button type="submit">共有問題一覧</button>
+			</form>
+		</div>
+	</main>
 </body>
 
 </html>

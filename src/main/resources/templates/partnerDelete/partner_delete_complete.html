@@ -16,9 +16,13 @@
 	<main>
 		<p>削除が完了しました...</p>
 
-		<div class="button-group">
-			<button type="button" th:onclick="'@{/dateMaster/partner}'">パートナー画面に戻る</button>
-		</div>
+
+
+		<form name="form1" th:action="@{/dateMaster/partner}" method="get">
+			<button type="submit">パートナー画面に戻る</button>
+		</form>
+
+
 	</main>
 </body>
 

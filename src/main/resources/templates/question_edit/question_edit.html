@@ -1,56 +1,45 @@
-<!-- problem-edit.html -->
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>問題編集</title>
-  <link rel="stylesheet" th:href="@{/styles.css}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>問題編集</title>
+	<link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 
 <body>
-  <header>
-    <h1 th:text="パートナーコーチング">パートナーコーチング</h1>
-  </header>
+	<header>
+		<h1>問題編集</h1>
+	</header>
 
-  <main>
-    <div class="problem-edit">
-      
-      
-	  <ul th:each="problem : ${problems}">
-		<li>
-          <!-- 問題文の表示 -->
-          <p th:text="${problem.text}">問題文</p> <!-- 問題文を表示 -->
-          
-          <!-- 削除ボタン -->
-          <button type="button" th:onclick="'@{/partner/coaching/problem/delete/' + ${problem.id}}">削除</button>
-        </li>
-      
-		<li>
-		          <!-- 問題文の表示 -->
-		          <p th:text="${problem.text}">問題文</p> <!-- 問題文を表示 -->
-		          
-		          <!-- 削除ボタン -->
-		          <button type="button" th:onclick="'@{/partner/coaching/problem/delete/' + ${problem.id}}">削除</button>
-		</li>
-				
-		<li>
-				   <!-- 問題文の表示 -->
-				   <p th:text="${problem.text}">問題文</p> <!-- 問題文を表示 -->
-				          
-				   <!-- 削除ボタン -->
-				   <button type="button" th:onclick="'@{/partner/coaching/problem/delete/' + ${problem.id}}">削除</button>
-		</li>
-    </div>
-    
-    <!-- 新規問題作成ボタン -->
-    <button type="button" th:onclick="'@{/partner/coaching/problem/create}'">＋</button>
-    <br><br>
-    
-    <!-- 完了ボタン -->
-    <button type="button" th:onclick="'@{/partner/coaching}'>完了</button>
-  </main>
+	<main>
+		<div>
+			<h2>あなたの問題</h2>
+			<!-- Coaching リストをループして表示 -->
+			<div th:each="coaching : ${coachingList}">
+				<p th:text="${coaching.question}">問題文が表示されます</p>
+
+				<!-- 消去ボタン -->
+				<form th:action="@{/dateMaster/deleteProblem}" method="post">
+					<input type="hidden" name="coachingId" th:value="${coaching.id}">
+					<button type="submit">消去</button>
+				</form>
+			</div>
+		</div>
+
+		<div class="button-group">
+			<!-- 問題追加ボタン -->
+			<form th:action="@{/dateMaster/questionCreate}" method="get">
+				<button type="submit">問題追加</button>
+			</form>
+
+			<!-- 戻るボタン -->
+			<form th:action="@{/dateMaster/partnerCoachingList}" method="get">
+				<button type="submit">戻る</button>
+			</form>
+		</div>
+	</main>
 </body>
 
 </html>

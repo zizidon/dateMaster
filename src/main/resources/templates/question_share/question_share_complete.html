@@ -1,28 +1,28 @@
-<!-- problem-share-complete.html -->
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>共有完了</title>
-  <link rel="stylesheet" th:href="@{/styles.css}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>共有完了</title>
+	<link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 
 <body>
-  <header>
-    <h1 th:text="パートナーコーチング">パートナーコーチング</h1>
-  </header>
+	<header>
+		<h1>共有完了</h1>
+	</header>
 
-  <main>
-    <div class="problem-share-complete">
-      <h2 th:text="共有完了">共有完了</h2>
-      <p th:text="問題を共有しました。">共有が完了しました</p>。</p>
-      <div class="button-group">
-        <button type="button" th:onclick="'@{/partner/coaching}'">一覧選択に戻る</button>
-      </div>
-    </div>
-  </main>
+	<main>
+		<p>共有が完了しました！</p>
+
+		<div class="button-group">
+			<!-- 問題一覧に戻るボタン -->
+			<form th:action="@{/dateMaster/partnerCoachingList}" method="get">
+				<button type="submit">戻る</button>
+			</form>
+		</div>
+	</main>
 </body>
 
 </html>

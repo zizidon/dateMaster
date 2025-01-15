@@ -1,46 +1,50 @@
 <!-- problem-list.html -->
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>問題一覧</title>
-  <link rel="stylesheet" th:href="@{/styles.css}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>問題一覧</title>
+	<link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 
 <body>
-  <header>
-    <h1 th:text="問題一覧">パートナーコーチング</h1>
-  </header>
+	<header>
+		<h1>問題一覧</h1>
+	</header>
 
-  <main>
-	<button type="button" th:onclick="'@{/partner/coaching}'">戻る</button>
-    <div class="problem-list">
-      
-      <ul th:each="problem : ${problems}">
-        <li>
-          <h3 th:text="${problem.title}">問題1</h3>
-          <p th:text="${problem.description}">問題1の説明</p>
-          <button type="button" th:onclick="'@{/partner/coaching/problem/shared/{id}(id=${problem.id})}'">共有</button>
-        </li>
-        <li>
-          <h3 th:text="${problem.title}">問題2</h3>
-          <p th:text="${problem.description}">問題2の説明</p>
-          <button type="button" th:onclick="'@{/partner/coaching/problem/shared/{id}(id=${problem.id})}'">共有</button>
-        </li>
-        <li>
-          <h3 th:text="${problem.title}">問題3</h3>
-          <p th:text="${problem.description}">問題3の説明</p>
-          <button type="button" th:onclick="'@{/partner/coaching/problem/shared/{id}(id=${problem.id})}'">共有</button>
-        </li>
-      </ul>
-    </div>
-	<button type="button" th:onclick="'@{/partner/coaching}'">一覧選択に戻る</button>
-    <br>
-    <br>
-	<button type="button" th:onclick="'@{/partner/coaching/problem/edit}'">問題編集</button>
-  </main>
+	<main>
+	        <div>
+	            <h2>あなたの問題</h2>
+	            <!-- Coaching リストをループして表示 -->
+	            <div th:each="coaching : ${coachingList}">
+	                <p th:text="${coaching.question}">問題文が表示されます</p>
+	                
+	                <!-- 共有ボタン -->
+	                <form th:action="@{/dateMaster/shareProblem}" method="post">
+	                    <input type="hidden" name="coachingId" th:value="${coaching.id}">
+	                    <button type="submit">共有する</button>
+	                </form>
+	            </div>
+	        </div>
+
+			<br>
+				
+	        <div class="button-group">
+	            <!-- 問題編集ボタン -->
+	            <form th:action="@{/dateMaster/editProblem}" method="get">
+	                <button type="submit">問題編集</button>
+	            </form>
+
+				<br>
+				
+	            <!-- 戻るボタン -->
+	            <form th:action="@{/dateMaster/partnerCoaching}" method="get">
+	                <button type="submit">戻る</button>
+	            </form>
+	        </div>
+	    </main>
 </body>
 
 </html>
