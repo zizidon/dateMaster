@@ -14,28 +14,27 @@ import com.example.demo.entity.Users;
 @RequestMapping("/dateMaster")
 public class Homecontroller {
 
-	@Autowired
-	HttpSession session;
+    @Autowired
+    HttpSession session;
 
-	//デート機能一覧画面へ遷移
-	@GetMapping("/date")
-	public String showDatePage() {
+    // デート機能一覧画面へ遷移（セッションリセットを追加）
+    @GetMapping("/date")
+    public String showDatePage() {
+        // セッションリセット
+        session.invalidate();  // セッションの無効化
 
-		//date.htmlを返す
+        // date.htmlを返す
+        return "date/date";
+    }
 
-		return "date/date";
-	}
+    // ホーム画面へ遷移
+    @GetMapping("/home")
+    public ModelAndView showHome(ModelAndView mav) {
+        Users user = (Users) session.getAttribute("loginUser"); // セッションからユーザー情報を取得
+        mav.addObject("user", user); // モデルにユーザー情報を追加
+        mav.setViewName("home/home"); // ホーム画面に遷移
 
-	//ホーム画面へ遷移
-	@GetMapping("/home")
-	public ModelAndView showHome(ModelAndView mav) {
-
-		Users user = (Users) session.getAttribute("loginUser"); //セッションからユーザー情報を取得
-		mav.addObject("user", user);//モデルにユーザー情報を追加
-		mav.setViewName("home/home");//ホーム画面に遷移
-		//home.htmlを返す
-
-		return mav;
-	}
-	
+        // home.htmlを返す
+        return mav;
+    }
 }
