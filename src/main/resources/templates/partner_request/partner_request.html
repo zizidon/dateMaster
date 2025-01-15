@@ -1,36 +1,47 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>パートナー申請</title>
-  <link rel="stylesheet" th:href="@{/styles.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パートナー申請</title>
+    <style>
+        /* 数字入力欄の矢印を非表示 */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield; /* Firefoxで矢印を非表示にする */
+        }
+    </style>
 </head>
-
 <body>
-  <header>
-    <h1 th:text="パートナー申請">パートナー申請</h1>
-  </header>
+    <h1>パートナー申請</h1>
 
-  <main>
-    <div th:if="${partner}" class="partner-exists">
-      <p>パートナーがいます。浮気は許しません。</p>
-      <button type="button" th:onclick="history.back()">戻る</button>
+    <!-- パートナー検索フォーム -->
+    <form action="/dateMaster/user/search" method="get">
+        <label for="partnerId">パートナーIDを検索:</label>
+        <input type="number" id="partnerId" name="id" required>
+        <button type="submit">検索</button>
+    </form>
+
+    <!-- 検索結果表示 -->
+    <div>
+        <h2>検索結果</h2>
+        <div th:if="${searchedUser != null}">
+            <p>ID: <span th:text="${searchedUser.id}"></span></p>
+            <p>名前: <span th:text="${searchedUser.name}"></span></p>
+            <!-- パートナー申請フォーム -->
+            <form action="/dateMaster/partner_request" method="post">
+                <input type="hidden" name="id" th:value="${searchedUser.id}">
+                <button type="submit">このユーザーに申請する</button>
+            </form>
+        </div>
+        <p th:if="${message != null}" th:text="${message}"></p>
     </div>
-    <div th:unless="${partner}" class="partner-search">
-      <h2>パートナーのIDを検索</h2>
-      <input type="text" id="partner-id" th:name="partner-id">
-      <button type="button" th:onclick="'@{/partner/search/{partnerId}(partnerId=${partnerId})}'">検索</button>
-      <div th:if="${partnerDetail}" class="partner-detail">
-        <h2>パートナーの詳細</h2>
-        <p th:text="名前: ${partnerDetail.name}">名前: {{ partnerDetail.name }}</p>
-        <p th:text="ID: ${partnerDetail.id}">ID: {{ partnerDetail.id }}</p>
-        <button type="button" th:onclick="'@{/partner/apply/{partnerId}(partnerId=${partnerId})}'">申請</button>
-      </div>
-    </div>
-  </main>
+
+    <a href="/dateMaster/partner">パートナー画面に戻る</a>
 </body>
-
-
 </html>

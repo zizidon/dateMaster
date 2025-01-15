@@ -1,33 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>MBTI診断 - 結果</title>
 </head>
 <body>
-	<!-- ヘッダー -->
-	<header>
-	  <h1>MBTI診断</h1>
-	</header>
-
-	<!-- 診断結果 -->
-	<div class="diagnosis-result">
-	  <h2>診断結果</h2>
-	  <p>あなたのMBTIは、<span>ISTJ</span>です。</p>
-	  <p>ISTJタイプは、実際的で責任感が強く、計画的に行動するタイプです。</p>
-	  <p>詳細は、以下の通りです。</p>
-	  <ul>
-	    <li>外向的(I)か内向的(E)か：内向的(I)</li>
-	    <li>感覚的(S)か直観的(N)か：感覚的(S)</li>
-	    <li>思考的(T)か感情的(F)か：思考的(T)</li>
-	    <li>判断的(J)か認識的(P)か：判断的(J)</li>
-	  </ul>
-	</div>
-
-	<!-- ボタン -->
-	<div class="buttons">
-	  <button class="back-button">診断一覧に戻る</button>
-	  <button class="mypage-button">マイページ一覧へ</button>
-	</div>
+    <h1>MBTI診断 - 結果</h1>
+    <p>あなたのMBTIタイプは <strong th:text="${result.mbtiType}"></strong> です。</p>
+    <p th:text="${result.description}"></p>
+    <a href="/mbti" class="button">再診断する</a>
 </body>
 </html>

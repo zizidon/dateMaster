@@ -35,7 +35,9 @@
 
 		</div>
 		<div class="button-group">
-			<button type="button" th:onclick="'@{/partner_request}'">パートナー申請</button>
+			<form name="form1" th:action="@{/dateMaster/partner_request}" method="get">
+			       <button type="submit">パートナー申請</button><br>
+			</form>
 
 			<!-- パートナー了承 -->
 			<form name="form1" th:action="@{/dateMaster/partnerAccept}" method="get">

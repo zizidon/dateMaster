@@ -1,9 +1,12 @@
 package com.example.demo.controller;
 
+import java.util.Optional;
+
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,22 +17,26 @@ import com.example.demo.entity.Coaching;
 import com.example.demo.entity.Users;
 import com.example.demo.repository.CoachingRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.PartnerRequestService;
 
 @Controller
-@RequestMapping("/dateMaster")
+@RequestMapping("dateMaster")
 public class Partnercontroller {
 
 	@Autowired
 	HttpSession session;
 
 	@Autowired
-	UserRepository userRepo;
+	UserRepository userRepository;
+	
+	@Autowired
+    PartnerRequestService partnerRequestService;
 
 	@Autowired
 	CoachingRepository coachingRepo;
 
 	//パートナー画面へ遷移
-	@GetMapping("/partner")
+	@GetMapping("partner")
 	public ModelAndView showPartnerPage(ModelAndView mav) {
 		//現在ログイン中のユーザー情報を取得
 		Users user = (Users) session.getAttribute("loginUser");
@@ -37,7 +44,7 @@ public class Partnercontroller {
 		if (user != null && user.getPartner() != null) {
 
 			//パートナーの情報をデータベースから取得
-			Users partner = userRepo.findById(user.getPartner()).orElse(null);
+			Users partner = userRepository.findById(user.getPartner()).orElse(null);
 			mav.addObject("partner", partner);
 		} else {
 			mav.addObject("partner", null);
@@ -45,6 +52,69 @@ public class Partnercontroller {
 		mav.setViewName("partner/partner");
 		return mav;
 	}
+	
+	//パートナー申請画面を表示
+	@GetMapping("partner_request")
+	public ModelAndView showPartnerRequestPage() {
+		ModelAndView modelAndView = new ModelAndView("partner_request/partner_request");
+		
+		Users user = (Users) session.getAttribute("loginUser");
+		
+		if(user != null) {
+			modelAndView.addObject("user",user);
+		}
+		return modelAndView;
+	}
+	
+	//パートナーID検索をする
+    @GetMapping("user/search")
+    public String search(@RequestParam Long id, Model model) {
+        Optional<Users> userOpt = partnerRequestService.getUserById(id);
+
+        if (userOpt.isPresent()) {
+            model.addAttribute("searchedUser", userOpt.get());
+            model.addAttribute("message", null);
+        } else {
+            model.addAttribute("searchedUser", null);
+            model.addAttribute("message", "指定されたIDのユーザーが見つかりませんでした。");
+        }
+
+        return "partner_request/partner_request";
+    }
+
+    // パートナー申請を実行
+    @PostMapping("partner_request")
+    public String requestPartner(@RequestParam("id") Long partnerId, Model model) {
+        // セッションからログイン中のユーザー情報を取得
+        Users loggedInUser = (Users) session.getAttribute("loginUser");
+
+        if (loggedInUser == null) {
+            model.addAttribute("message", "ログインが必要です。");
+            return "partner_request/partner_request";
+        }
+
+        // パートナー申請処理
+        Optional<Users> partnerOpt = userRepository.findById(partnerId);
+
+        if (partnerOpt.isPresent()) {
+            Users partner = partnerOpt.get();
+
+            // パートナー申請を実行
+            boolean success = partnerRequestService.requestPartner(loggedInUser, partner);
+
+            if (success) {
+                model.addAttribute("message", "パートナー申請が成功しました。");
+                model.addAttribute("updatedPartner", partner);
+            } else {
+                // すでに申請済みまたはパートナーが設定されている場合のエラー
+                model.addAttribute("message", "このユーザーにはすでに申請済み、または既にパートナーです。");
+            }
+        } else {
+            model.addAttribute("message", "指定されたIDのユーザーが見つかりませんでした。");
+        }
+
+        return "partner_request/partner_request";
+    }
 
 	//パートナー削除画面へ遷移
 	@GetMapping("/partnerDelete")
@@ -52,7 +122,7 @@ public class Partnercontroller {
 		Users user = (Users) session.getAttribute("loginUser");
 
 		if (user != null && user.getPartner() != null) {
-			Users partner = userRepo.findById(user.getPartner()).orElse(null);
+			Users partner = userRepository.findById(user.getPartner()).orElse(null);
 			mav.addObject("partner", partner);
 		} else {
 			mav.addObject("partner", null);
@@ -79,13 +149,13 @@ public class Partnercontroller {
 
 			//ユーザーのパートナー情報を削除
 			user.setPartner(null);
-			userRepo.save(user);
+			userRepository.save(user);
 
 			//相手(パートナー)のパートナー情報を削除
-			Users partner = userRepo.findById(partnerId).orElse(null);
+			Users partner = userRepository.findById(partnerId).orElse(null);
 			if (partner != null) {
 				partner.setPartner(null);
-				userRepo.save(partner);
+				userRepository.save(partner);
 			}
 		}
 
@@ -109,7 +179,7 @@ public class Partnercontroller {
 			// applicant 情報を取得
 			Users applicant = null;
 			if (user.getApplicant() != null) {
-				applicant = userRepo.findById(user.getApplicant()).orElse(null);
+				applicant = userRepository.findById(user.getApplicant()).orElse(null);
 			}
 			mav.addObject("applicant", applicant);
 		}
@@ -125,7 +195,7 @@ public class Partnercontroller {
 
 		if (user != null) {
 			user.setApplicant(null);
-			userRepo.save(user);
+			userRepository.save(user);
 		}
 
 		return "redirect:/dateMaster/partner";
@@ -141,13 +211,13 @@ public class Partnercontroller {
 			Long applicantId = user.getApplicant();
 			user.setPartner(user.getApplicant());
 			user.setApplicant(null);
-			userRepo.save(user);
+			userRepository.save(user);
 
 			//applicantのpartnerに自分のIDを設定
-			Users applicant = userRepo.findById(applicantId).orElse(null);
+			Users applicant = userRepository.findById(applicantId).orElse(null);
 			if (applicant != null) {
 				applicant.setPartner(user.getId());
-				userRepo.save(applicant);
+				userRepository.save(applicant);
 			}
 		}
 
@@ -377,5 +447,4 @@ public class Partnercontroller {
 		mav.setViewName("question_answer/question_answer_result");
 		return mav;
 	}
-
 }
