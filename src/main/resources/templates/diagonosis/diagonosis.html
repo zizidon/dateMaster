@@ -1,0 +1,55 @@
+<!-- diagnosis.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>診断一覧</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+	<header>
+		<h1>診断一覧</h1>
+		<div class="hamburger-menu">
+			<ul>
+				<li><a href="date.html">デート</a></li>
+				<li><a href="diagnosis.html">診断</a></li>
+				<li><a href="partner.html">パートナー</a></li>
+				<li><a href="setting.html">設定</a></li>
+				<li><a href="logout.html">ログアウト</a></li>
+			</ul>
+		</div>
+	</header>
+	<main>
+
+		<!-- 戻るボタン -->
+		<form th:action="@{/dateMaster/home}" method="get">
+			<button type="submit">戻る</button>
+		</form>
+
+		<br>
+
+		<div class="button-group">
+			<!-- 自己診断ボタンを押すと、diagonosis.htmlに遷移するリンク-->
+			<a th:href="@{/dateMaster/self_diagonosis}"><button type="button">自己診断</button></a>
+
+			<!-- 自己診断結果を押すと、diagonosis_result_self.htmlに遷移するリンク-->
+			<a th:href="@{/dateMaster/}"><button type="button">自己診断結果</button></a>
+
+			<!-- MBTI診断ボタンを押すと、mbti_diagonosis.htmlに遷移するリンク-->
+			<a th:href="@{/dateMaster/}"><button type="button">MBTI診断</button></a>
+
+			<!-- MBTI診断結果を押すと、diagonosis_result_mbti.htmlに遷移するリンク-->
+			<a th:href="@{/dateMaster/}"><button type="button">MBTI診断結果</button></a>
+
+		</div>
+
+
+
+
+	</main>
+</body>
+
+</html>
