@@ -45,7 +45,7 @@ public class DateSpotRepository {
             spot.setDescription(rs.getString("category"));
             spot.setSpotType(rs.getLong("spot_type"));
             spot.setSpotAddress(rs.getString("spot_address"));
-            
+
             // 営業時間を曜日ごとに設定
             spot.setMonday(rs.getString("Monday"));
             spot.setTuesday(rs.getString("Tuesday"));
@@ -58,7 +58,7 @@ public class DateSpotRepository {
             // 緯度・経度の取得
             spot.setLatitude(rs.getDouble("latitude"));
             spot.setLongitude(rs.getDouble("longitude"));
-            
+
             return spot;
         }
     }

@@ -6,7 +6,8 @@
 </head>
 <body>
     <h1>スポット検索結果</h1>
-	<button type="button" onclick="history.back()">戻る</button>
+    <button type="button" onclick="history.back()">戻る</button>
+
     <!-- 検索フォーム -->
     <div>
         <label for="search-bar">デートスポット検索:</label>
@@ -27,8 +28,15 @@
                 <h3 th:text="${spot.spotName}">スポット名</h3>
                 <p th:text="${spot.description}">スポットの説明</p>
                 <p th:text="${spot.spotAddress}">住所</p>
-                <p th:text="${spot.openingMonday}">月曜日の営業時間</p>
-                <!-- 必要に応じて曜日ごとの営業時間を表示 -->
+                <p th:text="${spot.Monday}">月曜日の営業時間</p>
+                <!-- スポットをデートプランに追加するフォーム -->
+                <form th:action="@{/addSpotToPlan}" method="post">
+                    <input type="hidden" name="spotName" th:value="${spot.spotName}" />
+                    <input type="hidden" name="spotDescription" th:value="${spot.description}" />
+                    <input type="hidden" name="spotAddress" th:value="${spot.spotAddress}" />
+                    <input type="hidden" name="spotOpeningMonday" th:value="${spot.Monday}" />
+                    <button type="submit">このスポットを追加</button>
+                </form>
             </li>
         </ul>
     </div>
