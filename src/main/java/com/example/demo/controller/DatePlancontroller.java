@@ -31,8 +31,13 @@ public class DatePlancontroller {
         boolean noResults = false;
 
         if (query != null && !query.isEmpty()) {
-            // 部分一致検索を実行
-            spots = dateSpotRepository.findBySpotNameContaining(query);
+            // クエリが「すべて」の場合、すべてのスポットを返す
+            if ("すべて".equals(query)) {
+                spots = dateSpotRepository.findAll();  // すべてのスポットを取得
+            } else {
+                // 部分一致検索を実行
+                spots = dateSpotRepository.findBySpotNameContaining(query);
+            }
 
             // 検索結果が空の場合、エラーメッセージを表示するフラグを設定
             if (spots.isEmpty()) {
@@ -47,6 +52,7 @@ public class DatePlancontroller {
 
         return "dateplun/date_add";  // date_add.htmlを表示
     }
+
 
 
     // デートプランを作成するメソッド
