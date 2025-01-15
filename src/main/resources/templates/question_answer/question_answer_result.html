@@ -5,7 +5,6 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" th:href="@{/styles.css}">
-
 </head>
 
 <body>
@@ -14,15 +13,7 @@
 	</header>
 
 	<main>
-		<p th:text="'ただいまの問題は...' + (${isCorrect} ? '正解' : '不正解')"></p>
 		<h2 th:text="${coaching.question}"></h2>
-
-		<p>正解:
-			<span th:if="${coaching.correctOption == 1}" th:text="${coaching.option1}"></span>
-			<span th:if="${coaching.correctOption == 2}" th:text="${coaching.option2}"></span>
-			<span th:if="${coaching.correctOption == 3}" th:text="${coaching.option3}"></span>
-			<span th:if="${coaching.correctOption == 4}" th:text="${coaching.option4}"></span>
-		</p>
 
 		<p>選択した回答:
 			<span th:if="${selectedOption == 1}" th:text="${coaching.option1}"></span>
@@ -31,8 +22,11 @@
 			<span th:if="${selectedOption == 4}" th:text="${coaching.option4}"></span>
 		</p>
 
-		<form th:action="@{/dateMaster/questionAnswerShare}" method="get">
-			<button type="submit">共有問題一覧に戻る</button>
+		<p th:if="${isCorrect}">正解です！</p>
+		<p th:if="${!isCorrect}">不正解です。正しい答えは: <span th:text="${correctAnswer}"></span></p>
+
+		<form th:action="@{/dateMaster/partnerCoachingList}" method="get">
+			<button type="submit">一覧へ戻る</button>
 		</form>
 	</main>
 </body>

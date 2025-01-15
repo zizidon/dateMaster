@@ -288,6 +288,7 @@ public class Partnercontroller {
 		return "redirect:/dateMaster/questionAnswer?coachingId=" + coachingId;
 	}
 
+	//共有問題の回答選択確認
 	@PostMapping("/questionAnswerCheck")
 	public ModelAndView checkAnswer(@RequestParam Long coachingId, @RequestParam String selectedOption,
 			ModelAndView mav) {
@@ -332,15 +333,47 @@ public class Partnercontroller {
 		return mav;
 	}
 
+	//問題回答の結果
 	@GetMapping("/questionAnswerResult")
-	public ModelAndView showQuestionAnswerResultPage(Long coachingId, ModelAndView mav) {
+	public ModelAndView showAnswerResult(@RequestParam Long coachingId, @RequestParam int selectedOption,
+			ModelAndView mav) {
+		// Coachingデータを取得
 		Coaching coaching = coachingRepo.findById(coachingId).orElse(null);
-		Integer selectedOption = (Integer) session.getAttribute("selectedOption");
+		if (coaching != null) {
+			// 正解判定
+			boolean isCorrect = false;
+			String correctAnswer = "";
 
-		boolean isCorrect = selectedOption != null && coaching != null && selectedOption == coaching.getCorrectOption();
-		mav.addObject("coaching", coaching);
-		mav.addObject("selectedOption", selectedOption);
-		mav.addObject("isCorrect", isCorrect);
+			if (selectedOption == coaching.getCorrectOption()) {
+				isCorrect = true;
+				correctAnswer = "正解";
+			} else {
+				// 不正解の場合
+				switch (coaching.getCorrectOption()) {
+				case 1:
+					correctAnswer = coaching.getOption1();
+					break;
+				case 2:
+					correctAnswer = coaching.getOption2();
+					break;
+				case 3:
+					correctAnswer = coaching.getOption3();
+					break;
+				case 4:
+					correctAnswer = coaching.getOption4();
+					break;
+				}
+			}
+
+			// モデルに値を追加
+			mav.addObject("coaching", coaching);
+			mav.addObject("selectedOption", selectedOption);
+			mav.addObject("isCorrect", isCorrect);
+			mav.addObject("correctAnswer", correctAnswer);
+		} else {
+			mav.addObject("errorMessage", "問題が見つかりませんでした。");
+		}
+
 		mav.setViewName("question_answer/question_answer_result");
 		return mav;
 	}

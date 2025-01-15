@@ -27,6 +27,7 @@ public class Coaching {
 	private int correctOption; // 正解の選択肢番号（1, 2, 3, 4）
 
 	private Long userId; //ユーザーID
-	
+
 	private Long partnerId; //パートナーID
+
 }
