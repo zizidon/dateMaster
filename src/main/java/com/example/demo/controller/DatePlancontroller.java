@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 import com.example.demo.entity.DateSpot;
 import com.example.demo.repository.DateSpotRepository;
@@ -145,11 +144,5 @@ public class DatePlancontroller {
         return "dateplun/date_create_check"; // 確認画面
     }
 
-    // 一覧画面に戻った際にセッションを削除してスポット情報をリセット
-    @GetMapping("/clearSession")
-    public String clearSession(SessionStatus sessionStatus) {
-        // セッションデータをクリア
-        sessionStatus.setComplete();
-        return "redirect:/dateCreate";  // デートプラン作成画面にリダイレクト
-    }
+    
 }
