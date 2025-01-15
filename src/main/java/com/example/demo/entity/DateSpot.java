@@ -6,18 +6,19 @@ public class DateSpot {
     private Long spotId;  // スポットID（データベースの主キー）
     private String spotName;  // デートスポット名
     private String description;  // デートスポットの説明（カテゴリなど）
+    private Long spotType; //スポットの種類（飲食店、公園など）
     private String spotAddress;  // スポットの住所
     private double latitude;  // 緯度
     private double longitude;  // 経度
     
     // 営業時間（曜日ごとの営業時間を追加）
-    private String opening_Monday; 
-    private String opening_Tuesday;
-    private String opening_Wednesday;
-    private String opening_Thursday;
-    private String opening_Friday;
-    private String opening_Saturday;
-    private String opening_Sunday;
+    private String Monday; 
+    private String Tuesday;
+    private String Wednesday;
+    private String Thursday;
+    private String Friday;
+    private String Saturday;
+    private String Sunday;
 
     // ゲッターとセッター（プロパティアクセス用）
 
@@ -49,6 +50,16 @@ public class DateSpot {
     // スポット説明の設定
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    //スポットの種類（晴れ、雨、曇り、全て可能など）
+    public Long getSpotType() {
+    	return spotType;
+    }
+    
+    //スポット種類の取得
+    public void setSpotType(Long spotType) {
+    	this.spotType = spotType;
     }
 
     // スポット住所の取得
@@ -82,59 +93,59 @@ public class DateSpot {
     }
 
     // 各曜日の営業時間の取得と設定
-    public String getOpeningMonday() {
-        return opening_Monday;
+    public String getMonday() {
+        return Monday;
     }
 
-    public void setOpeningMonday(String openingMonday) {
-        this.opening_Monday = openingMonday;
+    public void setMonday(String Monday) {
+        this.Monday = Monday;
     }
 
-    public String getOpeningTuesday() {
-        return opening_Tuesday;
+    public String getTuesday() {
+        return Tuesday;
     }
 
-    public void setOpeningTuesday(String openingTuesday) {
-        this.opening_Tuesday = openingTuesday;
+    public void setTuesday(String Tuesday) {
+        this.Tuesday = Tuesday;
     }
 
-    public String getOpeningWednesday() {
-        return opening_Wednesday;
+    public String getWednesday() {
+        return Wednesday;
     }
 
-    public void setOpeningWednesday(String openingWednesday) {
-        this.opening_Wednesday = openingWednesday;
+    public void setWednesday(String Wednesday) {
+        this.Wednesday = Wednesday;
     }
 
-    public String getOpeningThursday() {
-        return opening_Thursday;
+    public String getThursday() {
+        return Thursday;
     }
 
-    public void setOpeningThursday(String openingThursday) {
-        this.opening_Thursday = openingThursday;
+    public void setThursday(String Thursday) {
+        this.Thursday = Thursday;
     }
 
-    public String getOpeningFriday() {
-        return opening_Friday;
+    public String getFriday() {
+        return Friday;
     }
 
-    public void setOpeningFriday(String openingFriday) {
-        this.opening_Friday = openingFriday;
+    public void setFriday(String Friday) {
+        this.Friday = Friday;
     }
 
-    public String getOpeningSaturday() {
-        return opening_Saturday;
+    public String getSaturday() {
+        return Saturday;
     }
 
-    public void setOpeningSaturday(String openingSaturday) {
-        this.opening_Saturday = openingSaturday;
+    public void setSaturday(String Saturday) {
+        this.Saturday = Saturday;
     }
 
-    public String getOpeningSunday() {
-        return opening_Sunday;
+    public String getSunday() {
+        return Sunday;
     }
 
-    public void setOpeningSunday(String openingSunday) {
-        this.opening_Sunday = openingSunday;
+    public void setSunday(String Sunday) {
+        this.Sunday = Sunday;
     }
 }
