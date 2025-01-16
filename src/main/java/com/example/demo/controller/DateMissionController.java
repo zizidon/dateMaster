@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,9 @@ import com.example.demo.repository.DateMission_row_Repository;
 @Controller
 public class DateMissionController {
 
+	@Autowired
+    private HttpSession session;
+	
     @Autowired
     private DateMission_row_Repository dateMission_row_Repository;
 
@@ -28,42 +33,50 @@ public class DateMissionController {
     @Autowired
     private DateMission_high_Repository dateMission_high_Repository;
 
+    
+   
 
-    // デートミッション共通
+    // デート機能一覧からデートミッションランク選択画面に遷移
     @GetMapping("/dateRank")
     public String showRankSelectionPage() {
         return "date_mission/rank_selection"; // rank_selection.htmlに遷移
     }
-
+    
+    
+    //デートミッションランク選択画面からデート機能一覧に戻る
     @GetMapping("/date")
     public String showHomePage() {
         return "date/date"; // date.htmlに遷移
     }
-
+    
+    //それぞれのミッション検討画面からミッション難易度一覧に遷移
     @GetMapping("/rankSelection")
     public String rankSelection() {
         return "date_mission/rank_selection"; // rank_selection.htmlに遷移
     }
-
-    @GetMapping("/start")
-    public String missionStart() {
-        return "date_mission/mission_start"; // mission_start.htmlに遷移
-    }
+    
+   
+ 
 
     // 初級ボタンを押下
     @GetMapping("/rank_row")
     public String showRankRow(Model model) {
         List<DateMission_row> allMissions = (List<DateMission_row>) dateMission_row_Repository.findAll();
         List<DateMission_row> randomMissions = getRandomMissions(allMissions, 3);
+        
+        session.setAttribute("currentMissions", randomMissions); // セッションに保存
         model.addAttribute("missions", randomMissions);
-        return "date_mission/rank_row"; // rank_row.htmlに遷移
+		return "date_mission/rank_row";
     }
-
+    
+ 
     // 中級ボタンを押下
     @GetMapping("/rank_mid")
     public String showRankMid(Model model) {
         List<DateMission_mid> allMissions = (List<DateMission_mid>) dateMission_mid_Repository.findAll();
         List<DateMission_mid> randomMissions = getRandomMissions(allMissions, 3);
+        
+        session.setAttribute("currentMissions", randomMissions); // セッションに保存
         model.addAttribute("missions", randomMissions);
         return "date_mission/rank_mid"; // rank_mid.htmlに遷移
     }
@@ -74,6 +87,8 @@ public class DateMissionController {
         // 上級ミッションが実装された場合のために仮実装（現在は中級と同様の動作）
         List<DateMission_high> allMissions = (List<DateMission_high>) dateMission_high_Repository.findAll();
         List<DateMission_high> randomMissions = getRandomMissions(allMissions, 3);
+        
+        session.setAttribute("currentMissions", randomMissions); // セッションに保存
         model.addAttribute("missions", randomMissions);
         return "date_mission/rank_high"; // rank_high.htmlに遷移
     }
@@ -83,17 +98,27 @@ public class DateMissionController {
     public String updateMissions(Model model) {
         List<DateMission_row> allMissions = (List<DateMission_row>) dateMission_row_Repository.findAll();
         List<DateMission_row> randomMissions = getRandomMissions(allMissions, 3);
-        model.addAttribute("missions", randomMissions);
-        return "date_mission/rank_row"; // ミッション更新後、rank_row.htmlに遷移
+        
+        
+        session.setAttribute("currentMissions", randomMissions); // セッションを更新
+		model.addAttribute("missions", randomMissions);
+		return "date_mission/rank_row"; // ミッション更新後、rank_row.htmlに遷移
+    
+        
     }
+    
+
     
  // 中級ミッションを更新
     @GetMapping("/updateMissions2")
     public String updateMissions2(Model model) {
         List<DateMission_mid> allMissions = (List<DateMission_mid>) dateMission_mid_Repository.findAll();
         List<DateMission_mid> randomMissions = getRandomMissions(allMissions, 3);
-        model.addAttribute("missions", randomMissions);
-        return "date_mission/rank_mid"; // ミッション更新後、rank_row.htmlに遷移
+   
+        
+        session.setAttribute("currentMissions", randomMissions); // セッションを更新
+		model.addAttribute("missions", randomMissions);
+		return "date_mission/rank_mid"; // ミッション更新後、rank_row.htmlに遷移
     }
     
  // 上級ミッションを更新
@@ -101,9 +126,58 @@ public class DateMissionController {
     public String updateMissions3(Model model) {
 		List<DateMission_high> allMissions = (List<DateMission_high>) dateMission_high_Repository.findAll();
         List<DateMission_high> randomMissions = getRandomMissions(allMissions, 3);
-        model.addAttribute("missions", randomMissions);
-        return "date_mission/rank_high"; // ミッション更新後、rank_row.htmlに遷移
+       
+        
+        session.setAttribute("currentMissions", randomMissions); // セッションを更新
+     	model.addAttribute("missions", randomMissions);
+     	return "date_mission/rank_high"; // ミッション更新後、rank_row.htmlに遷移
     }
+    
+    // 初級スタートボタン押下時にミッションを表示
+    @GetMapping("/start")
+    public String missionStart( Model model) {
+       
+    	List<DateMission_row> missions = (List<DateMission_row>) session.getAttribute("currentMissions");
+        if (missions == null || missions.isEmpty()) {
+            // ミッションが存在しない場合はデフォルトのミッションを取得
+            missions = getRandomMissions((List<DateMission_row>) dateMission_row_Repository.findAll(), 3);
+        }
+        model.addAttribute("missions", missions);
+     
+        return "date_mission/row_start"; // mission_start.htmlに遷移
+    }
+    
+   
+
+
+    
+    // 中級スタートボタン押下時にミッションを表示
+       @GetMapping("/start2")
+       public String missionStart2( Model model) {
+          
+       	List<DateMission_row> missions = (List<DateMission_row>) session.getAttribute("currentMissions");
+           if (missions == null || missions.isEmpty()) {
+               // ミッションが存在しない場合はデフォルトのミッションを取得
+               missions = getRandomMissions((List<DateMission_row>) dateMission_row_Repository.findAll(), 3);
+           }
+           model.addAttribute("missions", missions);
+        
+           return "date_mission/mid_start"; // mission_start.htmlに遷移
+       }
+       
+    // 上級スタートボタン押下時にミッションを表示
+       @GetMapping("/start3")
+       public String missionStart3( Model model) {
+          
+       	List<DateMission_row> missions = (List<DateMission_row>) session.getAttribute("currentMissions");
+           if (missions == null || missions.isEmpty()) {
+               // ミッションが存在しない場合はデフォルトのミッションを取得
+               missions = getRandomMissions((List<DateMission_row>) dateMission_row_Repository.findAll(), 3);
+           }
+           model.addAttribute("missions", missions);
+        
+           return "date_mission/high_start"; // mission_start.htmlに遷移
+       }
 
     // ランダムなミッションを取得するヘルパーメソッド
     private <T> List<T> getRandomMissions(List<T> missions, int count) {
