@@ -183,4 +183,27 @@ public class DatePlancontroller {
         // デートプラン作成ページにリダイレクト
         return "redirect:/dateCreate";
     }
+    
+    
+    // デートプラン確定後に地図画面に遷移
+    @PostMapping("/viewDatePlanOnMap")
+    public String viewDatePlanOnMap(Model model) {
+        // セッションから選ばれたスポットリストを取得
+        List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
+
+        // スポットが選ばれていない場合、エラーメッセージを設定してリダイレクト
+        if (selectedSpots == null || selectedSpots.isEmpty()) {
+            model.addAttribute("message", "スポットが選ばれていません。");
+            return "redirect:/dateCreate";  // プラン作成画面にリダイレクト
+        }
+
+        // モデルに選ばれたスポットリストをそのまま渡す
+        model.addAttribute("spots", selectedSpots);
+
+        // 地図画面に遷移（date_create_completion.html）
+        return "dateplun/date_create_completion"; // 地図表示画面
+    }
+
+
+
 }

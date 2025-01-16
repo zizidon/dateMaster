@@ -1,43 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>デートプラン - 地図表示</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <style>
+        #map { width: 100%; height: 500px; }
+    </style>
 </head>
 <body>
-	<!-- ヘッダー -->
-	<header>
-	  <h1>デートプラン作成完了</h1>
-	</header>
+    <header>
+        <h1>デートプラン - 地図表示</h1>
+    </header>
 
-	<!-- 地図 -->
-	<div class="map">
-	  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3245.1244199999996!2d139.76707199999998!3d35.68948500000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188bfbd89f3001%3A0x5c4b2a3f833e8a5!2z5p2x5Lqs6aeF!5e0!3m2!1sja!2sjp!4v1643723409141!5m2!1sja!2sjp" width="100%" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-	</div>
+    <main>
+        <div id="map"></div>
 
-	<!-- デートプラン一覧 -->
-	<div class="date-plan-list">
-	  <h2>デートプラン一覧</h2>
-	  <ul>
-	    <!-- デートプランをスポットごとに表示 -->
-	    <li>
-	      <h3>スポット名</h3>
-	      <p>スポットの概要</p>
-	      <img src="spot-image.jpg" alt="スポットの写真">
-	    </li>
-	    <li>
-	      <h3>スポット名</h3>
-	      <p>スポットの概要</p>
-	      <img src="spot-image.jpg" alt="スポットの写真">
-	    </li>
-	    <!-- 以下、スポットごとに繰り返し -->
-	  </ul>
-	</div>
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
-	<!-- ボタン -->
-	<div class="buttons">
-	  <button class="share-button">パートナーに共有</button>
-	  <button class="back-button">機能一覧に戻る</button>
-	</div>
+        <script>
+            // 地図の初期位置を設定（鹿児島中央駅の座標）
+            var map = L.map('map').setView([31.5837, 130.5412], 13);  // 鹿児島中央駅の座標
+
+            // OpenStreetMapのタイルレイヤーを設定
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // 鹿児島中央駅のマーカーを表示
+            var centralStation = L.marker([31.5837, 130.5412]).addTo(map);
+            centralStation.bindPopup("鹿児島中央駅");
+
+            // サーバーから渡されたスポット情報（Thymeleafを利用して埋め込む）
+            var spots = /*[[${spots}]]*/ [];  // ThymeleafでスポットリストをJavaScriptに渡す
+
+            // ルーティングを管理するためのルート設定
+            var routeControl = L.Routing.control({
+                waypoints: [L.latLng(31.5837, 130.5412)] // 鹿児島中央駅から始める
+            }).addTo(map);
+
+            // スポット情報をループしてマーカーを追加、経路を更新
+            spots.forEach(function(spot) {
+                var latitude = spot.latitude;  // スポットの緯度
+                var longitude = spot.longitude;  // スポットの経度
+
+                // スポットのマーカーを地図に追加
+                var spotMarker = L.marker([latitude, longitude]).addTo(map);
+                spotMarker.bindPopup("<strong>" + spot.spotName + "</strong><br>" + spot.spotAddress);
+
+                // ルートにスポットを追加
+                routeControl.spliceWaypoints(routeControl.getWaypoints().length, 1, L.latLng(latitude, longitude));
+            });
+        </script>
+
+        <button type="button" onclick="history.back()">戻る</button>
+    </main>
 </body>
 </html>
