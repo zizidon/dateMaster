@@ -19,6 +19,9 @@ public class DateSpot {
     private String Saturday;
     private String Sunday;
 
+    // カテゴリ名（description から変換されたカテゴリ名）
+    private String categoryName;
+
     // ゲッターとセッター（プロパティアクセス用）
 
     public Long getSpotId() {
@@ -43,6 +46,8 @@ public class DateSpot {
 
     public void setDescription(String description) {
         this.description = description;
+        // description が設定されるたびにカテゴリ名を設定
+        this.categoryName = convertDescriptionToCategory(description);
     }
 
     public Long getSpotType() {
@@ -132,5 +137,40 @@ public class DateSpot {
 
     public void setSunday(String Sunday) {
         this.Sunday = Sunday;
-    } 
+    }
+
+    // categoryNameのゲッターとセッター
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    // description 番号をカテゴリ名に変換するメソッド
+    private String convertDescriptionToCategory(String description) {
+        if (description == null) return "未定義";
+        
+        switch (description) {
+            case "1":
+                return "カフェ";
+            case "2":
+                return "神社系";
+            case "3":
+                return "公園";
+            case "4":
+                return "歴史系";
+            case "5":
+                return "アクティブ系";
+            case "6":
+                return "インドア系";
+            case "7":
+                return "飲食店";
+            case "8":
+                return "動物園";
+            default:
+                return "未定義";
+        }
+    }
 }

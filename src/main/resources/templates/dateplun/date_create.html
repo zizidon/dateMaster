@@ -14,45 +14,57 @@
 
         <h2>選択されたスポット</h2>
 
-        <div th:if="${selectedSpots != null and !selectedSpots.isEmpty()}">
-            <ul>
-                <li th:each="spot : ${selectedSpots}">
-                    <div>
-                        <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
-                    </div>
-                    <div>
-                        <strong>カテゴリー:</strong> <span th:text="${spot.description}">説明</span>
-                    </div>
-                    <div>
-                        <strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span>
-                    </div>
-                    <div>
-                        <strong>営業時間:</strong>
-                        <div>
-                            <strong>月曜日:</strong> <span th:text="${spot.Monday}">月曜日</span>
-                        </div>
-                        <div>
-                            <strong>火曜日:</strong> <span th:text="${spot.Tuesday}">火曜日</span>
-                        </div>
-                        <div>
-                            <strong>水曜日:</strong> <span th:text="${spot.Wednesday}">水曜日</span>
-                        </div>
-                        <div>
-                            <strong>木曜日:</strong> <span th:text="${spot.Thursday}">木曜日</span>
-                        </div>
-                        <div>
-                            <strong>金曜日:</strong> <span th:text="${spot.Friday}">金曜日</span>
-                        </div>
-                        <div>
-                            <strong>土曜日:</strong> <span th:text="${spot.Saturday}">土曜日</span>
-                        </div>
-                        <div>
-                            <strong>日曜日:</strong> <span th:text="${spot.Sunday}">日曜日</span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+		<div th:if="${selectedSpots != null and !selectedSpots.isEmpty()}">
+		    <ul>
+		        <li th:each="spot, iterStat : ${selectedSpots}">
+		            <div>
+		                <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
+		            </div>
+		            <div>
+		                <strong>カテゴリー:</strong> <span th:text="${spot.description}">スポットカテゴリー</span>
+		            </div>
+		            <div>
+		                <strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span>
+		            </div>
+		            <div>
+		                <strong>営業時間:</strong>
+		                <div>
+		                    <strong>月曜日:</strong> <span th:text="${spot.Monday}">月曜日</span>
+		                </div>
+		                <div>
+		                    <strong>火曜日:</strong> <span th:text="${spot.Tuesday}">火曜日</span>
+		                </div>
+		                <div>
+		                    <strong>水曜日:</strong> <span th:text="${spot.Wednesday}">水曜日</span>
+		                </div>
+		                <div>
+		                    <strong>木曜日:</strong> <span th:text="${spot.Thursday}">木曜日</span>
+		                </div>
+		                <div>
+		                    <strong>金曜日:</strong> <span th:text="${spot.Friday}">金曜日</span>
+		                </div>
+		                <div>
+		                    <strong>土曜日:</strong> <span th:text="${spot.Saturday}">土曜日</span>
+		                </div>
+		                <div>
+		                    <strong>日曜日:</strong> <span th:text="${spot.Sunday}">日曜日</span>
+		                </div>
+		            </div>
+
+		            <!-- 削除ボタン -->
+		            <form action="/removeSpotFromPlan" method="post">
+		                <input type="hidden" name="spotName" th:value="${spot.spotName}" />
+		                <button type="submit">削除</button>
+		            </form>
+
+		            <!-- スポットの間に下矢印を表示 -->
+		            <div th:if="${iterStat.index < selectedSpots.size() - 1}">
+		                ▼
+		            </div>
+		        </li>
+		    </ul>
+		</div>
+
 
         <div th:if="${selectedSpots == null or selectedSpots.isEmpty()}">
             <p>スポットが追加されていません。</p>
