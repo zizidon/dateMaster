@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.DateMission_high;
 import com.example.demo.entity.DateMission_mid;
@@ -56,8 +57,54 @@ public class DateMissionController {
     }
     
    
- 
+    
+    @PostMapping("/missionAchieve")
+    public String missionAchieve() {
+        // セッションから達成カウントを取得
+        Integer missionCount = (Integer) session.getAttribute("missionCount");
+        if (missionCount == null) {
+            missionCount = 0;
+        }
+        missionCount++; // カウントをインクリメント
+        session.setAttribute("missionCount", missionCount); // セッションに保存
+        return "redirect:/start"; // 現在のページにリダイレクト
+    }
+    
+    @GetMapping("/missionEvaluation")
+    public String missionEvaluation(Model model) {
+        // セッションから達成カウントを取得
+        Integer missionCount = (Integer) session.getAttribute("missionCount");
+        if (missionCount == null) {
+            missionCount = 0;
+        }
 
+        // 評価を決定
+        String evaluation;
+        switch (missionCount) {
+            case 1:
+                evaluation = "恋愛ビギナー";
+                break;
+            case 2:
+                evaluation = "恋愛エキスパート";
+                break;
+            case 3:
+                evaluation = "恋愛マスター";
+                break;
+            default:
+                evaluation = "未評価";
+                break;
+        }
+
+        // モデルに評価を追加
+        model.addAttribute("evaluation", evaluation);
+
+        // セッションをリセット（再度デートを始めたときにリセットされるように）
+        session.removeAttribute("missionCount");
+
+        return "date_mission/mission_evaluation"; // mission_evaluation.htmlに遷移
+    }
+    
+  
     // 初級ボタンを押下
     @GetMapping("/rank_row")
     public String showRankRow(Model model) {
@@ -99,7 +146,6 @@ public class DateMissionController {
         List<DateMission_row> allMissions = (List<DateMission_row>) dateMission_row_Repository.findAll();
         List<DateMission_row> randomMissions = getRandomMissions(allMissions, 3);
         
-        
         session.setAttribute("currentMissions", randomMissions); // セッションを更新
 		model.addAttribute("missions", randomMissions);
 		return "date_mission/rank_row"; // ミッション更新後、rank_row.htmlに遷移
@@ -108,7 +154,6 @@ public class DateMissionController {
     }
     
 
-    
  // 中級ミッションを更新
     @GetMapping("/updateMissions2")
     public String updateMissions2(Model model) {
@@ -147,10 +192,7 @@ public class DateMissionController {
         return "date_mission/row_start"; // mission_start.htmlに遷移
     }
     
-   
-
-
-    
+ 
     // 中級スタートボタン押下時にミッションを表示
        @GetMapping("/start2")
        public String missionStart2( Model model) {
