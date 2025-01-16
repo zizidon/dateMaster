@@ -17,11 +17,11 @@ public class Homecontroller {
     @Autowired
     HttpSession session;
 
-    // デート機能一覧画面へ遷移（セッションリセットを追加）
+    // デート機能一覧画面へ遷移（特定のセッション属性だけ削除）
     @GetMapping("/date")
     public String showDatePage() {
-        // セッションリセット
-        session.invalidate();  // セッションの無効化
+        // 特定のセッション属性を削除（例: "selectedSpots"）
+        session.removeAttribute("selectedSpots");
 
         // date.htmlを返す
         return "date/date";
