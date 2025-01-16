@@ -2,7 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>デートプラン作成確認画面</title>
+    <title>デートプラン作成完了</title>
 </head>
 <body>
     <header>
@@ -10,9 +10,9 @@
     </header>
 
     <main>
-        <h2>デートプランの詳細</h2>
+        <h2>作成されたデートプランの詳細</h2>
 
-        <!-- 選択されたスポットのリスト -->
+        <!-- 選択されたスポットが存在する場合 -->
         <div th:if="${spots != null and !spots.isEmpty()}">
             <ul>
                 <li th:each="spot : ${spots}">
@@ -54,14 +54,12 @@
         </div>
 
         <div th:if="${spots == null or spots.isEmpty()}">
-            <p>スポットが選択されていません。</p>
+            <p>スポットが追加されていません。</p>
         </div>
 
-        <!-- 確認画面でのアクションボタン -->
-        <div class="buttons">
+        <div>
             <form action="/createDatePlan" method="post">
-                <button type="button" onclick="history.back()">戻る</button>
-                <button type="submit" class="create-button">プランを作成する</button>
+                <button type="submit">デートプラン作成</button>
             </form>
         </div>
     </main>

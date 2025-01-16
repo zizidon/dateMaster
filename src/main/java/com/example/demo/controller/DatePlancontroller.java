@@ -132,11 +132,13 @@ public class DatePlancontroller {
 
         List<DateSpot> selectedSpots = new ArrayList<>();
 
+        // 入力されたスポット情報を配列に変換
         String[] spotNameArray = spotNames.split(",");
         String[] spotDescriptionArray = spotDescriptions.split(",");
         String[] spotAddressArray = spotAddresses.split(",");
         String[] spotOpeningArray = spotOpenings.split(",");
 
+        // DateSpotオブジェクトを作成し、リストに追加
         for (int i = 0; i < spotNameArray.length; i++) {
             DateSpot spot = new DateSpot();
             spot.setSpotName(spotNameArray[i]);
@@ -150,10 +152,13 @@ public class DatePlancontroller {
             selectedSpots.add(spot);
         }
 
+        // モデルにスポットリストを追加
         model.addAttribute("spots", selectedSpots);
 
+        // プラン確認画面に遷移
         return "dateplun/date_create_check"; // 確認画面
     }
+
 
     // description 番号をカテゴリ名に変換するメソッド
     private String convertDescriptionToCategory(String description) {
