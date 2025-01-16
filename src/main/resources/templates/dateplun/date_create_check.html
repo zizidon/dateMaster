@@ -2,7 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>デートプラン作成完了</title>
+    <title>デートプラン作成確認画面</title>
 </head>
 <body>
     <header>
@@ -10,12 +10,11 @@
     </header>
 
     <main>
-        <h2>作成されたデートプランの詳細</h2>
+        <h2>以下のスポットでよろしいですか？</h2>
 
-        <!-- 選択されたスポットが存在する場合 -->
         <div th:if="${spots != null and !spots.isEmpty()}">
             <ul>
-                <li th:each="spot : ${spots}">
+                <li th:each="spot, iterStat : ${spots}">
                     <div>
                         <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
                     </div>
@@ -28,40 +27,38 @@
                     <div>
                         <strong>営業時間:</strong>
                         <div>
-                            <strong>月曜日:</strong> <span th:text="${spot.Monday}">月曜日</span>
+                            <strong>月曜日:</strong> <span th:text="${spot.monday}">月曜日</span>
                         </div>
                         <div>
-                            <strong>火曜日:</strong> <span th:text="${spot.Tuesday}">火曜日</span>
+                            <strong>火曜日:</strong> <span th:text="${spot.tuesday}">火曜日</span>
                         </div>
                         <div>
-                            <strong>水曜日:</strong> <span th:text="${spot.Wednesday}">水曜日</span>
+                            <strong>水曜日:</strong> <span th:text="${spot.wednesday}">水曜日</span>
                         </div>
                         <div>
-                            <strong>木曜日:</strong> <span th:text="${spot.Thursday}">木曜日</span>
+                            <strong>木曜日:</strong> <span th:text="${spot.thursday}">木曜日</span>
                         </div>
                         <div>
-                            <strong>金曜日:</strong> <span th:text="${spot.Friday}">金曜日</span>
+                            <strong>金曜日:</strong> <span th:text="${spot.friday}">金曜日</span>
                         </div>
                         <div>
-                            <strong>土曜日:</strong> <span th:text="${spot.Saturday}">土曜日</span>
+                            <strong>土曜日:</strong> <span th:text="${spot.saturday}">土曜日</span>
                         </div>
                         <div>
-                            <strong>日曜日:</strong> <span th:text="${spot.Sunday}">日曜日</span>
+                            <strong>日曜日:</strong> <span th:text="${spot.sunday}">日曜日</span>
                         </div>
                     </div>
+
+                    <!-- スポット間に矢印 (➡) を追加 -->
+                    <span th:if="${!iterStat.last}"> ▼ </span>
                 </li>
             </ul>
         </div>
 
-        <div th:if="${spots == null or spots.isEmpty()}">
-            <p>スポットが追加されていません。</p>
-        </div>
-
-        <div>
-            <form action="/createDatePlan" method="post">
-                <button type="submit">デートプラン作成</button>
-            </form>
-        </div>
+        <button type="button" onclick="history.back()">戻る</button>
+        <form action="/createDatePlan" method="post">
+            <button type="submit">プランを確定する</button>
+        </form>
     </main>
 </body>
 </html>

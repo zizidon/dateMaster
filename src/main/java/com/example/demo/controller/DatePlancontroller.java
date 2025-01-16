@@ -124,41 +124,22 @@ public class DatePlancontroller {
 
     // デートプラン確認
     @PostMapping("/createDatePlan")
-    public String createDatePlan(@RequestParam("spotNames") String spotNames,
-                                 @RequestParam("spotDescriptions") String spotDescriptions,
-                                 @RequestParam("spotAddresses") String spotAddresses,
-                                 @RequestParam("spotOpenings") String spotOpenings,
-                                 Model model) {
+    public String createDatePlan(Model model) {
+        // セッションから選ばれたスポットリストを取得
+        List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
 
-        List<DateSpot> selectedSpots = new ArrayList<>();
-
-        // 入力されたスポット情報を配列に変換
-        String[] spotNameArray = spotNames.split(",");
-        String[] spotDescriptionArray = spotDescriptions.split(",");
-        String[] spotAddressArray = spotAddresses.split(",");
-        String[] spotOpeningArray = spotOpenings.split(",");
-
-        // DateSpotオブジェクトを作成し、リストに追加
-        for (int i = 0; i < spotNameArray.length; i++) {
-            DateSpot spot = new DateSpot();
-            spot.setSpotName(spotNameArray[i]);
-            spot.setDescription(spotDescriptionArray[i]);
-            spot.setSpotAddress(spotAddressArray[i]);
-            spot.setMonday(spotOpeningArray[i]);
-
-            // カテゴリ名を設定
-            spot.setCategoryName(convertDescriptionToCategory(spotDescriptionArray[i]));
-
-            selectedSpots.add(spot);
+        // スポットが選ばれていない場合、エラーメッセージを設定してリダイレクト
+        if (selectedSpots == null || selectedSpots.isEmpty()) {
+            model.addAttribute("message", "スポットが選ばれていません。");
+            return "redirect:/dateCreate";  // プラン作成画面にリダイレクト
         }
 
-        // モデルにスポットリストを追加
+        // モデルに選ばれたスポットリストをそのまま渡す
         model.addAttribute("spots", selectedSpots);
 
-        // プラン確認画面に遷移
+        // 確認画面に遷移
         return "dateplun/date_create_check"; // 確認画面
     }
-
 
     // description 番号をカテゴリ名に変換するメソッド
     private String convertDescriptionToCategory(String description) {
