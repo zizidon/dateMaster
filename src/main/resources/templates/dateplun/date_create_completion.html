@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>デートプラン - 地図表示</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <style>
         #map { width: 100%; height: 500px; }
     </style>
@@ -18,44 +17,40 @@
         <div id="map"></div>
 
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-        <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-
         <script>
-            // 地図の初期位置を設定（鹿児島中央駅の座標）
-            var map = L.map('map').setView([31.5837, 130.5412], 13);  // 鹿児島中央駅の座標
+            
+			// 地図の初期位置を設定（鹿児島中央駅の座標）
+			var map = L.map('map').setView([31.5837, 130.5412], 13);  // 鹿児島中央駅の座標
 
-            // OpenStreetMapのタイルレイヤーを設定
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+			// OpenStreetMapのタイルレイヤーを設定
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(map);
 
-            // 鹿児島中央駅のマーカーを表示
-            var centralStation = L.marker([31.5837, 130.5412]).addTo(map);
-            centralStation.bindPopup("鹿児島中央駅");
+			// 鹿児島中央駅のマーカーを表示
+			var centralStation = L.marker([31.5837, 130.5412]).addTo(map);
+			centralStation.bindPopup("鹿児島中央駅");
 
-            // サーバーから渡されたスポット情報（Thymeleafを利用して埋め込む）
-            var spots = /*[[${spots}]]*/ [];  // ThymeleafでスポットリストをJavaScriptに渡す
+			// サーバーから渡されたスポット情報（Thymeleafを利用して埋め込む）
+			var spots = /*[[${spots}]]*/ [];  // ThymeleafでスポットリストをJavaScriptに渡す
 
-            // ルーティングを管理するためのルート設定
-            var routeControl = L.Routing.control({
-                waypoints: [L.latLng(31.5837, 130.5412)] // 鹿児島中央駅から始める
-            }).addTo(map);
+			// スポット情報をループしてマーカーを追加
+			spots.forEach(function(spot) {
+			    var latitude = spot.latitude;  // スポットの緯度
+			    var longitude = spot.longitude;  // スポットの経度
 
-            // スポット情報をループしてマーカーを追加、経路を更新
-            spots.forEach(function(spot) {
-                var latitude = spot.latitude;  // スポットの緯度
-                var longitude = spot.longitude;  // スポットの経度
+			    if (latitude && longitude) {
+			        // スポットのマーカーを地図に追加
+			        var spotMarker = L.marker([latitude, longitude]).addTo(map);
+			        spotMarker.bindPopup("<strong>" + spot.spotName + "</strong><br>" + spot.spotAddress);
+			    }
+			});
 
-                // スポットのマーカーを地図に追加
-                var spotMarker = L.marker([latitude, longitude]).addTo(map);
-                spotMarker.bindPopup("<strong>" + spot.spotName + "</strong><br>" + spot.spotAddress);
 
-                // ルートにスポットを追加
-                routeControl.spliceWaypoints(routeControl.getWaypoints().length, 1, L.latLng(latitude, longitude));
-            });
         </script>
-
+        
         <button type="button" onclick="history.back()">戻る</button>
+
     </main>
 </body>
 </html>

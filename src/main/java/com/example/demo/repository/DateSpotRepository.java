@@ -26,6 +26,15 @@ public class DateSpotRepository {
         return jdbcTemplate.query(sql, new Object[]{"%" + spotName + "%"}, new DateSpotRowMapper());
     }
 
+    // 名前で完全一致するデートスポットを検索するメソッド
+    public List<DateSpot> findBySpotName(String spotName) {
+        // 名前で完全一致するスポットを検索するSQLクエリ
+        String sql = "SELECT * FROM date_spots WHERE spot_name = ?";
+
+        // JdbcTemplateを使ってクエリを実行し、結果をDateSpotオブジェクトに変換して返す
+        return jdbcTemplate.query(sql, new Object[]{spotName}, new DateSpotRowMapper());
+    }
+
     // すべてのスポットを取得するメソッド
     public List<DateSpot> findAll() {
         // すべてのスポットを取得するSQLクエリ

@@ -197,12 +197,27 @@ public class DatePlancontroller {
             return "redirect:/dateCreate";  // プラン作成画面にリダイレクト
         }
 
+     // スポット情報に緯度と経度を追加
+        for (DateSpot spot : selectedSpots) {
+            // スポット名を使ってデータベースから緯度と経度を取得
+        	List<DateSpot> foundSpots = dateSpotRepository.findBySpotName(spot.getSpotName());
+
+            if (!foundSpots.isEmpty()) {
+                DateSpot foundSpot = foundSpots.get(0);  // 最初の一致するスポットを使用
+                spot.setLatitude(foundSpot.getLatitude());
+                spot.setLongitude(foundSpot.getLongitude());
+            }
+        }
+
+
         // モデルに選ばれたスポットリストをそのまま渡す
         model.addAttribute("spots", selectedSpots);
 
         // 地図画面に遷移（date_create_completion.html）
         return "dateplun/date_create_completion"; // 地図表示画面
     }
+
+
 
 
 
