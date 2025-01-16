@@ -9,77 +9,178 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.demo.entity.DateSpot;
 import com.example.demo.repository.DateSpotRepository;
 
 @Controller
+@SessionAttributes("selectedSpots")
 public class DatePlancontroller {
 
     @Autowired
     private DateSpotRepository dateSpotRepository;
 
-    // デートプラン作成ページを表示するメソッド
+    // デートプラン作成画面
     @GetMapping("/dateCreate")
     public String showDateCreatePage(Model model) {
+        // 初期状態として空のリストを設定
+        List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
+        if (selectedSpots == null) {
+            selectedSpots = new ArrayList<>();
+        }
+        model.addAttribute("selectedSpots", selectedSpots);
+
         return "dateplun/date_create";  // date_create.htmlに遷移
     }
 
+    // スポット検索画面
     @GetMapping("/searchSpots")
     public String searchSpots(@RequestParam(value = "query", required = false) String query, Model model) {
         List<DateSpot> spots = new ArrayList<>();
         boolean noResults = false;
 
         if (query != null && !query.isEmpty()) {
-            // クエリが「すべて」の場合、すべてのスポットを返す
             if ("すべて".equals(query)) {
-                spots = dateSpotRepository.findAll();  // すべてのスポットを取得
+                spots = dateSpotRepository.findAll();
             } else {
-                // 部分一致検索を実行
                 spots = dateSpotRepository.findBySpotNameContaining(query);
             }
 
-            // 検索結果が空の場合、エラーメッセージを表示するフラグを設定
             if (spots.isEmpty()) {
-                noResults = true;  // 検索結果がなければフラグを立てる
+                noResults = true;
             }
         }
 
-        // 検索結果をモデルに渡す
-        model.addAttribute("spots", spots);
-        model.addAttribute("noResults", noResults);  // エラーフラグを渡す
-        model.addAttribute("query", query);  // 現在の検索キーワードを保持
-
-        return "dateplun/date_add";  // date_add.htmlを表示
-    }
-
-
-
-    // デートプランを作成するメソッド
-    @PostMapping("/createDatePlan")
-    public String goToConfirmPage(@RequestParam("planName") String planName,  // フォームから送られたプラン名
-                                  @RequestParam("spotNames[]") List<String> spotNames,  // フォームから送られたスポット名
-                                  @RequestParam("spotDescriptions[]") List<String> spotDescriptions,  // スポットの説明
-                                  @RequestParam("spotAddresses[]") List<String> spotAddresses,  // スポットの住所
-                                  @RequestParam("spotOpenings[]") List<String> spotOpenings,  // 営業時間
-                                  Model model) {
-
-        // 入力されたスポット情報を元にDateSpotオブジェクトを作成し、リストに格納
-        List<DateSpot> selectedSpots = new ArrayList<>();
-        for (int i = 0; i < spotNames.size(); i++) {
-            DateSpot spot = new DateSpot();
-            spot.setSpotName(spotNames.get(i));
-            spot.setDescription(spotDescriptions.get(i));
-            spot.setSpotAddress(spotAddresses.get(i));
-            spot.setOpeningMonday(spotOpenings.get(i));
-
-            selectedSpots.add(spot);
+        // リダイレクト後に選択されたスポットリストを取得（セッションから）
+        List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
+        if (selectedSpots == null) {
+            selectedSpots = new ArrayList<>();
         }
 
-        // プラン名と選択されたスポット情報をモデルに追加
-        model.addAttribute("planName", planName);
+        // 各スポットにカテゴリ名を設定
+        for (DateSpot spot : spots) {
+            spot.setCategoryName(convertDescriptionToCategory(spot.getDescription()));
+        }
+
+        model.addAttribute("spots", spots);
+        model.addAttribute("selectedSpots", selectedSpots);  // スポットリストを渡す
+        model.addAttribute("noResults", noResults);
+        model.addAttribute("query", query);
+
+        return "dateplun/date_add";  // 検索結果画面
+    }
+
+    // スポットをデートプランに追加
+    @PostMapping("/addSpotToPlan")
+    public String addSpotToPlan(@RequestParam("spotName") String spotName,
+                                 @RequestParam("spotDescription") String spotDescription,
+                                 @RequestParam("spotAddress") String spotAddress,
+                                 @RequestParam("spotOpeningMonday") String spotOpeningMonday,
+                                 @RequestParam("spotOpeningTuesday") String spotOpeningTuesday,
+                                 @RequestParam("spotOpeningWednesday") String spotOpeningWednesday,
+                                 @RequestParam("spotOpeningThursday") String spotOpeningThursday,
+                                 @RequestParam("spotOpeningFriday") String spotOpeningFriday,
+                                 @RequestParam("spotOpeningSaturday") String spotOpeningSaturday,
+                                 @RequestParam("spotOpeningSunday") String spotOpeningSunday,
+                                 Model model) {
+        // 新しいスポットオブジェクトを作成して、フォームから送られたデータをセット
+        DateSpot selectedSpot = new DateSpot();
+        selectedSpot.setSpotName(spotName);
+        selectedSpot.setDescription(spotDescription);
+        selectedSpot.setSpotAddress(spotAddress);
+        selectedSpot.setMonday(spotOpeningMonday);
+        selectedSpot.setTuesday(spotOpeningTuesday);
+        selectedSpot.setWednesday(spotOpeningWednesday);
+        selectedSpot.setThursday(spotOpeningThursday);
+        selectedSpot.setFriday(spotOpeningFriday);
+        selectedSpot.setSaturday(spotOpeningSaturday);
+        selectedSpot.setSunday(spotOpeningSunday);
+
+        // カテゴリ名を設定
+        selectedSpot.setCategoryName(convertDescriptionToCategory(spotDescription));
+
+        // セッションから選ばれたスポットリストを取得
+        List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
+        if (selectedSpots == null) {
+            selectedSpots = new ArrayList<>();
+        }
+
+        // 重複チェック：スポット名がすでに選ばれていないか確認
+        boolean isDuplicate = selectedSpots.stream()
+                                           .anyMatch(spot -> spot.getSpotName().equals(selectedSpot.getSpotName()));
+        if (!isDuplicate) {
+            selectedSpots.add(selectedSpot); // スポットを追加
+        } else {
+            model.addAttribute("message", "このスポットはすでに追加されています。");
+        }
+
+        // セッションに選ばれたスポットを保存
+        model.addAttribute("selectedSpots", selectedSpots);
+
+        // デートプラン作成ページにリダイレクト
+        return "redirect:/dateCreate";
+    }
+
+    // デートプラン確認
+    @PostMapping("/createDatePlan")
+    public String createDatePlan(Model model) {
+        // セッションから選ばれたスポットリストを取得
+        List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
+
+        // スポットが選ばれていない場合、エラーメッセージを設定してリダイレクト
+        if (selectedSpots == null || selectedSpots.isEmpty()) {
+            model.addAttribute("message", "スポットが選ばれていません。");
+            return "redirect:/dateCreate";  // プラン作成画面にリダイレクト
+        }
+
+        // モデルに選ばれたスポットリストをそのまま渡す
         model.addAttribute("spots", selectedSpots);
 
-        return "date_confirm";  // date_confirm.htmlに遷移
+        // 確認画面に遷移
+        return "dateplun/date_create_check"; // 確認画面
+    }
+
+    // description 番号をカテゴリ名に変換するメソッド
+    private String convertDescriptionToCategory(String description) {
+        switch (description) {
+            case "1":
+                return "カフェ";
+            case "2":
+                return "神社系";
+            case "3":
+                return "公園";
+            case "4":
+                return "歴史系";
+            case "5":
+                return "アクティブ系";
+            case "6":
+                return "インドア系";
+            case "7":
+                return "飲食店";
+            case "8":
+                return "動物園";
+            default:
+                return "未定義";
+        }
+    }
+
+    // スポットをデートプランから削除
+    @PostMapping("/removeSpotFromPlan")
+    public String removeSpotFromPlan(@RequestParam("spotName") String spotName, Model model) {
+        // セッションから選ばれたスポットリストを取得
+        List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
+        if (selectedSpots == null) {
+            selectedSpots = new ArrayList<>();
+        }
+
+        // スポット名で削除対象のスポットを検索して削除
+        selectedSpots.removeIf(spot -> spot.getSpotName().equals(spotName));
+
+        // セッションに選ばれたスポットを保存
+        model.addAttribute("selectedSpots", selectedSpots);
+
+        // デートプラン作成ページにリダイレクト
+        return "redirect:/dateCreate";
     }
 }

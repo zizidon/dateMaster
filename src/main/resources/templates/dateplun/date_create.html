@@ -1,94 +1,86 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>デートプラン作成画面</title>
-  <script>
-    // スポットフォームを動的に作成
-    function addSpotForm() {
-      const spotFormContainer = document.getElementById("spotFormContainer");
-
-      const newSpotForm = document.createElement("div");
-      newSpotForm.classList.add("spot-form");
-
-      newSpotForm.innerHTML = `
-        <label for="spotName">スポット名:</label>
-        <input type="text" name="spotNames[]" required>
-
-        <label for="spotDescription">スポット詳細:</label>
-        <input type="text" name="spotDescriptions[]" required>
-
-        <label for="spotAddress">スポット住所:</label>
-        <input type="text" name="spotAddresses[]" required>
-
-        <label for="spotOpening">開館時間:</label>
-        <input type="text" name="spotOpenings[]" required>
-
-        <button type="button" onclick="removeSpotForm(this)">削除</button>
-        <br><br>
-      `;
-
-      spotFormContainer.appendChild(newSpotForm);
-    }
-
-    // フォーム削除
-    function removeSpotForm(button) {
-      const spotFormContainer = document.getElementById("spotFormContainer");
-      spotFormContainer.removeChild(button.parentElement);
-    }
-
-    // サーバーから受け取ったスポット情報をフォームに追加
-    function addSpotToForm(spotId, spotName, description, address, openingHours) {
-      const spotFormContainer = document.getElementById("spotFormContainer");
-
-      const newSpotForm = document.createElement("div");
-      newSpotForm.classList.add("spot-form");
-
-      newSpotForm.innerHTML = `
-        <label for="spotName">スポット名:</label>
-        <input type="text" name="spotNames[]" value="${spotName}" required>
-
-        <label for="spotDescription">スポット詳細:</label>
-        <input type="text" name="spotDescriptions[]" value="${description}" required>
-
-        <label for="spotAddress">スポット住所:</label>
-        <input type="text" name="spotAddresses[]" value="${address}" required>
-
-        <label for="spotOpening">開館時間:</label>
-        <input type="text" name="spotOpenings[]" value="${openingHours}" required>
-
-        <button type="button" onclick="removeSpotForm(this)">削除</button>
-        <br><br>
-      `;
-
-      spotFormContainer.appendChild(newSpotForm);
-    }
-  </script>
+    <meta charset="UTF-8">
+    <title>デートプラン作成画面</title>
 </head>
 <body>
-  <header>
-    <h1>デートプラン作成</h1>
-  </header>
+    <header>
+        <h1>デートプラン作成</h1>
+    </header>
 
-  <main>
-    <button type="button" onclick="history.back()">戻る</button>
+    <main>
+        <button type="button" onclick="history.back()">戻る</button>
 
-    <div id="spotFormContainer">
-      <!-- 動的に追加されたスポットフォーム -->
-    </div>
+        <h2>選択されたスポット</h2>
 
-    <!-- スポット検索ページへのリンク -->
-    <a href="#" onclick="window.location.href='/searchSpots';">
-      <button type="button">スポットを追加</button>
-    </a>
+        <div th:if="${selectedSpots != null and !selectedSpots.isEmpty()}">
+            <ul>
+                <li th:each="spot, iterStat : ${selectedSpots}">
+                    <div>
+                        <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
+                    </div>
+                    <div>
+                        <strong>カテゴリー:</strong> <span th:text="${spot.description}">スポットカテゴリー</span>
+                    </div>
+                    <div>
+                        <strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span>
+                    </div>
+                    <div>
+                        <strong>営業時間:</strong>
+                        <div>
+                            <strong>月曜日:</strong> <span th:text="${spot.Monday}">月曜日</span>
+                        </div>
+                        <div>
+                            <strong>火曜日:</strong> <span th:text="${spot.Tuesday}">火曜日</span>
+                        </div>
+                        <div>
+                            <strong>水曜日:</strong> <span th:text="${spot.Wednesday}">水曜日</span>
+                        </div>
+                        <div>
+                            <strong>木曜日:</strong> <span th:text="${spot.Thursday}">木曜日</span>
+                        </div>
+                        <div>
+                            <strong>金曜日:</strong> <span th:text="${spot.Friday}">金曜日</span>
+                        </div>
+                        <div>
+                            <strong>土曜日:</strong> <span th:text="${spot.Saturday}">土曜日</span>
+                        </div>
+                        <div>
+                            <strong>日曜日:</strong> <span th:text="${spot.Sunday}">日曜日</span>
+                        </div>
+                    </div>
 
-    <br><br>
+                    <!-- 削除ボタン -->
+                    <form action="/removeSpotFromPlan" method="post">
+                        <input type="hidden" name="spotName" th:value="${spot.spotName}" />
+                        <button type="submit">削除</button>
+                    </form>
 
-    <form action="/createDatePlan" method="post">
-      <div class="button-group">
-        <button type="submit">作成</button>
-      </div>
-    </form>
-  </main>
+                    <!-- スポットの間に下矢印を表示 -->
+                    <div th:if="${iterStat.index < selectedSpots.size() - 1}">
+                        ▼
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div th:if="${selectedSpots == null or selectedSpots.isEmpty()}">
+            <p>スポットが追加されていません。</p>
+        </div>
+
+		<form action="/createDatePlan" method="post">
+		    <input type="hidden" name="spotNames" th:value="${spotNames}" />
+		    <input type="hidden" name="spotDescriptions" th:value="${spotDescriptions}" />
+		    <input type="hidden" name="spotAddresses" th:value="${spotAddresses}" />
+		    <input type="hidden" name="spotOpenings" th:value="${spotOpenings}" />
+
+		    <button type="submit">デートプラン作成</button>
+		</form>
+
+        <div class="button-group">
+            <button type="button" onclick="location.href='/searchSpots'">スポット追加</button>
+        </div>
+    </main>
 </body>
 </html>

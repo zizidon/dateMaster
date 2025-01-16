@@ -1,140 +1,176 @@
 package com.example.demo.entity;
 
-// デートスポットを表すエンティティクラス
 public class DateSpot {
 
     private Long spotId;  // スポットID（データベースの主キー）
     private String spotName;  // デートスポット名
     private String description;  // デートスポットの説明（カテゴリなど）
+    private Long spotType; //スポットの種類（飲食店、公園など）
     private String spotAddress;  // スポットの住所
     private double latitude;  // 緯度
     private double longitude;  // 経度
     
     // 営業時間（曜日ごとの営業時間を追加）
-    private String opening_Monday; 
-    private String opening_Tuesday;
-    private String opening_Wednesday;
-    private String opening_Thursday;
-    private String opening_Friday;
-    private String opening_Saturday;
-    private String opening_Sunday;
+    private String Monday; 
+    private String Tuesday;
+    private String Wednesday;
+    private String Thursday;
+    private String Friday;
+    private String Saturday;
+    private String Sunday;
+
+    // カテゴリ名（description から変換されたカテゴリ名）
+    private String categoryName;
 
     // ゲッターとセッター（プロパティアクセス用）
 
-    // スポットIDの取得
     public Long getSpotId() {
         return spotId;
     }
 
-    // スポットIDの設定
     public void setSpotId(Long spotId) {
         this.spotId = spotId;
     }
 
-    // スポット名の取得
     public String getSpotName() {
         return spotName;
     }
 
-    // スポット名の設定
     public void setSpotName(String spotName) {
         this.spotName = spotName;
     }
 
-    // スポット説明の取得
     public String getDescription() {
         return description;
     }
 
-    // スポット説明の設定
     public void setDescription(String description) {
         this.description = description;
+        // description が設定されるたびにカテゴリ名を設定
+        this.categoryName = convertDescriptionToCategory(description);
     }
 
-    // スポット住所の取得
+    public Long getSpotType() {
+        return spotType;
+    }
+
+    public void setSpotType(Long spotType) {
+        this.spotType = spotType;
+    }
+
     public String getSpotAddress() {
         return spotAddress;
     }
 
-    // スポット住所の設定
     public void setSpotAddress(String spotAddress) {
         this.spotAddress = spotAddress;
     }
 
-    // 緯度の取得
     public double getLatitude() {
         return latitude;
     }
 
-    // 緯度の設定
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    // 経度の取得
     public double getLongitude() {
         return longitude;
     }
 
-    // 経度の設定
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
     // 各曜日の営業時間の取得と設定
-    public String getOpeningMonday() {
-        return opening_Monday;
+    public String getMonday() {
+        return Monday;
     }
 
-    public void setOpeningMonday(String openingMonday) {
-        this.opening_Monday = openingMonday;
+    public void setMonday(String Monday) {
+        this.Monday = Monday;
     }
 
-    public String getOpeningTuesday() {
-        return opening_Tuesday;
+    public String getTuesday() {
+        return Tuesday;
     }
 
-    public void setOpeningTuesday(String openingTuesday) {
-        this.opening_Tuesday = openingTuesday;
+    public void setTuesday(String Tuesday) {
+        this.Tuesday = Tuesday;
     }
 
-    public String getOpeningWednesday() {
-        return opening_Wednesday;
+    public String getWednesday() {
+        return Wednesday;
     }
 
-    public void setOpeningWednesday(String openingWednesday) {
-        this.opening_Wednesday = openingWednesday;
+    public void setWednesday(String Wednesday) {
+        this.Wednesday = Wednesday;
     }
 
-    public String getOpeningThursday() {
-        return opening_Thursday;
+    public String getThursday() {
+        return Thursday;
     }
 
-    public void setOpeningThursday(String openingThursday) {
-        this.opening_Thursday = openingThursday;
+    public void setThursday(String Thursday) {
+        this.Thursday = Thursday;
     }
 
-    public String getOpeningFriday() {
-        return opening_Friday;
+    public String getFriday() {
+        return Friday;
     }
 
-    public void setOpeningFriday(String openingFriday) {
-        this.opening_Friday = openingFriday;
+    public void setFriday(String Friday) {
+        this.Friday = Friday;
     }
 
-    public String getOpeningSaturday() {
-        return opening_Saturday;
+    public String getSaturday() {
+        return Saturday;
     }
 
-    public void setOpeningSaturday(String openingSaturday) {
-        this.opening_Saturday = openingSaturday;
+    public void setSaturday(String Saturday) {
+        this.Saturday = Saturday;
     }
 
-    public String getOpeningSunday() {
-        return opening_Sunday;
+    public String getSunday() {
+        return Sunday;
     }
 
-    public void setOpeningSunday(String openingSunday) {
-        this.opening_Sunday = openingSunday;
+    public void setSunday(String Sunday) {
+        this.Sunday = Sunday;
+    }
+
+    // categoryNameのゲッターとセッター
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    // description 番号をカテゴリ名に変換するメソッド
+    private String convertDescriptionToCategory(String description) {
+        if (description == null) return "未定義";
+        
+        switch (description) {
+            case "1":
+                return "カフェ";
+            case "2":
+                return "神社系";
+            case "3":
+                return "公園";
+            case "4":
+                return "歴史系";
+            case "5":
+                return "アクティブ系";
+            case "6":
+                return "インドア系";
+            case "7":
+                return "飲食店";
+            case "8":
+                return "動物園";
+            default:
+                return "未定義";
+        }
     }
 }

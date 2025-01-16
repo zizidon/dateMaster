@@ -43,21 +43,22 @@ public class DateSpotRepository {
             spot.setSpotId(rs.getLong("spot_id"));
             spot.setSpotName(rs.getString("spot_name"));
             spot.setDescription(rs.getString("category"));
+            spot.setSpotType(rs.getLong("spot_type"));
             spot.setSpotAddress(rs.getString("spot_address"));
-            
+
             // 営業時間を曜日ごとに設定
-            spot.setOpeningMonday(rs.getString("opening_Monday"));
-            spot.setOpeningTuesday(rs.getString("opening_Tuesday"));
-            spot.setOpeningWednesday(rs.getString("opening_Wednesday"));
-            spot.setOpeningThursday(rs.getString("opening_Thursday"));
-            spot.setOpeningFriday(rs.getString("opening_Friday"));
-            spot.setOpeningSaturday(rs.getString("opening_Saturday"));
-            spot.setOpeningSunday(rs.getString("opening_Sunday"));
+            spot.setMonday(rs.getString("Monday"));
+            spot.setTuesday(rs.getString("Tuesday"));
+            spot.setWednesday(rs.getString("Wednesday"));
+            spot.setThursday(rs.getString("Thursday"));
+            spot.setFriday(rs.getString("Friday"));
+            spot.setSaturday(rs.getString("Saturday"));
+            spot.setSunday(rs.getString("Sunday"));
 
             // 緯度・経度の取得
             spot.setLatitude(rs.getDouble("latitude"));
             spot.setLongitude(rs.getDouble("longitude"));
-            
+
             return spot;
         }
     }
