@@ -172,5 +172,5 @@ public class DateSpot {
             default:
                 return "未定義";
         }
-    }
+    } 
 }

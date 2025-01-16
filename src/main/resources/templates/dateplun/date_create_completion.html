@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>デートプラン - 地図表示</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <style>
         #map { width: 100%; height: 500px; }
     </style>
@@ -17,40 +18,61 @@
         <div id="map"></div>
 
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
         <script>
-            
-			// 地図の初期位置を設定（鹿児島中央駅の座標）
-			var map = L.map('map').setView([31.5837, 130.5412], 13);  // 鹿児島中央駅の座標
+            // 地図の初期位置（例：鹿児島中央駅）
+            var stationLatLng = L.latLng(31.5837, 130.5412);  // 鹿児島中央駅
 
-			// OpenStreetMapのタイルレイヤーを設定
-			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-			}).addTo(map);
+            // 地図を初期化
+            var map = L.map('map').setView(stationLatLng, 13);  // 初期表示位置は鹿児島中央駅
 
-			// 鹿児島中央駅のマーカーを表示
-			var centralStation = L.marker([31.5837, 130.5412]).addTo(map);
-			centralStation.bindPopup("鹿児島中央駅");
+            // OpenStreetMapのタイルレイヤーを設定
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
 
-			// サーバーから渡されたスポット情報（Thymeleafを利用して埋め込む）
-			var spots = /*[[${spots}]]*/ [];  // ThymeleafでスポットリストをJavaScriptに渡す
+            // 鹿児島中央駅にマーカーを追加
+            var stationMarker = L.marker(stationLatLng).addTo(map);
+            stationMarker.bindPopup("<strong>鹿児島中央駅</strong><br>鹿児島市");
 
-			// スポット情報をループしてマーカーを追加
-			spots.forEach(function(spot) {
-			    var latitude = spot.latitude;  // スポットの緯度
-			    var longitude = spot.longitude;  // スポットの経度
+            // Leaflet Routing Machineを初期化し、出発点を設定
+            var routeControl = L.Routing.control({
+                waypoints: [stationLatLng],  // 経路の出発地点（鹿児島中央駅）
+                routeWhileDragging: true  // 経路をドラッグで修正できるように
+            }).addTo(map);
 
-			    if (latitude && longitude) {
-			        // スポットのマーカーを地図に追加
-			        var spotMarker = L.marker([latitude, longitude]).addTo(map);
-			        spotMarker.bindPopup("<strong>" + spot.spotName + "</strong><br>" + spot.spotAddress);
-			    }
-			});
+            // Thymeleafでスポットデータを取得してループ
+            /*[[${spots}]]*/  // spotsのリストをJavaからJavaScriptに渡す
+            var spots = /*[[${spots}]]*/ // サーバーサイドから渡されたスポット情報を取得
 
+            // スポット情報をループしてマーカーを追加し、経路を設定
+            spots.forEach(function(spot) {
+                // スポットの緯度と経度を取得
+                var spotLatLng = L.latLng(spot.latitude, spot.longitude);
+                
+                // スポットにマーカーを追加
+                var spotMarker = L.marker(spotLatLng).addTo(map);
 
+                // スポット情報のポップアップを設定
+                spotMarker.bindPopup(
+                    "<strong>" + spot.spotName + "</strong><br>" +
+                    "<em>" + spot.categoryName + "</em><br>" +
+                    spot.spotAddress + "<br>" +
+                    "<strong>営業時間:</strong><br>" +
+                    "月: " + spot.monday + "<br>" +
+                    "火: " + spot.tuesday + "<br>" +
+                    "水: " + spot.wednesday + "<br>" +
+                    "木: " + spot.thursday + "<br>" +
+                    "金: " + spot.friday + "<br>" +
+                    "土: " + spot.saturday + "<br>" +
+                    "日: " + spot.sunday
+                );
+
+                // 鹿児島中央駅からスポットへの経路を追加
+                routeControl.spliceWaypoints(routeControl.getWaypoints().length, 0, spotLatLng);
+            });
         </script>
-        
-        <button type="button" onclick="history.back()">戻る</button>
-
     </main>
 </body>
 </html>
