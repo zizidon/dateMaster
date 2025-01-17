@@ -17,7 +17,8 @@
         <div id="map"></div>
 
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-        <script>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
             // 地図の初期設定 (鹿児島中央駅の座標)
             const map = L.map('map').setView([31.5837, 130.5412], 13); // 鹿児島中央駅の座標
 
@@ -37,7 +38,7 @@
             var spotDescriptions = /*[[${spotDescriptions}]]*/ [];
             var spotAddresses = /*[[${spotAddresses}]]*/ [];
 
-            // コンソールで値を確認してみる（デバッグ用）
+            // コンソールでスポット情報が渡されているか確認
             console.log('スポット名:', spotNames);
             console.log('緯度:', spotLatitudes);
             console.log('経度:', spotLongitudes);
@@ -46,14 +47,16 @@
             for (var i = 0; i < spotNames.length; i++) {
                 var lat = spotLatitudes[i];
                 var lon = spotLongitudes[i];
+                var name = spotNames[i];
                 var description = spotDescriptions[i];
                 var address = spotAddresses[i];
-                var name = spotNames[i];
 
-                // マーカーを追加
-                var marker = L.marker([lat, lon]).addTo(map);
-                marker.bindPopup("<b>" + name + "</b><br>" + address + "<br>" + description);
+                if (lat && lon) {  // 緯度・経度が正しく存在する場合にマーカーを追加
+                    var marker = L.marker([lat, lon]).addTo(map);
+                    marker.bindPopup("<b>" + name + "</b><br>" + address + "<br>" + description);
+                }
             }
+            /*]]>*/
         </script>
     </main>
 </body>

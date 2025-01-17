@@ -196,8 +196,8 @@ public class DatePlancontroller {
 
         for (DateSpot spot : selectedSpots) {
             spotNames.add(spot.getSpotName());        // スポット名
-            spotLatitudes.add(spot.getLatitude()); // 緯度
-            spotLongitudes.add(spot.getLongitude()); // 経度
+            spotLatitudes.add(spot.getLatitude());    // 緯度
+            spotLongitudes.add(spot.getLongitude());  // 経度
             spotDescriptions.add(spot.getDescription()); // 説明
             spotAddresses.add(spot.getSpotAddress()); // 住所
         }
@@ -212,6 +212,7 @@ public class DatePlancontroller {
         // 地図画面に遷移（date_create_completion.html）
         return "dateplun/date_create_completion"; // 地図表示画面
     }
+
 
 
     // description 番号をカテゴリ名に変換するメソッド
