@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-    <meta charset="UTF-8">
-    <title>MBTI 結果</title>
+	<meta charset="UTF-8">
+	<title>MBTI 結果</title>
 </head>
+
 <body>
-    <h1>あなたのMBTIタイプ</h1>
-    <p th:text="'結果: ' + ${resultType}"></p>
-	<form name="form1" th:action="@{/dateMaster/diagnosis}" method="get">
+	<h1>あなたのMBTIタイプ</h1>
+	<p th:text="'結果: ' + ${resultType}"></p>
+	<form name="form1" th:action="@{/dateMaster/diagonosis}" method="get">
 		<button type="submit">戻る</button>
 	</form>
 </body>
+
 </html>
