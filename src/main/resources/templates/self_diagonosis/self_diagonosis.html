@@ -11,101 +11,27 @@
 <body>
 	<header>
 		<h1>自己診断</h1>
-		<div class="hamburger-menu">
-			<ul>
-				<li><a href="date.html">デート</a></li>
-				<li><a href="diagnosis.html">診断</a></li>
-				<li><a href="partner.html">パートナー</a></li>
-				<li><a href="setting.html">設定</a></li>
-				<li><a href="logout.html">ログアウト</a></li>
-			</ul>
-		</div>
 	</header>
-	<main>
 
+	<main>
 		<!-- 戻るボタン -->
 		<form th:action="@{/dateMaster/diagonosis}" method="get">
 			<button type="submit">戻る</button>
 		</form>
 
-		<h2>以下の質問に答えてください。</h2>
+		<br>
 
-		<form th:action="@{/dateMaster/}" method="post">
-			<div>
-				<p>1. あなたはポジティブですか？ネガティブですか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>2. 新しいことに挑戦するのは好きですか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>3. 他人と違う考え方を受け入れるのは簡単ですか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>4. 常に新しい知識を求めて探求しますか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>5. 自分の目標に対して熱意を持って取り組みますか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>6. 急な変化や予期しない出来事に柔軟に対応できますか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>7. チームでの新しいアイデアに積極的に参加しますか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>8. 物事を慎重に進めるのが得意ですか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>9. 他人の気持ちを考えて行動することを大切にしますか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>10. 他人と同じ考え方に従う方が楽だと感じることがありますか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>11. 落ち着いて物事を解決することができますか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>12. 自分の独自のアイデアを持つことが多いですか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>13. 他人と比較して自分にしかできないことを感じることがありますか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
-			<div>
-				<p>14. 物事を長期的に計画して進めることが得意ですか？</p>
-				<button type="button">はい</button>
-				<button type="button">いいえ</button>
-			</div>
+		<!-- 質問 -->
+		<h2>自己診断画面へようこそ🔮</h2>
+		<h3>まず下の質問に答えてください🔯</h3>
+		<h3>あなたはポジティブですか？ネガティブですか？</h3>
+		
 
-			<br>
-			<button type="submit">結果を見る</button>
+		<!-- 選択ボタン -->
+		<form th:action="@{/dateMaster/self_diagonosis_step2}" method="post">
+			<button type="submit" name="choice" value="positive">ポジティブ</button>
+			<button type="submit" name="choice" value="negative">ネガティブ</button>
 		</form>
-
 	</main>
 </body>
 
