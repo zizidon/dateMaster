@@ -19,32 +19,32 @@ public class DateSpotRepository {
 
     // 名前に部分一致するデートスポットを検索するメソッド
     public List<DateSpot> findBySpotNameContaining(String spotName) {
-        // 名前に部分一致するスポットを検索するSQLクエリ
         String sql = "SELECT * FROM date_spots WHERE spot_name LIKE ?";
-
-        // JdbcTemplateを使ってクエリを実行し、結果をDateSpotオブジェクトに変換して返す
         return jdbcTemplate.query(sql, new Object[]{"%" + spotName + "%"}, new DateSpotRowMapper());
     }
 
     // 名前で完全一致するデートスポットを検索するメソッド
     public List<DateSpot> findBySpotName(String spotName) {
-        // 名前で完全一致するスポットを検索するSQLクエリ
         String sql = "SELECT * FROM date_spots WHERE spot_name = ?";
-
-        // JdbcTemplateを使ってクエリを実行し、結果をDateSpotオブジェクトに変換して返す
         return jdbcTemplate.query(sql, new Object[]{spotName}, new DateSpotRowMapper());
     }
 
     // すべてのスポットを取得するメソッド
     public List<DateSpot> findAll() {
-        // すべてのスポットを取得するSQLクエリ
         String sql = "SELECT * FROM date_spots";
-
-        // JdbcTemplateを使ってクエリを実行し、結果をDateSpotオブジェクトに変換して返す
         return jdbcTemplate.query(sql, new DateSpotRowMapper());
     }
 
-    // ResultSetの行をDateSpotオブジェクトに変換するためのRowMapper
+    // 複数のスポット名を使って一度にスポット情報を取得するメソッド
+    public List<DateSpot> findBySpotNames(List<String> spotNames) {
+        // IN句のプレースホルダを動的に作成
+        String sql = "SELECT * FROM date_spots WHERE spot_name IN (" +
+                     String.join(",", spotNames.stream().map(s -> "?").toArray(String[]::new)) + ")";
+        
+        // クエリの引数としてスポット名リストを渡す
+        return jdbcTemplate.query(sql, spotNames.toArray(), new DateSpotRowMapper());
+    }
+
     private static class DateSpotRowMapper implements RowMapper<DateSpot> {
         @Override
         public DateSpot mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -54,8 +54,6 @@ public class DateSpotRepository {
             spot.setDescription(rs.getString("category"));
             spot.setSpotType(rs.getLong("spot_type"));
             spot.setSpotAddress(rs.getString("spot_address"));
-
-            // 営業時間を曜日ごとに設定
             spot.setMonday(rs.getString("Monday"));
             spot.setTuesday(rs.getString("Tuesday"));
             spot.setWednesday(rs.getString("Wednesday"));
@@ -63,11 +61,8 @@ public class DateSpotRepository {
             spot.setFriday(rs.getString("Friday"));
             spot.setSaturday(rs.getString("Saturday"));
             spot.setSunday(rs.getString("Sunday"));
-
-            // 緯度・経度の取得
             spot.setLatitude(rs.getDouble("latitude"));
             spot.setLongitude(rs.getDouble("longitude"));
-
             return spot;
         }
     }
