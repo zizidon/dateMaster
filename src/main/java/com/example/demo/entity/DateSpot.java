@@ -1,17 +1,18 @@
 package com.example.demo.entity;
 
+
 public class DateSpot {
 
     private Long spotId;  // スポットID（データベースの主キー）
     private String spotName;  // デートスポット名
-    private String description;  // デートスポットの説明（カテゴリなど）
-    private Long spotType; //スポットの種類（飲食店、公園など）
+    private String description;  // デートスポットの説明（カテゴリ番号）
+    private Long spotType; // スポットの種類（飲食店、公園など）
     private String spotAddress;  // スポットの住所
     private double latitude;  // 緯度
     private double longitude;  // 経度
-    
+
     // 営業時間（曜日ごとの営業時間を追加）
-    private String Monday; 
+    private String Monday;
     private String Tuesday;
     private String Wednesday;
     private String Thursday;
@@ -151,7 +152,7 @@ public class DateSpot {
     // description 番号をカテゴリ名に変換するメソッド
     private String convertDescriptionToCategory(String description) {
         if (description == null) return "未定義";
-        
+
         switch (description) {
             case "1":
                 return "カフェ";
@@ -172,5 +173,5 @@ public class DateSpot {
             default:
                 return "未定義";
         }
-    } 
+    }
 }

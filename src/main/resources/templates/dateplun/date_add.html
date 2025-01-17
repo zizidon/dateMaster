@@ -33,7 +33,8 @@
                     <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
                 </div>
                 <div>
-                    <strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">スポットのカテゴリー</span>
+					<strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">スポットのカテゴリー</span>
+
                 </div>
                 <div>
                     <strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span>
@@ -63,12 +64,13 @@
                     <input type="hidden" name="spotOpeningFriday" th:value="${spot.Friday}" />
                     <input type="hidden" name="spotOpeningSaturday" th:value="${spot.Saturday}" />
                     <input type="hidden" name="spotOpeningSunday" th:value="${spot.Sunday}" />
+                    <!-- 緯度・経度も追加 -->
+                    <input type="hidden" name="spotLatitude" th:value="${spot.latitude}" />
+                    <input type="hidden" name="spotLongitude" th:value="${spot.longitude}" />
                     <button type="submit">デートプランに追加</button>
                 </form>
             </div>
         </div>
-
-        
     </main>
 
     <script>
@@ -77,6 +79,5 @@
             window.location.href = '/searchSpots?query=' + encodeURIComponent(query);
         }
     </script>
-
 </body>
 </html>

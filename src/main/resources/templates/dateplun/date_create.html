@@ -21,7 +21,8 @@
                         <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
                     </div>
                     <div>
-                        <strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">スポットのカテゴリー</span>
+						<strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">スポットのカテゴリー</span>
+
                     </div>
                     <div>
                         <strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span>
@@ -69,14 +70,18 @@
             <p>スポットが追加されていません。</p>
         </div>
 
-		<form action="/createDatePlan" method="post">
-		    <input type="hidden" name="spotNames" th:value="${spotNames}" />
-		    <input type="hidden" name="spotDescriptions" th:value="${spotDescriptions}" />
-		    <input type="hidden" name="spotAddresses" th:value="${spotAddresses}" />
-		    <input type="hidden" name="spotOpenings" th:value="${spotOpenings}" />
+        <form action="/createDatePlan" method="post">
+            <input type="hidden" name="spotNames" th:value="${spotNames}" />
+            <input type="hidden" name="spotDescriptions" th:value="${spotDescriptions}" />
+            <input type="hidden" name="spotAddresses" th:value="${spotAddresses}" />
+            <input type="hidden" name="spotOpenings" th:value="${spotOpenings}" />
+            
+            <!-- 緯度経度の情報も追加 -->
+            <input type="hidden" name="spotLatitudes" th:value="${spotLatitudes}" />
+            <input type="hidden" name="spotLongitudes" th:value="${spotLongitudes}" />
 
-		    <button type="submit">デートプラン作成</button>
-		</form>
+            <button type="submit">デートプラン作成</button>
+        </form>
 
         <div class="button-group">
             <button type="button" onclick="location.href='/searchSpots'">スポット追加</button>
