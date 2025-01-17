@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ＭＢＴＩ 質問</title>
+</head>
+<body>
+	<h1>ＭＢＴＩ 質問</h1>
+	<form action="/dateMaster/answers" method="post">
+		<div>
+			<ul>
+				<li th:each="question : ${questions}">
+					<p th:text="${question.question_text}"></p>
+					<input type="radio" th:name="'answer_' + ${question.id}" value="yes" required>はい
+					<input type="radio" th:name="'answer_' + ${question.id}" value="no">いいえ
+				</li>
+				<p th:if="${#lists.isEmpty(questions)}">質問がありません。</p>
+			</ul>
+		</div>
+		<button type="submit">回答を確認</button>
+	</form>
+	<form name="form1" th:action="@{/dateMaster/diagnosis}" method="get">
+		<button type="submit">戻る</button>
+	</form>
+</body>
+</html>

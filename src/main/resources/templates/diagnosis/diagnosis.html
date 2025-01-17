@@ -25,6 +25,9 @@
 	  <button type="button" onclick="history.back()">戻る</button>
 	</div>
     <div class="button-group">
+		<form name="form1" th:action="@{/dateMaster/questions}" method="get">
+		       <button type="submit">ＭＢＴＩ診断</button><br>
+		</form>
       <button type="button" onclick="location.href='self_diagnosis.html'">自己診断</button>
 	  <br>
       <button type="button" onclick="location.href='self_diagnosis_result.html'">自己診断結果</button>

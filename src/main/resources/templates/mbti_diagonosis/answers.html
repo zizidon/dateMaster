@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>回答確認</title>
+</head>
+<body>
+	<h1>回答確認</h1>
+	<form action="/dateMaster/result" method="post">
+		<div>
+			<ul>
+				<li th:each="question : ${questions}">
+					<p th:text="${question.question_text}"></p>
+					<p>診断を確定： <span th:text="${answers[#strings.concat('answer_', question.id)]}"></span></p>
+					<input type="hidden" th:name="${#strings.concat('answer_', question.id)}" th:value="${answers[#strings.concat('answer_', question.id)]}">
+				</li>
+			</ul>
+		</div>
+		<button type="submit">結果を見る</button>
+	</form>
+	<form name="form1" th:action="@{/dateMaster/questions}" method="get">
+		<button type="submit">戻る</button>
+	</form>
+</body>
+</html>
