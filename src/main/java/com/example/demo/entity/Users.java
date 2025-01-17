@@ -18,4 +18,5 @@ public class Users {
 	private Long partner; // パートナー名
 	private Long applicant; // 申請者名
 	private Long coaching_id; // コーチングの問題
+	private int diagnosis; // 自己診断結果
 }

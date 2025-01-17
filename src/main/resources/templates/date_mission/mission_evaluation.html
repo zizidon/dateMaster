@@ -1,35 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>デート評価画面</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デート評価画面</title>
 </head>
-
 <body>
-	<header>
-		<h1>デート評価</h1>
-	</header>
-	<main>
-
-		<!-- 戻るボタン -->
-		<div class="back-button">
-			<button type="button" onclick="history.back()">戻る</button>
-		</div>
-
-		<!-- デート評価 -->
-		<div class="date-evaluation">
-			<p>デート評価は・・</p>
-			<img th:src="${evaluationImage}" alt="評価画像">
-		</div>
-
-		<!-- 機能一覧に戻るボタン -->
-		<div class="button-group">
-			<button type="button" th:href="@{/date}">機能一覧に戻る</button>
-		</div>
-
-	</main>
+    <header>
+        <h1>デート評価</h1>
+    </header>
+    <main>
+        <div class="date-evaluation">
+            <p>あなたの評価は…</p>
+            <h2 th:text="${evaluation}"></h2>
+        </div>
+        <div class="button-group">
+            <a th:href="@{/date}">
+                <button type="button">機能一覧に戻る</button>
+            </a>
+        </div>
+    </main>
 </body>
-
 </html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>申請確認</title>
+</head>
+
+<body>
+	<h1>確認画面</h1>
+	<p>こちらのユーザーにパートナー申請をしてもよろしいですか？♥</p>
+	<p>名前: <span th:text="${partner.name}"></span></p>
+
+	<form th:action="@{/dateMaster/partner}" method="get">
+		<button type="submit">いいえ</button>
+	</form>
+
+	<form th:action="@{/dateMaster/partnerRequestConfirm}" method="post">
+		<input type="hidden" name="partnerId" th:value="${partner.id}">
+		<button type="submit">はい</button>
+	</form>
+</body>
+
+</html>

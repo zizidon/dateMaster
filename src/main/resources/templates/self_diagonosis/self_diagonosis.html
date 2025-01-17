@@ -1,52 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>自己診断</title>
+	<link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-	<!-- ヘッダー -->
 	<header>
-	  <h1>自己診断</h1>
-	  <button class="back-button">戻る</button>
+		<h1>自己診断</h1>
 	</header>
 
-	<!-- 質問に答えてください -->
-	<div class="question-instruction">
-	  <p>以下の質問に答えてください</p>
-	</div>
+	<main>
+		<!-- 戻るボタン -->
+		<form th:action="@{/dateMaster/diagonosis}" method="get">
+			<button type="submit">戻る</button>
+		</form>
 
-	<!-- 質問 -->
-	<div class="question">
-	  <div class="question-box">
-	    <span>質問</span>
-	  </div>
-	  <button class="yes-button">はい</button>
-	  <button class="no-button">いいえ</button>
-	</div>
+		<br>
 
-	<!-- 質問 -->
-	<div class="question">
-	  <div class="question-box">
-	    <span>質問</span>
-	  </div>
-	  <button class="yes-button">はい</button>
-	  <button class="no-button">いいえ</button>
-	</div>
+		<!-- 質問 -->
+		<h2>自己診断画面へようこそ🔮</h2>
+		<h3>まず下の質問に答えてください🔯</h3>
+		<h3>あなたはポジティブですか？ネガティブですか？</h3>
+		
 
-	<!-- 質問 -->
-	<div class="question">
-	  <div class="question-box">
-	    <span>質問</span>
-	  </div>
-	  <button class="yes-button">はい</button>
-	  <button class="no-button">いいえ</button>
-	</div>
-
-	<!-- ボタン -->
-	<div class="buttons">
-	  <button class="back-button">戻る</button>
-	  <button class="result-button">結果を見る</button>
-	</div>
+		<!-- 選択ボタン -->
+		<form th:action="@{/dateMaster/self_diagonosis_step2}" method="post">
+			<button type="submit" name="choice" value="positive">ポジティブ</button>
+			<button type="submit" name="choice" value="negative">ネガティブ</button>
+		</form>
+	</main>
 </body>
+
 </html>

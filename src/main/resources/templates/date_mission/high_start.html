@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ミッションスタート</title>
+	
+</head>
+
+<body>
+    <header>
+        <h1>ミッションスタート</h1>
+    </header>
+
+    <main>
+		
+		<h3>ミッションが開始されました♪</h3>
+        <!-- ミッション一覧 -->
+		<ul>
+		    <li th:each="mission : ${missions}">
+		        <span th:text="${mission.missionText}"></span>
+		        <!-- 達成するボタン -->
+		        <form th:action="@{/missionAchieve}" method="post" style="display: inline;">
+		            <button type="submit">達成する</button>
+		        </form>
+		    </li>
+		</ul>
+
+		<!-- デート終了ボタン -->
+		<div>
+		    <a th:href="@{/missionEvaluation}">
+		        <button type="button">デート終了</button>
+		    </a>
+		</div>
+
+    </main>
+</body>
+
+</html>

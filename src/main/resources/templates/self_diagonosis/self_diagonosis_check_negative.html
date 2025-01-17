@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>診断確認</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+	<header>
+		<h1>診断確認</h1>
+	</header>
+
+	<main>
+		<h2>回答内容を確認してください</h2>
+		<ul>
+			<li>質問1: <span th:text="${q1}"></span></li>
+			<li>質問2: <span th:text="${q2}"></span></li>
+			<li>質問3: <span th:text="${q3}"></span></li>
+			<li>質問4: <span th:text="${q4}"></span></li>
+			<li>質問5: <span th:text="${q5}"></span></li>
+		</ul>
+
+		<div class="button-group">
+			<!-- 回答選択に戻るボタン -->
+			<div class="back-button">
+				<button type="button" onclick="history.back()">戻る</button>
+			</div>
+
+			<!-- 結果を見るボタン -->
+			<form th:action="@{/dateMaster/self_diagonosis_result_negative}" method="post">
+				<!-- 診断結果タイプを隠しフィールドとして追加 -->
+				<input type="hidden" name="resultType" th:value="${resultType}" />
+				<button type="submit">結果を見る</button>
+			</form>
+		</div>
+	</main>
+</body>
+
+</html>

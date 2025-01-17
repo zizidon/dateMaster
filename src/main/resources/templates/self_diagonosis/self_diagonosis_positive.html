@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ポジティブ診断</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+	<header>
+		<h1>ポジティブ診断</h1>
+	</header>
+
+	<main>
+		<!-- 質問 -->
+		<h2>以下の質問に答えてください</h2>
+
+		<form th:action="@{/dateMaster/self_diagonosis_check_positive}" method="post">
+			<!-- 質問1 -->
+			<div>
+				<h3>1. 新しいアイデアや方法を試すのが好きですか？</h3>
+				<input type="radio" name="q1" value="はい" required> はい
+				<input type="radio" name="q1" value="いいえ"> いいえ
+			</div>
+			<br>
+
+			<!-- 質問2 -->
+			<div>
+				<h3>2. 困難な状況でも挑戦し続けることを楽しめますか？</h3>
+				<input type="radio" name="q2" value="はい" required> はい
+				<input type="radio" name="q2" value="いいえ"> いいえ
+			</div>
+			<br>
+
+			<!-- 質問3 -->
+			<div>
+				<h3>3. 身の回りの物事に興味を持つことが多いですか？</h3>
+				<input type="radio" name="q3" value="はい" required> はい
+				<input type="radio" name="q3" value="いいえ"> いいえ
+			</div>
+			<br>
+
+			<!-- 質問4 -->
+			<div>
+				<h3>4. 熱中していることがあると時間を忘れて没頭してしまうことがありますか？</h3>
+				<input type="radio" name="q4" value="はい" required> はい
+				<input type="radio" name="q4" value="いいえ"> いいえ
+			</div>
+			<br>
+
+			<!-- 質問5 -->
+			<div>
+				<h3>5. どんな小さな進歩でもポジティブに評価できる方ですか？</h3>
+				<input type="radio" name="q5" value="はい" required> はい
+				<input type="radio" name="q5" value="いいえ"> いいえ
+			</div>
+			<br>
+
+			<!-- ボタングループ -->
+			<div class="button-group">
+				<button type="submit">確認</button>
+			</div>
+		</form>
+
+		<br>
+
+		<!-- 戻るボタン -->
+		<form th:action="@{/dateMaster/self_diagonosis}" method="get">
+			<button type="submit">戻る</button>
+		</form>
+	</main>
+</body>
+
+</html>

@@ -1,51 +1,83 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>スポット検索</title>
-  <script>
-    // 検索処理
-    function searchSpots() {
-      const searchQuery = document.getElementById("search-bar").value;
-
-      fetch(`/searchSpots?query=${encodeURIComponent(searchQuery)}`)
-        .then(response => response.json())
-        .then(data => {
-          const resultContainer = document.getElementById("searchResults");
-          resultContainer.innerHTML = '';
-
-          data.forEach(spot => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-              <span>${spot.spotName}</span> - ${spot.description} - ${spot.spotAddress} - ${spot.openingHours}
-              <button onclick="addSpotToParent(${spot.spotId}, '${spot.spotName}', '${spot.description}', '${spot.spotAddress}', '${spot.openingHours}')">選択</button>
-            `;
-            resultContainer.appendChild(listItem);
-          });
-        });
-    }
-
-    // 親ページにスポットデータを送る
-    function addSpotToParent(spotId, spotName, description, address, openingHours) {
-      // 親ページに情報を追加
-      if (window.opener && window.opener.addSpotToForm) {
-        window.opener.addSpotToForm(spotId, spotName, description, address, openingHours);
-      }
-      window.close(); // 検索ウィンドウを閉じる
-    }
-  </script>
+    <meta charset="UTF-8">
+    <title>スポット検索結果</title>
 </head>
 <body>
-  <h1>スポット検索</h1>
+    <header>
+        <h1>スポット検索結果</h1>
+    </header>
 
-  <div>
-    <label for="search-bar">デートスポット検索:</label>
-    <input type="text" id="search-bar" placeholder="スポット名で検索" />
-    <button type="button" onclick="searchSpots()">検索</button>
-  </div>
+    <main>
+        <!-- 戻るボタン -->
+        <button type="button" onclick="history.back()">戻る</button>
 
-  <div id="searchResults">
-    <!-- 検索結果が動的に表示されます -->
-  </div>
+        <!-- 検索フォーム -->
+        <div>
+            <label for="search-bar">デートスポット検索:</label>
+            <input type="text" id="search-bar" th:value="${query}" placeholder="スポット名で検索" />
+            <button type="button" onclick="searchSpots()">検索</button>
+        </div>
+
+        <!-- 検索結果が空の場合に表示するエラーメッセージ -->
+        <div th:if="${noResults}">
+            <p>該当するスポットはありません。</p>
+        </div>
+
+        <!-- 検索結果がある場合にスポットのリストを表示 -->
+        <div th:if="${spots != null && !spots.isEmpty()}">
+            <h2>検索結果</h2>
+            <div th:each="spot : ${spots}">
+                <div>
+                    <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
+                </div>
+                <div>
+					<strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">スポットのカテゴリー</span>
+
+                </div>
+                <div>
+                    <strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span>
+                </div>
+                <div>
+                    <strong>営業時間:</strong>
+                    <ul>
+                        <li>月曜日: <span th:text="${spot.Monday}">月曜日</span></li>
+                        <li>火曜日: <span th:text="${spot.Tuesday}">火曜日</span></li>
+                        <li>水曜日: <span th:text="${spot.Wednesday}">水曜日</span></li>
+                        <li>木曜日: <span th:text="${spot.Thursday}">木曜日</span></li>
+                        <li>金曜日: <span th:text="${spot.Friday}">金曜日</span></li>
+                        <li>土曜日: <span th:text="${spot.Saturday}">土曜日</span></li>
+                        <li>日曜日: <span th:text="${spot.Sunday}">日曜日</span></li>
+                    </ul>
+                </div>
+
+                <!-- デートプランにスポットを追加するフォーム -->
+                <form action="/addSpotToPlan" method="post">
+                    <input type="hidden" name="spotName" th:value="${spot.spotName}" />
+                    <input type="hidden" name="spotDescription" th:value="${spot.description}" />
+                    <input type="hidden" name="spotAddress" th:value="${spot.spotAddress}" />
+                    <input type="hidden" name="spotOpeningMonday" th:value="${spot.Monday}" />
+                    <input type="hidden" name="spotOpeningTuesday" th:value="${spot.Tuesday}" />
+                    <input type="hidden" name="spotOpeningWednesday" th:value="${spot.Wednesday}" />
+                    <input type="hidden" name="spotOpeningThursday" th:value="${spot.Thursday}" />
+                    <input type="hidden" name="spotOpeningFriday" th:value="${spot.Friday}" />
+                    <input type="hidden" name="spotOpeningSaturday" th:value="${spot.Saturday}" />
+                    <input type="hidden" name="spotOpeningSunday" th:value="${spot.Sunday}" />
+                    <!-- 緯度・経度も追加 -->
+                    <input type="hidden" name="spotLatitude" th:value="${spot.latitude}" />
+                    <input type="hidden" name="spotLongitude" th:value="${spot.longitude}" />
+                    <button type="submit">デートプランに追加</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function searchSpots() {
+            const query = document.getElementById('search-bar').value;
+            window.location.href = '/searchSpots?query=' + encodeURIComponent(query);
+        }
+    </script>
 </body>
 </html>

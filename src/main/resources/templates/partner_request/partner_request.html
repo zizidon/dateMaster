@@ -1,47 +1,28 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パートナー申請</title>
-    <style>
-        /* 数字入力欄の矢印を非表示 */
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        input[type="number"] {
-            -moz-appearance: textfield; /* Firefoxで矢印を非表示にする */
-        }
-    </style>
+	<meta charset="UTF-8">
+	<title>パートナー申請</title>
 </head>
+
 <body>
-    <h1>パートナー申請</h1>
+	<h1>パートナー申請</h1>
+	<p th:text="${message}" th:if="${message != null}"></p>
 
-    <!-- パートナー検索フォーム -->
-    <form action="/dateMaster/user/search" method="get">
-        <label for="partnerId">パートナーIDを検索:</label>
-        <input type="number" id="partnerId" name="id" required>
-        <button type="submit">検索</button>
-    </form>
+	<form th:action="@{/dateMaster/searchUser}" method="post">
+		<label for="userId">IDを入力してください:</label>
+		<input type="number" id="userId" name="userId" required>
+		<button type="submit">検索</button>
+	</form>
 
-    <!-- 検索結果表示 -->
-    <div>
-        <h2>検索結果</h2>
-        <div th:if="${searchedUser != null}">
-            <p>ID: <span th:text="${searchedUser.id}"></span></p>
-            <p>名前: <span th:text="${searchedUser.name}"></span></p>
-            <!-- パートナー申請フォーム -->
-            <form action="/dateMaster/partner_request" method="post">
-                <input type="hidden" name="id" th:value="${searchedUser.id}">
-                <button type="submit">このユーザーに申請する</button>
-            </form>
-        </div>
-        <p th:if="${message != null}" th:text="${message}"></p>
-    </div>
-
-    <a href="/dateMaster/partner">パートナー画面に戻る</a>
+	<div th:if="${searchedUser != null}">
+		<p>名前: <span th:text="${searchedUser.name}"></span></p>
+		<form th:action="@{/dateMaster/partnerRequestCheck}" method="post">
+			<input type="hidden" name="partnerId" th:value="${searchedUser.id}">
+			<button type="submit">申請</button>
+		</form>
+	</div>
 </body>
+
 </html>

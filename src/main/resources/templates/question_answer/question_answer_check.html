@@ -28,6 +28,7 @@
 		</form>
 		<form th:action="@{/dateMaster/questionAnswerResult}" method="get">
 			<input type="hidden" th:value="${coaching.id}" name="coachingId">
+			<input type="hidden" th:value="${selectedOption}" name="selectedOption">
 			<button type="submit">確定</button>
 		</form>
 	</main>
