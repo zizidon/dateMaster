@@ -83,6 +83,8 @@ public class DatePlancontroller {
                                  @RequestParam("spotOpeningFriday") String spotOpeningFriday,
                                  @RequestParam("spotOpeningSaturday") String spotOpeningSaturday,
                                  @RequestParam("spotOpeningSunday") String spotOpeningSunday,
+                                 @RequestParam("spotLatitude") double spotLatitude,  // 緯度
+                                 @RequestParam("spotLongitude") double spotLongitude,  // 経度
                                  Model model) {
         // 新しいスポットオブジェクトを作成して、フォームから送られたデータをセット
         DateSpot selectedSpot = new DateSpot();
@@ -96,6 +98,8 @@ public class DatePlancontroller {
         selectedSpot.setFriday(spotOpeningFriday);
         selectedSpot.setSaturday(spotOpeningSaturday);
         selectedSpot.setSunday(spotOpeningSunday);
+        selectedSpot.setLatitude(spotLatitude);  // 緯度を設定
+        selectedSpot.setLongitude(spotLongitude);  // 経度を設定
 
         // カテゴリ名を設定
         selectedSpot.setCategoryName(convertDescriptionToCategory(spotDescription));
@@ -123,6 +127,7 @@ public class DatePlancontroller {
     }
 
     // デートプラン確認
+ // デートプラン確認
     @PostMapping("/createDatePlan")
     public String createDatePlan(Model model) {
         // セッションから選ばれたスポットリストを取得
@@ -137,9 +142,77 @@ public class DatePlancontroller {
         // モデルに選ばれたスポットリストをそのまま渡す
         model.addAttribute("spots", selectedSpots);
 
+        // 緯度経度情報をまとめて渡す
+        List<Double> latitudes = new ArrayList<>();
+        List<Double> longitudes = new ArrayList<>();
+        for (DateSpot spot : selectedSpots) {
+            latitudes.add(spot.getLatitude());
+            longitudes.add(spot.getLongitude());
+        }
+        model.addAttribute("spotLatitudes", latitudes);
+        model.addAttribute("spotLongitudes", longitudes);
+
         // 確認画面に遷移
         return "dateplun/date_create_check"; // 確認画面
     }
+
+
+    // スポットをデートプランから削除
+    @PostMapping("/removeSpotFromPlan")
+    public String removeSpotFromPlan(@RequestParam("spotName") String spotName, Model model) {
+        // セッションから選ばれたスポットリストを取得
+        List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
+        if (selectedSpots == null) {
+            selectedSpots = new ArrayList<>();
+        }
+
+        // スポット名で削除対象のスポットを検索して削除
+        selectedSpots.removeIf(spot -> spot.getSpotName().equals(spotName));
+
+        // セッションに選ばれたスポットを保存
+        model.addAttribute("selectedSpots", selectedSpots);
+
+        // デートプラン作成ページにリダイレクト
+        return "redirect:/dateCreate";
+    }
+
+    @PostMapping("/viewDatePlanOnMap")
+    public String viewDatePlanOnMap(Model model) {
+        // セッションから選ばれたスポットリストを取得
+        List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
+
+        // スポットが選ばれていない場合、エラーメッセージを設定してリダイレクト
+        if (selectedSpots == null || selectedSpots.isEmpty()) {
+            model.addAttribute("message", "スポットが選ばれていません。");
+            return "redirect:/dateCreate";  // プラン作成画面にリダイレクト
+        }
+
+        // 各スポットの詳細情報を別々のリストにしてモデルに追加
+        List<String> spotNames = new ArrayList<>();
+        List<Double> spotLatitudes = new ArrayList<>();
+        List<Double> spotLongitudes = new ArrayList<>();
+        List<String> spotDescriptions = new ArrayList<>();
+        List<String> spotAddresses = new ArrayList<>();
+
+        for (DateSpot spot : selectedSpots) {
+            spotNames.add(spot.getSpotName());        // スポット名
+            spotLatitudes.add(spot.getLatitude()); // 緯度
+            spotLongitudes.add(spot.getLongitude()); // 経度
+            spotDescriptions.add(spot.getDescription()); // 説明
+            spotAddresses.add(spot.getSpotAddress()); // 住所
+        }
+
+        // モデルに各情報を追加
+        model.addAttribute("spotNames", spotNames);
+        model.addAttribute("spotLatitudes", spotLatitudes);
+        model.addAttribute("spotLongitudes", spotLongitudes);
+        model.addAttribute("spotDescriptions", spotDescriptions);
+        model.addAttribute("spotAddresses", spotAddresses);
+
+        // 地図画面に遷移（date_create_completion.html）
+        return "dateplun/date_create_completion"; // 地図表示画面
+    }
+
 
     // description 番号をカテゴリ名に変換するメソッド
     private String convertDescriptionToCategory(String description) {
@@ -164,61 +237,4 @@ public class DatePlancontroller {
                 return "未定義";
         }
     }
-
-    // スポットをデートプランから削除
-    @PostMapping("/removeSpotFromPlan")
-    public String removeSpotFromPlan(@RequestParam("spotName") String spotName, Model model) {
-        // セッションから選ばれたスポットリストを取得
-        List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
-        if (selectedSpots == null) {
-            selectedSpots = new ArrayList<>();
-        }
-
-        // スポット名で削除対象のスポットを検索して削除
-        selectedSpots.removeIf(spot -> spot.getSpotName().equals(spotName));
-
-        // セッションに選ばれたスポットを保存
-        model.addAttribute("selectedSpots", selectedSpots);
-
-        // デートプラン作成ページにリダイレクト
-        return "redirect:/dateCreate";
-    }
-    
-    
-    // デートプラン確定後に地図画面に遷移
-    @PostMapping("/viewDatePlanOnMap")
-    public String viewDatePlanOnMap(Model model) {
-        // セッションから選ばれたスポットリストを取得
-        List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
-
-        // スポットが選ばれていない場合、エラーメッセージを設定してリダイレクト
-        if (selectedSpots == null || selectedSpots.isEmpty()) {
-            model.addAttribute("message", "スポットが選ばれていません。");
-            return "redirect:/dateCreate";  // プラン作成画面にリダイレクト
-        }
-
-     // スポット情報に緯度と経度を追加
-        for (DateSpot spot : selectedSpots) {
-            // スポット名を使ってデータベースから緯度と経度を取得
-        	List<DateSpot> foundSpots = dateSpotRepository.findBySpotName(spot.getSpotName());
-
-            if (!foundSpots.isEmpty()) {
-                DateSpot foundSpot = foundSpots.get(0);  // 最初の一致するスポットを使用
-                spot.setLatitude(foundSpot.getLatitude());
-                spot.setLongitude(foundSpot.getLongitude());
-            }
-        }
-
-
-        // モデルに選ばれたスポットリストをそのまま渡す
-        model.addAttribute("spots", selectedSpots);
-
-        // 地図画面に遷移（date_create_completion.html）
-        return "dateplun/date_create_completion"; // 地図表示画面
-    }
-
-
-
-
-
 }

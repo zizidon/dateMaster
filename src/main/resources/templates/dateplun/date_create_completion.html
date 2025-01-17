@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <title>デートプラン - 地図表示</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <style>
-        #map { width:70%; height: 450px; }
+        #map { width: 70%; height: 450px; }
     </style>
 </head>
 <body>
@@ -18,60 +17,43 @@
         <div id="map"></div>
 
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-        <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-
         <script>
-            // 地図の初期位置（例：鹿児島中央駅）
-            var stationLatLng = L.latLng(31.5837, 130.5412);  // 鹿児島中央駅
+            // 地図の初期設定 (鹿児島中央駅の座標)
+            const map = L.map('map').setView([31.5837, 130.5412], 13); // 鹿児島中央駅の座標
 
-            // 地図を初期化
-            var map = L.map('map').setView(stationLatLng, 13);  // 初期表示位置は鹿児島中央駅
-
-            // OpenStreetMapのタイルレイヤーを設定
+            // OpenStreetMapタイルレイヤーを追加
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            // 鹿児島中央駅にマーカーを追加
-            var stationMarker = L.marker(stationLatLng).addTo(map);
-            stationMarker.bindPopup("<strong>鹿児島中央駅</strong><br>鹿児島市");
+            // 初期位置にピンを立てる（鹿児島中央駅）
+            L.marker([31.5837, 130.5412]).addTo(map)
+                .bindPopup("<b>鹿児島中央駅</b><br>初期位置のピンです。");
 
-            // Leaflet Routing Machineを初期化し、出発点を設定
-            var routeControl = L.Routing.control({
-                waypoints: [stationLatLng],  // 経路の出発地点（鹿児島中央駅）
-                routeWhileDragging: true  // 経路をドラッグで修正できるように
-            }).addTo(map);
+            // Thymeleafで渡されたスポット情報をJavaScriptの変数に設定
+            var spotNames = /*[[${spotNames}]]*/ [];
+            var spotLatitudes = /*[[${spotLatitudes}]]*/ [];
+            var spotLongitudes = /*[[${spotLongitudes}]]*/ [];
+            var spotDescriptions = /*[[${spotDescriptions}]]*/ [];
+            var spotAddresses = /*[[${spotAddresses}]]*/ [];
 
-            // Thymeleafでスポットデータを取得してループ
-            /*[[${spots}]]*/  // spotsのリストをJavaからJavaScriptに渡す
-            var spots = /*[[${spots}]]*/ // サーバーサイドから渡されたスポット情報を取得
+            // コンソールで値を確認してみる（デバッグ用）
+            console.log('スポット名:', spotNames);
+            console.log('緯度:', spotLatitudes);
+            console.log('経度:', spotLongitudes);
 
-            // スポット情報をループしてマーカーを追加し、経路を設定
-            spots.forEach(function(spot) {
-                // スポットの緯度と経度を取得
-                var spotLatLng = L.latLng(spot.latitude, spot.longitude);
-                
-                // スポットにマーカーを追加
-                var spotMarker = L.marker(spotLatLng).addTo(map);
+            // スポット情報を地図にピンとして追加
+            for (var i = 0; i < spotNames.length; i++) {
+                var lat = spotLatitudes[i];
+                var lon = spotLongitudes[i];
+                var description = spotDescriptions[i];
+                var address = spotAddresses[i];
+                var name = spotNames[i];
 
-                // スポット情報のポップアップを設定
-                spotMarker.bindPopup(
-                    "<strong>" + spot.spotName + "</strong><br>" +
-                    "<em>" + spot.categoryName + "</em><br>" +
-                    spot.spotAddress + "<br>" +
-                    "<strong>営業時間:</strong><br>" +
-                    "月: " + spot.monday + "<br>" +
-                    "火: " + spot.tuesday + "<br>" +
-                    "水: " + spot.wednesday + "<br>" +
-                    "木: " + spot.thursday + "<br>" +
-                    "金: " + spot.friday + "<br>" +
-                    "土: " + spot.saturday + "<br>" +
-                    "日: " + spot.sunday
-                );
-
-                // 鹿児島中央駅からスポットへの経路を追加
-                routeControl.spliceWaypoints(routeControl.getWaypoints().length, 0, spotLatLng);
-            });
+                // マーカーを追加
+                var marker = L.marker([lat, lon]).addTo(map);
+                marker.bindPopup("<b>" + name + "</b><br>" + address + "<br>" + description);
+            }
         </script>
     </main>
 </body>
