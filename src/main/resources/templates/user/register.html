@@ -6,32 +6,40 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>新規登録</title>
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="/css/register/register.css">
 </head>
 
 <body>
-	<header>
-		<h1>新規登録</h1>
-	</header>
+	<div class="register-container">
+		<h2>新規登録</h2>
 
-	<form th:action="@{/dateMaster/register/send}" th:method="post">
-		<label for="name">名前</label>
-		<input type="text" id="name" th:name="name" required><br><br>
+		<form th:action="@{/dateMaster/register/send}" th:method="post">
+			<!-- 名前入力欄 -->
+			<label for="name">名前</label>
+			<input type="text" id="name" th:name="name" placeholder="名前を入力してください" required>
 
-		<label for="password">パスワード</label>
-		<input type="password" id="password" th:name="password" required><br><br>
+			<!-- パスワード入力欄 -->
+			<label for="password">パスワード</label>
+			<input type="password" id="password" th:name="password" placeholder="パスワードを入力してください" required>
 
-		<label for="confirm-password">確認用パスワード</label>
-		<input type="password" id="confirmPassword" th:name="confirmPassword" required><br><br>
+			<!-- 確認用パスワード入力欄 -->
+			<label for="confirm-password">確認用パスワード</label>
+			<input type="password" id="confirmPassword" th:name="confirmPassword" placeholder="もう一度パスワードを入力してください"
+				required>
 
-		<!-- エラーメッセージ-->
-		<p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
+			<!-- エラーメッセージ-->
+			<p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
 
-		<button type="submit">登録</button>
-	</form>
+			<!-- 登録ボタン -->
+			<button type="submit">登録</button>
+		</form>
 
+		<!-- ログインページリンク -->
+		<p class="login-link">
+			すでにアカウントをお持ちの方は <a th:href="@{/dateMaster}">ログイン</a>
+		</p>
 
-	<p>すでにアカウントをお持ちの方は<a th:href="@{/dateMaster}">ログイン</a></p>
+	</div>
 
 </body>
 
