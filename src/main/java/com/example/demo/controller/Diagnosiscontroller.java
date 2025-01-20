@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,9 @@ public class Diagnosiscontroller {
 
 	@Autowired
 	private UserRepository usersRepository;
+
+	@Autowired
+	HttpSession session;
 
 	//自己診断一覧画面へ遷移
 	@GetMapping("/diagonosis")
@@ -286,9 +291,58 @@ public class Diagnosiscontroller {
 		return "self_diagonosis/self_diagonosis_completion_negative";
 	}
 
+	// 自己診断結果画面に遷移
+	@GetMapping("/diagonosis_result_self")
+	public String showDiagnosisResultSelf(Model model) {
+		// ログイン中のユーザーIDを取得（仮のメソッドを利用）
+		Long userId = getLoggedInUserId();
+		if (userId == null) {
+			model.addAttribute("error", "ユーザー情報が見つかりませんでした。");
+			return "diagonosis/diagonosis_result_self";
+		}
+
+		// ユーザー情報を取得
+		Users user = usersRepository.findById(userId).orElse(null);
+		if (user == null) {
+			model.addAttribute("error", "ユーザー情報が見つかりませんでした。");
+			return "diagonosis/diagonosis_result_self";
+		}
+
+		// 診断結果を取得
+		int diagnosisTypeId = user.getDiagnosis();
+		if (diagnosisTypeId >= 1 && diagnosisTypeId <= 4) {
+			Positive positiveResult = positiveRepository.findById(diagnosisTypeId).orElse(null);
+			if (positiveResult != null) {
+				model.addAttribute("type", positiveResult.getType());
+				model.addAttribute("text", positiveResult.getText());
+				model.addAttribute("imagePath", positiveResult.getImagePath()); // 画像パスを追加
+
+			}
+		} else if (diagnosisTypeId >= 5 && diagnosisTypeId <= 8) {
+			Negative negativeResult = negativeRepository.findById(diagnosisTypeId).orElse(null);
+			if (negativeResult != null) {
+				model.addAttribute("type", negativeResult.getType());
+				model.addAttribute("text", negativeResult.getText());
+				model.addAttribute("imagePath", negativeResult.getImagePath()); // 画像パスを追加
+			}
+		} else {
+			model.addAttribute("type", "診断結果が見つかりませんでした。");
+			model.addAttribute("text", "");
+			model.addAttribute("imagePath", ""); // 画像がない場合のデフォルト値
+		}
+
+		return "diagonosis_result/diagonosis_result_self";
+	}
+
 	private Long getLoggedInUserId() {
-		// ログインユーザーのIDを取得するロジックを実装（仮の例）
-		return 1L; // ログインしているユーザーID（実際は認証情報から取得）
+		//現在ログイン中のユーザー情報を取得
+		Users user = (Users) session.getAttribute("loginUser");
+		if (user != null) {
+			return user.getId();
+		}
+
+		// ユーザーがログインしていない場合はnullを返す
+		return null;
 	}
 
 }

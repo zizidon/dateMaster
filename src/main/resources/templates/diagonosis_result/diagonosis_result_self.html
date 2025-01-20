@@ -1,31 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>診断結果</title>
 </head>
+
 <body>
-	<!-- ヘッダー -->
 	<header>
-	  <h1>自己診断履歴</h1>
-	  <button class="back-button">戻る</button>
+		<h1>診断結果</h1>
 	</header>
+	<main>
+		<!-- 診断結果を表示 -->
+		<div>
 
-	<!-- 診断結果 -->
-	<div class="diagnosis-result">
-	  <h2>診断結果</h2>
-	  <p>あなたのMBTIは、<span>ISTJ</span>です。</p>
-	  <p>ISTJタイプは、実際的で責任感が強く、計画的に行動するタイプです。</p>
-	  <p>詳細は、以下の通りです。</p>
-	  <ul>
-	    <li>外向的(I)か内向的(E)か：内向的(I)</li>
-	    <li>感覚的(S)か直観的(N)か：感視的(S)</li>
-	    <li>思考的(T)か感情的(F)か：思考的(T)</li>
-	    <li>判断的(J)か認識的(P)か：判断的(J)</li>
-	  </ul>
-	</div>
+			<div>
+				<img th:src="@{${imagePath}}" alt="診断結果の画像" style="max-width: 50%; height: auto;" />
+			</div>
+			<h2>診断タイプ</h2>
+			<p th:text="${type}">診断タイプ</p>
+			<h2>説明</h2>
+			<p th:text="${text}">診断説明</p>
+		</div>
 
-	<!-- 閉じるボタン -->
-	<button class="close-button">閉じる</button>
+		<!-- エラーメッセージの表示 -->
+		<div th:if="${error}">
+			<p th:text="${error}"></p>
+		</div>
+
+		<!-- 戻るボタン -->
+		<form th:action="@{/dateMaster/diagonosis}" method="get">
+			<button type="submit">戻る</button>
+		</form>
+	</main>
 </body>
+
 </html>
