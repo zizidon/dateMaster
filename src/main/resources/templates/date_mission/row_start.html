@@ -1,40 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ミッションスタート</title>
-	
+    <title>ミッション開始</title>
+    <style>
+        .mission-container {
+            margin: 20px;
+            padding: 15px;
+        }
+        .mission-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .radio-group {
+            margin: 10px 0;
+        }
+    </style>
 </head>
-
 <body>
-    <header>
-        <h1>ミッションスタート</h1>
-    </header>
+    <h1>初級ミッション</h1>
 
-    <main>
-		
-		<h3>ミッションが開始されました♪</h3>
-        <!-- ミッション一覧 -->
-		<ul>
-		    <li th:each="mission : ${missions}">
-		        <span th:text="${mission.missionText}"></span>
-		        <!-- 達成するボタン -->
-		        <form th:action="@{/missionAchieve}" method="post" style="display: inline;">
-		            <button type="submit">達成する</button>
-		        </form>
-		    </li>
-		</ul>
+    <div class="back-button">
+        <a th:href="@{/rankSelection}">
+            <button type="button">ランク選択に戻る</button>
+        </a>
+    </div>
 
-		<!-- デート終了ボタン -->
-		<div>
-		    <a th:href="@{/missionEvaluation}">
-		        <button type="button">デート終了</button>
-		    </a>
-		</div>
+    <div class="mission-container">
+        <form action="/missionAchieve" method="post">
+            <div th:each="mission, stat : ${missions}" class="mission-item">
+                <p th:text="${mission.missionText}"></p>
+                <div class="radio-group">
+                    <input type="radio" th:name="'mission' + ${stat.index}" value="1" required>
+                    <label>達成</label>
+                    <input type="radio" th:name="'mission' + ${stat.index}" value="0" required>
+                    <label>未達成</label>
+                </div>
+            </div>
+            
+            <button type="submit">デート終了</button>
+        </form>
 
-    </main>
+        
+    </div>
 </body>
-
 </html>
