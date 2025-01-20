@@ -5,14 +5,27 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>名前変更画面</title>
+	<link rel="stylesheet" href="/css/name/name_change.css">
+	<script src="/js/name/name_change.js" defer></script>
 </head>
 
 <body>
 	<header>
-		<h1>名前変更</h1>
-		
-
+		<h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
 	</header>
+
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	</ul>
 	<main>
 
 
@@ -20,22 +33,22 @@
 		<div class="back-button">
 			<button type="button" onclick="history.back()">戻る</button>
 		</div>
-		
+
 		<br>
 
 		<!-- 現在の名前表示 -->
 		<div class="current-name">
-			<label for="default-name">現在の名前：</label>
+			<label for="default-name">現在の名前</label>
 			<span th:text="${user.name}">現在の名前</span>
 		</div>
 
 		<!-- 名前変更フォーム -->
 		<form th:action="@{/dateMaster/confirm}" method="post">
 			<div class="input-group">
-				<label for="new-name">変更する名前：</label>
+				<label for="new-name">変更する名前</label>
 				<input type="text" id="new-name" name="newName" required>
 			</div>
-			
+
 			<br>
 
 			<div class="button-group">
@@ -45,6 +58,8 @@
 		</form>
 
 	</main>
+
+
 </body>
 
 </html>
