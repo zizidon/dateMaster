@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>デートプラン - 地図表示</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <style>
         #map { width: 70%; height: 450px; }
     </style>
@@ -17,47 +18,57 @@
         <div id="map"></div>
 
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
         <script th:inline="javascript">
-            /*<![CDATA[*/
-            // 地図の初期設定 (鹿児島中央駅の座標)
-            const map = L.map('map').setView([31.5837, 130.5412], 13); // 鹿児島中央駅の座標
+        /*<![CDATA[*/
+        // 地図の初期設定 (鹿児島中央駅の座標)
+        const map = L.map('map').setView([31.5837, 130.5412], 13);
 
-            // OpenStreetMapタイルレイヤーを追加
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+        // OpenStreetMapタイルレイヤーを追加
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-            // 初期位置にピンを立てる（鹿児島中央駅）
-            L.marker([31.5837, 130.5412]).addTo(map)
-                .bindPopup("<b>鹿児島中央駅</b><br>初期位置のピンです。");
+        // Thymeleafで渡されたスポット情報をJavaScriptの変数に設定
+        var spotNames = /*[[${spotNames}]]*/ [];
+        var spotLatitudes = /*[[${spotLatitudes}]]*/ [];
+        var spotLongitudes = /*[[${spotLongitudes}]]*/ [];
+        var spotDescriptions = /*[[${spotDescriptions}]]*/ [];
+        var spotAddresses = /*[[${spotAddresses}]]*/ [];
 
-            // Thymeleafで渡されたスポット情報をJavaScriptの変数に設定
-            var spotNames = /*[[${spotNames}]]*/ [];
-            var spotLatitudes = /*[[${spotLatitudes}]]*/ [];
-            var spotLongitudes = /*[[${spotLongitudes}]]*/ [];
-            var spotDescriptions = /*[[${spotDescriptions}]]*/ [];
-            var spotAddresses = /*[[${spotAddresses}]]*/ [];
+        // ルートのウェイポイントを作成
+        var waypoints = [
+            L.latLng(31.5837, 130.5412)  // 鹿児島中央駅を始点として追加
+        ];
 
-            // コンソールでスポット情報が渡されているか確認
-            console.log('スポット名:', spotNames);
-            console.log('緯度:', spotLatitudes);
-            console.log('経度:', spotLongitudes);
+        // 選択されたスポットをウェイポイントに追加
+        for (var i = 0; i < spotLatitudes.length; i++) {
+            waypoints.push(L.latLng(spotLatitudes[i], spotLongitudes[i]));
+        }
 
-            // スポット情報を地図にピンとして追加
-            for (var i = 0; i < spotNames.length; i++) {
-                var lat = spotLatitudes[i];
-                var lon = spotLongitudes[i];
-                var name = spotNames[i];
-                var description = spotDescriptions[i];
-                var address = spotAddresses[i];
-
-                if (lat && lon) {  // 緯度・経度が正しく存在する場合にマーカーを追加
-                    var marker = L.marker([lat, lon]).addTo(map);
-                    marker.bindPopup("<b>" + name + "</b><br>" + address + "<br>" + description);
-                }
+        // ルート表示の設定
+        L.Routing.control({
+            waypoints: waypoints,
+            routeWhileDragging: true,
+            lineOptions: {
+                styles: [
+                    {color: 'blue', opacity: 0.6, weight: 4}
+                ]
+            },
+            createMarker: function(i, waypoint, n) {
+                let markerContent = i === 0 ? 
+                    "<b>鹿児島中央駅</b><br>出発地点" : 
+                    "<b>" + spotNames[i-1] + "</b><br>" + spotAddresses[i-1] + "<br>" + spotDescriptions[i-1];
+                
+                return L.marker(waypoint.latLng)
+                    .bindPopup(markerContent);
             }
-            /*]]>*/
+        }).addTo(map);
+
+        /*]]>*/
         </script>
+		<br>
+		<a th:href="@{/dateMaster/date}"><button type="button">機能一覧画面へ</button></a>
     </main>
 </body>
 </html>

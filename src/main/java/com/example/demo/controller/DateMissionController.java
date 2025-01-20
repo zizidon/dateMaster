@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.DateMission_high;
 import com.example.demo.entity.DateMission_mid;
@@ -58,56 +60,62 @@ public class DateMissionController {
     
    
     
+    // ミッション達成状態を処理
     @PostMapping("/missionAchieve")
-    public String missionAchieve() {
-        // セッションから達成カウントを取得
-        Integer missionCount = (Integer) session.getAttribute("missionCount");
-        if (missionCount == null) {
-            missionCount = 0;
+    public String missionAchieve(@RequestParam Map<String, String> missionResults) {
+        int totalCount = 0;
+        
+        // ラジオボタンの選択結果を集計
+        for (String value : missionResults.values()) {
+            if ("1".equals(value)) {  // 達成の場合
+                totalCount++;
+            }
         }
-        missionCount++; // カウントをインクリメント
-        session.setAttribute("missionCount", missionCount); // セッションに保存
-        return "redirect:/start"; // 現在のページにリダイレクト
+        
+        // 合計値をセッションに保存
+        session.setAttribute("missionCount", totalCount);
+        
+        return "redirect:/missionEvaluation";
     }
+
+
     
+    // 評価画面の表示
     @GetMapping("/missionEvaluation")
     public String missionEvaluation(Model model) {
-        // セッションから達成カウントを取得
         Integer missionCount = (Integer) session.getAttribute("missionCount");
         if (missionCount == null) {
             missionCount = 0;
         }
 
-        // 評価を決定
+        // カウント値に応じて評価を決定
         String evaluation;
         switch (missionCount) {
-            case 1:
-                evaluation = "恋愛ビギナー";
+            case 3:
+                evaluation = "デートマスター";
                 break;
             case 2:
-                evaluation = "恋愛エキスパート";
+                evaluation = "デートエキスパート";
                 break;
-            case 3:
-                evaluation = "恋愛マスター";
+            case 1:
+                evaluation = "デートビギナー";
                 break;
             default:
                 evaluation = "未評価";
-                break;
         }
 
-        // モデルに評価を追加
         model.addAttribute("evaluation", evaluation);
-
-        // セッションをリセット（再度デートを始めたときにリセットされるように）
-        session.removeAttribute("missionCount");
-
-        return "date_mission/mission_evaluation"; // mission_evaluation.htmlに遷移
+        
+        // 評価後にカウントを初期化
+        session.setAttribute("missionCount", 0);
+        
+        return "date_mission/mission_evaluation";
     }
-    
   
     // 初級ボタンを押下
     @GetMapping("/rank_row")
     public String showRankRow(Model model) {
+    	
         List<DateMission_row> allMissions = (List<DateMission_row>) dateMission_row_Repository.findAll();
         List<DateMission_row> randomMissions = getRandomMissions(allMissions, 3);
         
@@ -181,6 +189,9 @@ public class DateMissionController {
     // 初級スタートボタン押下時にミッションを表示
     @GetMapping("/start")
     public String missionStart( Model model) {
+    	
+    	// カウントを初期化
+        session.setAttribute("missionCount", 0);
        
     	List<DateMission_row> missions = (List<DateMission_row>) session.getAttribute("currentMissions");
         if (missions == null || missions.isEmpty()) {
