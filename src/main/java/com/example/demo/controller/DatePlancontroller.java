@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.example.demo.entity.DateShare;
 import com.example.demo.entity.DateSpot;
+import com.example.demo.repository.DateShareRepository;
 import com.example.demo.repository.DateSpotRepository;
 
 @Controller
@@ -20,6 +22,7 @@ public class DatePlancontroller {
 
     @Autowired
     private DateSpotRepository dateSpotRepository;
+
 
     // デートプラン作成画面
     @GetMapping("/dateCreate")
@@ -85,6 +88,7 @@ public class DatePlancontroller {
                                  @RequestParam("spotOpeningSunday") String spotOpeningSunday,
                                  @RequestParam("spotLatitude") double spotLatitude,  // 緯度
                                  @RequestParam("spotLongitude") double spotLongitude,  // 経度
+                                 @RequestParam()
                                  Model model) {
         // 新しいスポットオブジェクトを作成して、フォームから送られたデータをセット
         DateSpot selectedSpot = new DateSpot();
@@ -100,7 +104,8 @@ public class DatePlancontroller {
         selectedSpot.setSunday(spotOpeningSunday);
         selectedSpot.setLatitude(spotLatitude);  // 緯度を設定
         selectedSpot.setLongitude(spotLongitude);  // 経度を設定
-
+        
+        
         // カテゴリ名を設定
         selectedSpot.setCategoryName(convertDescriptionToCategory(spotDescription));
 
@@ -176,18 +181,43 @@ public class DatePlancontroller {
         return "redirect:/dateCreate";
     }
 
+    @Autowired
+    private DateShareRepository dateShareRepository;  // リポジトリ名変更
+
     @PostMapping("/viewDatePlanOnMap")
     public String viewDatePlanOnMap(Model model) {
-        // セッションから選ばれたスポットリストを取得
         List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
 
-        // スポットが選ばれていない場合、エラーメッセージを設定してリダイレクト
         if (selectedSpots == null || selectedSpots.isEmpty()) {
             model.addAttribute("message", "スポットが選ばれていません。");
-            return "redirect:/dateCreate";  // プラン作成画面にリダイレクト
+            return "redirect:/dateCreate";
         }
 
-        // 各スポットの詳細情報を別々のリストにしてモデルに追加
+        try {
+            // 選択されたスポットのIDを取得（最大3つまで）
+            Long spot1Id = selectedSpots.size() >= 1 ? selectedSpots.get(0).getSpotId() : null;
+            Long spot2Id = selectedSpots.size() >= 2 ? selectedSpots.get(1).getSpotId() : null;
+            Long spot3Id = selectedSpots.size() >= 3 ? selectedSpots.get(2).getSpotId() : null;
+
+            // DateShareエンティティを使用するように変更
+            DateShare existingPlan = dateShareRepository.findBySpot1AndSpot2AndSpot3(spot1Id, spot2Id, spot3Id);
+
+            if (existingPlan != null) {
+                existingPlan.setCount(existingPlan.getCount() + 1);
+                dateShareRepository.save(existingPlan);
+            } else {
+                DateShare newPlan = new DateShare();
+                newPlan.setSpot1(spot1Id);
+                newPlan.setSpot2(spot2Id);
+                newPlan.setSpot3(spot3Id);
+                newPlan.setCount(1);
+                dateShareRepository.save(newPlan);
+            }
+        } catch (Exception e) {
+            System.err.println("プランの保存中にエラーが発生しました: " + e.getMessage());
+        }
+
+        // マップ表示用のデータ設定（この部分は変更なし）
         List<String> spotNames = new ArrayList<>();
         List<Double> spotLatitudes = new ArrayList<>();
         List<Double> spotLongitudes = new ArrayList<>();
@@ -195,24 +225,22 @@ public class DatePlancontroller {
         List<String> spotAddresses = new ArrayList<>();
 
         for (DateSpot spot : selectedSpots) {
-            spotNames.add(spot.getSpotName());        // スポット名
-            spotLatitudes.add(spot.getLatitude());    // 緯度
-            spotLongitudes.add(spot.getLongitude());  // 経度
-            spotDescriptions.add(spot.getDescription()); // 説明
-            spotAddresses.add(spot.getSpotAddress()); // 住所
+            spotNames.add(spot.getSpotName());
+            spotLatitudes.add(spot.getLatitude());
+            spotLongitudes.add(spot.getLongitude());
+            spotDescriptions.add(spot.getDescription());
+            spotAddresses.add(spot.getSpotAddress());
         }
-
         // モデルに各情報を追加
         model.addAttribute("spotNames", spotNames);
         model.addAttribute("spotLatitudes", spotLatitudes);
         model.addAttribute("spotLongitudes", spotLongitudes);
         model.addAttribute("spotDescriptions", spotDescriptions);
         model.addAttribute("spotAddresses", spotAddresses);
-
         // 地図画面に遷移（date_create_completion.html）
-        return "dateplun/date_create_completion"; // 地図表示画面
+        return "dateplun/date_create_completion";
     }
-
+ 
 
 
     // description 番号をカテゴリ名に変換するメソッド
