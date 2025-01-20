@@ -17,6 +17,10 @@
         <div th:if="${selectedSpots != null and !selectedSpots.isEmpty()}">
             <ul>
                 <li th:each="spot, iterStat : ${selectedSpots}">
+					<div>
+									    
+						<img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像" style="max-width: 200px;">
+					</div>
                     <div>
                         <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
                     </div>

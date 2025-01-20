@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ログアウト完了</title>
+	<link rel="stylesheet" href="/css/logout/logout_complete.css">
+</head>
+
+<body>
+	<div class="logout-container">
+		<h2>ログアウトしました</h2>
+		<p class="logout-message">ご利用いただきありがとうございました。またのご利用をお待ちしております。</p>
+		<a th:href="@{/dateMaster}" class="return-button">ログイン画面へ戻る</a>
+	</div>
+</body>
+
+</html>

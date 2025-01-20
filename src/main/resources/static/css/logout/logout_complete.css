@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+/* ベースのスタイル */
+body {
+	font-family: 'Arial', sans-serif;
+	background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	margin: 0;
+	padding: 0;
+}
+
+/* ログアウトコンテナ */
+.logout-container {
+	background: #ffffff;
+	padding: 40px;
+	border-radius: 8px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+	text-align: center;
+	max-width: 400px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* 見出し */
+.logout-container h2 {
+	color: #333333;
+	font-size: 24px;
+	margin-bottom: 20px;
+}
+
+/* メッセージ */
+.logout-message {
+	color: #555555;
+	font-size: 16px;
+	margin-bottom: 30px;
+	line-height: 1.6;
+}
+
+/* ボタン */
+.return-button {
+	display: inline-block;
+	background: #7a9cff;
+	color: white;
+	padding: 12px 30px;
+	border-radius: 4px;
+	font-size: 16px;
+	text-decoration: none;
+	transition: background-color 0.3s ease;
+}
+
+.return-button:hover {
+	background: #4a6fb3;
+}
