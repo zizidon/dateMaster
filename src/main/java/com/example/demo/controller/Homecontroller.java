@@ -68,6 +68,11 @@ public class Homecontroller {
 	public ModelAndView showHome(ModelAndView mav) {
 		Users user = (Users) session.getAttribute("loginUser"); // セッションからユーザー情報を取得
 
+		// データベースから最新のユーザー情報を取得
+		user = userRepository.findById(user.getId()).orElse(user);
+		// セッション情報を更新
+		session.setAttribute("loginUser", user);
+
 		// ユーザーの診断結果画像を取得
 		String userImagePath = getImagePathFromDiagnosis(user.getDiagnosis());
 		mav.addObject("diagnosisImage", userImagePath);

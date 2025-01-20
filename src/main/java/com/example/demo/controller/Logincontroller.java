@@ -63,7 +63,7 @@ public class Logincontroller {
 		return null;
 	}
 
-	//ログイン画面に移動する
+	//ログイン画面に遷移
 	@GetMapping("")
 	public String loginTop() {
 		return "login/login";
@@ -106,7 +106,7 @@ public class Logincontroller {
 
 	}
 
-	//新規登録画面に移動する
+	//新規登録画面に遷移
 	@GetMapping("/register")
 	public String registerTop() {
 		return "user/register";
@@ -127,5 +127,12 @@ public class Logincontroller {
 		}
 
 		return mav;
+	}
+	
+	//ログアウト処理
+	@GetMapping("/logout")
+	public String logout() {
+		session.invalidate(); //セッションを無効化
+		return "login/logout_complete"; //ログイン画面にリダイレクト
 	}
 }

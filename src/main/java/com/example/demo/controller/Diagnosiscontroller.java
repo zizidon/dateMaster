@@ -237,6 +237,8 @@ public class Diagnosiscontroller {
 			if (user != null) {
 				user.setDiagnosis(typeId);
 				usersRepository.save(user);
+				// セッション内のユーザー情報を更新
+				session.setAttribute("loginUser", user);
 			}
 		}
 
@@ -285,6 +287,8 @@ public class Diagnosiscontroller {
 			if (user != null) {
 				user.setDiagnosis(typeId);
 				usersRepository.save(user);
+				// セッション内のユーザー情報を更新
+				session.setAttribute("loginUser", user);
 			}
 		}
 
