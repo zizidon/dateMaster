@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.entity.Negative;
+import com.example.demo.entity.Positive;
 import com.example.demo.entity.Users;
+import com.example.demo.repository.NegativeRepository;
+import com.example.demo.repository.PositiveRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserLoginService;
 import com.example.demo.service.UserRegisterService;
 
@@ -27,6 +32,37 @@ public class Logincontroller {
 	@Autowired
 	HttpSession session;
 
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private PositiveRepository positiveRepository;
+
+	@Autowired
+	private NegativeRepository negativeRepository;
+
+	private String getImagePathFromDiagnosis(int diagnosisResult) {
+		try {
+			// type_idが1-4の場合はPositiveテーブルから取得
+			if (diagnosisResult >= 1 && diagnosisResult <= 4) {
+				Positive positive = positiveRepository.findById(diagnosisResult).orElse(null);
+				if (positive != null) {
+					return positive.getImagePath();
+				}
+			}
+			// type_idが5-8の場合はNegativeテーブルから取得
+			else if (diagnosisResult >= 5 && diagnosisResult <= 8) {
+				Negative negative = negativeRepository.findById(diagnosisResult).orElse(null);
+				if (negative != null) {
+					return negative.getImagePath();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	//ログイン画面に移動する
 	@GetMapping("")
 	public String loginTop() {
@@ -41,8 +77,25 @@ public class Logincontroller {
 
 		if ("OK".equals(result)) {
 			Users user = (Users) session.getAttribute("loginUser"); //セッションからユーザー情報を取得
-			mav.addObject("user", user); //モデルにユーザー情報を追加
-			mav.setViewName("home/home"); // ログイン成功後、ホーム画面に遷移
+
+			// ユーザーの診断結果画像を取得
+			String userImagePath = getImagePathFromDiagnosis(user.getDiagnosis());
+			mav.addObject("diagnosisImage", userImagePath);
+
+			// パートナー情報の取得
+			if (user.getPartner() != null) {
+				Users partner = userRepository.findById(user.getPartner()).orElse(null);
+				if (partner != null) {
+					mav.addObject("partnerName", partner.getName());
+					// パートナーの診断結果画像を取得
+					String partnerImagePath = getImagePathFromDiagnosis(partner.getDiagnosis());
+					mav.addObject("partnerDiagnosisImage", partnerImagePath);
+				}
+			}
+
+			mav.addObject("user", user);
+			mav.setViewName("home/home");
+			return mav;
 
 		} else {
 			mav.addObject("errorMessage", result); //エラーメッセージを画面に表示

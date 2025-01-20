@@ -5,18 +5,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>新規登録完了画面</title>
+	<link rel="stylesheet" href="/css/register/register_complete.css">
 </head>
 
 <body>
-	<header>
-		<h1>新規登録完了画面</h1>
-	</header>
-
-	<main>
-		<p>ユーザーが登録されました。</p>
-		<p>登録されたID: <span th:text="${userId}"></span></p>
-		<p><a th:href="@{/dateMaster}">ログイン画面に戻る</a></p>
-	</main>
+	<div class="complete-container">
+		<h2>新規登録完了</h2>
+		<p class="message">ユーザーが正常に登録されました。</p>
+		<p class="user-id">登録されたID: <span th:text="${userId}">サンプルID</span></p>
+		<a class="back-link" th:href="@{/dateMaster}">ログイン画面に戻る</a>
+	</div>
 </body>
 
 </html>

@@ -1,0 +1,165 @@
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	background-color: #fff;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.hamburger-button {
+	width: 30px;
+	height: 24px;
+	position: relative;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+.hamburger-button span {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	background-color: #333;
+	border-radius: 4px;
+	transition: all 0.4s ease-in-out;
+}
+
+.hamburger-button span:nth-child(1) {
+	top: 0;
+}
+
+.hamburger-button span:nth-child(2) {
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.hamburger-button span:nth-child(3) {
+	bottom: 0;
+}
+
+/* ハンバーガーボタンがアクティブ時の状態 */
+.hamburger-button.active span:nth-child(1) {
+	top: 50%;
+	transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger-button.active span:nth-child(2) {
+	opacity: 0;
+}
+
+.hamburger-button.active span:nth-child(3) {
+	bottom: 50%;
+	transform: translateY(50%) rotate(-45deg);
+}
+
+.hamburger-menu {
+	position: fixed;
+	top: 0;
+	right: -100%;
+	width: 300px;
+	height: 100vh;
+	background-color: #fff;
+	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+	transition: all 0.4s ease-in-out;
+	z-index: 999;
+}
+
+.hamburger-menu.active {
+	right: 0;
+}
+
+.hamburger-menu ul {
+	padding: 80px 0 0 0;
+	margin: 0;
+}
+
+.hamburger-menu li {
+	list-style: none;
+	/* 黒点を消す */
+	margin: 0;
+	padding: 0;
+}
+
+.hamburger-menu a {
+	display: block;
+	padding: 1rem 2rem;
+	color: #333;
+	text-decoration: none;
+	font-size: 1.1rem;
+	transition: all 0.3s ease;
+}
+
+.hamburger-menu a:hover {
+	background-color: #f5f5f5;
+	padding-left: 2.5rem;
+}
+
+/* メニューが開いているときの背景オーバーレイ */
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.4s ease-in-out;
+	z-index: 998;
+}
+
+.overlay.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* 既存のCSSに追加 */
+.profiles {
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+	margin: 2rem 0;
+}
+
+.profile-card {
+	background: white;
+	padding: 1.5rem;
+	border-radius: 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	min-width: 200px;
+}
+
+.user-profile,
+.partner-profile {
+	flex: 1;
+	max-width: 300px;
+}
+
+.username,
+.partner-name {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 1rem;
+	color: #333;
+}
+
+.diagnosis-image {
+	width: 100%;
+	max-width: 150px;
+	height: auto;
+	border-radius: 50%;
+	margin: 0.5rem 0;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.no-partner {
+	text-align: center;
+	color: #666;
+	font-style: italic;
+	padding: 2rem;
+	background: white;
+	border-radius: 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

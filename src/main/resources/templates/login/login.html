@@ -5,28 +5,36 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ログイン画面</title>
+	<link rel="stylesheet" href="/css/login/login.css">
 </head>
 
 <body>
 	<div class="login-container">
 		<h2>ログイン</h2>
-		
+
 
 		<form th:action="@{/dateMaster/login}" th:method="post">
+			<!-- ユーザーID -->
 			<label for="userid">ユーザーID</label>
-			<input type="text" id="userid" th:name="userid" required><br><br>
+			<input type="text" id="userid" th:name="userid" placeholder="ユーザーIDを入力してください" required>
 
+			<!-- パスワード -->
 			<label for="password">パスワード</label>
-			<input type="password" id="password" th:name="password" required><br><br>
+			<input type="password" id="password" th:name="password" placeholder="パスワードを入力してください" required>
 
 			<!-- エラーメッセージ-->
-			<p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
+			<p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
 
+			<!-- ログインボタン -->
 			<input type="submit" value="ログイン">
 		</form>
+
+		<p class="register-link">
+			アカウントをお持ちでない方は<a th:href="@{/dateMaster/register}">新規登録</a>
+		</p>
 	</div>
 
-	<p>アカウントをお持ちでない方は<a th:href="@{/dateMaster/register}">新規登録</a></p>
+
 </body>
 
 </html>

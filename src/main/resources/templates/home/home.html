@@ -5,27 +5,51 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ホーム画面</title>
+	<link rel="stylesheet" href="/css/home/home.css">
 </head>
 
 <body>
 	<header>
 		<h1>DatingMaster</h1>
-		<div class="hamburger-menu">
-			<li><a href="date.html">デート</a></li>
-			<li><a href="diagnosis.html">診断</a></li>
-			<li><a href="partner.html">パートナー</a></li>
-			<li><a href="setting.html">設定</a></li>
-			<li><a href="logout.html">ログアウト</a></li>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
 		</div>
-
-
-
 	</header>
+
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/}">ログアウト</a></li>
+	</ul>
+
 	<main>
 		<div class="user-info">
+			<div class="profiles">
+				<!-- ユーザー情報 -->
+				<div class="profile-card user-profile">
+					<p class="username" th:text="${user.name}">ユーザー名</p>
+					<div class="diagnosis-result" th:if="${diagnosisImage != null}">
+						<img th:src="${diagnosisImage}" alt="診断結果タイプ画像" class="diagnosis-image">
+					</div>
+				</div>
 
-			<!-- ユーザー名を表示-->
-			<p th:text="${user.name}">ユーザー名</p>
+				<!-- パートナー情報 -->
+				<div class="profile-card partner-profile" th:if="${partnerName != null}">
+					<p class="partner-name" th:text="${partnerName}">パートナー名</p>
+					<div class="diagnosis-result" th:if="${partnerDiagnosisImage != null}">
+						<img th:src="${partnerDiagnosisImage}" alt="パートナーの診断結果タイプ画像" class="diagnosis-image">
+					</div>
+				</div>
+
+				<!-- パートナーがいない場合のメッセージ -->
+				<p class="no-partner" th:if="${partnerName == null}">
+					パートナーはまだ設定されていません
+				</p>
+			</div>
 		</div>
 
 		<div class="button-group">
@@ -46,6 +70,7 @@
 
 	</main>
 
+	<script src="/js/home/home.js"></script>
 </body>
 
 </html>
