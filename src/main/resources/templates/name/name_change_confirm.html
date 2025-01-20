@@ -5,13 +5,28 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>名前変更確認画面</title>
+	<link rel="stylesheet" href="/css/name/name_change_confirm.css">
+	<script src="/js/name/name_change_confirm.js" defer></script>
 </head>
 
 <body>
 	<header>
-		<h1>名前変更確認</h1>
-
+		<h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
 	</header>
+
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	</ul>
+
 	<main>
 		<!-- 戻るボタン -->
 		<div class="back-button">
