@@ -14,62 +14,70 @@ import com.example.demo.entity.DateSpot;
 @Repository
 public class DateSpotRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-    // 名前に部分一致するデートスポットを検索するメソッド
-    public List<DateSpot> findBySpotNameContaining(String spotName) {
-        String sql = "SELECT * FROM date_spots WHERE spot_name LIKE ?";
-        return jdbcTemplate.query(sql, new Object[]{"%" + spotName + "%"}, new DateSpotRowMapper());
-    }
+	// IDでスポットを検索するメソッドを追加
+	public DateSpot findById(Long spotId) {
+		String sql = "SELECT * FROM date_spots WHERE spot_id = ?";
+		List<DateSpot> spots = jdbcTemplate.query(sql, new Object[] { spotId }, new DateSpotRowMapper());
+		return spots.isEmpty() ? null : spots.get(0);
+	}
 
-    // 名前で完全一致するデートスポットを検索するメソッド
-    public List<DateSpot> findBySpotName(String spotName) {
-        String sql = "SELECT * FROM date_spots WHERE spot_name = ?";
-        return jdbcTemplate.query(sql, new Object[]{spotName}, new DateSpotRowMapper());
-    }
+	// 名前に部分一致するデートスポットを検索するメソッド
+	public List<DateSpot> findBySpotNameContaining(String spotName) {
+		String sql = "SELECT * FROM date_spots WHERE spot_name LIKE ?";
+		return jdbcTemplate.query(sql, new Object[] { "%" + spotName + "%" }, new DateSpotRowMapper());
+	}
 
-    // すべてのスポットを取得するメソッド
-    public List<DateSpot> findAll() {
-        String sql = "SELECT * FROM date_spots";
-        return jdbcTemplate.query(sql, new DateSpotRowMapper());
-    }
+	// 名前で完全一致するデートスポットを検索するメソッド
+	public List<DateSpot> findBySpotName(String spotName) {
+		String sql = "SELECT * FROM date_spots WHERE spot_name = ?";
+		return jdbcTemplate.query(sql, new Object[] { spotName }, new DateSpotRowMapper());
+	}
 
-    // 複数のスポット名を使って一度にスポット情報を取得するメソッド
-    public List<DateSpot> findBySpotNames(List<String> spotNames) {
-        // IN句のプレースホルダを動的に作成
-        String sql = "SELECT * FROM date_spots WHERE spot_name IN (" +
-                     String.join(",", spotNames.stream().map(s -> "?").toArray(String[]::new)) + ")";
-        
-        // クエリの引数としてスポット名リストを渡す
-        return jdbcTemplate.query(sql, spotNames.toArray(), new DateSpotRowMapper());
-    }
- // 名前で完全一致する単一のデートスポットを検索するメソッド
-    public DateSpot findSingleSpotByName(String spotName) {
-        String sql = "SELECT * FROM date_spots WHERE spot_name = ?";
-        List<DateSpot> spots = jdbcTemplate.query(sql, new Object[]{spotName}, new DateSpotRowMapper());
-        return spots.isEmpty() ? null : spots.get(0);
-    }
+	// すべてのスポットを取得するメソッド
+	public List<DateSpot> findAll() {
+		String sql = "SELECT * FROM date_spots";
+		return jdbcTemplate.query(sql, new DateSpotRowMapper());
+	}
 
-    private static class DateSpotRowMapper implements RowMapper<DateSpot> {
-        @Override
-        public DateSpot mapRow(ResultSet rs, int rowNum) throws SQLException {
-            DateSpot spot = new DateSpot();
-            spot.setSpotId(rs.getLong("spot_id"));
-            spot.setSpotName(rs.getString("spot_name"));
-            spot.setDescription(rs.getString("category"));
-            spot.setSpotType(rs.getLong("spot_type"));
-            spot.setSpotAddress(rs.getString("spot_address"));
-            spot.setMonday(rs.getString("Monday"));
-            spot.setTuesday(rs.getString("Tuesday"));
-            spot.setWednesday(rs.getString("Wednesday"));
-            spot.setThursday(rs.getString("Thursday"));
-            spot.setFriday(rs.getString("Friday"));
-            spot.setSaturday(rs.getString("Saturday"));
-            spot.setSunday(rs.getString("Sunday"));
-            spot.setLatitude(rs.getDouble("latitude"));
-            spot.setLongitude(rs.getDouble("longitude"));
-            return spot;
-        }
-    }
+	// 複数のスポット名を使って一度にスポット情報を取得するメソッド
+	public List<DateSpot> findBySpotNames(List<String> spotNames) {
+		// IN句のプレースホルダを動的に作成
+		String sql = "SELECT * FROM date_spots WHERE spot_name IN (" +
+				String.join(",", spotNames.stream().map(s -> "?").toArray(String[]::new)) + ")";
+
+		// クエリの引数としてスポット名リストを渡す
+		return jdbcTemplate.query(sql, spotNames.toArray(), new DateSpotRowMapper());
+	}
+
+	// 名前で完全一致する単一のデートスポットを検索するメソッド
+	public DateSpot findSingleSpotByName(String spotName) {
+		String sql = "SELECT * FROM date_spots WHERE spot_name = ?";
+		List<DateSpot> spots = jdbcTemplate.query(sql, new Object[] { spotName }, new DateSpotRowMapper());
+		return spots.isEmpty() ? null : spots.get(0);
+	}
+
+	private static class DateSpotRowMapper implements RowMapper<DateSpot> {
+		@Override
+		public DateSpot mapRow(ResultSet rs, int rowNum) throws SQLException {
+			DateSpot spot = new DateSpot();
+			spot.setSpotId(rs.getLong("spot_id"));
+			spot.setSpotName(rs.getString("spot_name"));
+			spot.setDescription(rs.getString("category"));
+			spot.setSpotType(rs.getLong("spot_type"));
+			spot.setSpotAddress(rs.getString("spot_address"));
+			spot.setMonday(rs.getString("Monday"));
+			spot.setTuesday(rs.getString("Tuesday"));
+			spot.setWednesday(rs.getString("Wednesday"));
+			spot.setThursday(rs.getString("Thursday"));
+			spot.setFriday(rs.getString("Friday"));
+			spot.setSaturday(rs.getString("Saturday"));
+			spot.setSunday(rs.getString("Sunday"));
+			spot.setLatitude(rs.getDouble("latitude"));
+			spot.setLongitude(rs.getDouble("longitude"));
+			return spot;
+		}
+	}
 }
