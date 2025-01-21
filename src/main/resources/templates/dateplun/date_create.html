@@ -81,6 +81,10 @@
             <!-- 緯度経度の情報も追加 -->
             <input type="hidden" name="spotLatitudes" th:value="${spotLatitudes}" />
             <input type="hidden" name="spotLongitudes" th:value="${spotLongitudes}" />
+			<div th:each="spot : ${selectedSpots}">
+			    <input type="hidden" name="spotIds" th:value="${spot.spotId}" />
+			</div>
+
 
             <button type="submit">デートプラン作成</button>
         </form>

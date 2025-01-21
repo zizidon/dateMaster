@@ -44,6 +44,12 @@ public class DateSpotRepository {
         // クエリの引数としてスポット名リストを渡す
         return jdbcTemplate.query(sql, spotNames.toArray(), new DateSpotRowMapper());
     }
+ // 名前で完全一致する単一のデートスポットを検索するメソッド
+    public DateSpot findSingleSpotByName(String spotName) {
+        String sql = "SELECT * FROM date_spots WHERE spot_name = ?";
+        List<DateSpot> spots = jdbcTemplate.query(sql, new Object[]{spotName}, new DateSpotRowMapper());
+        return spots.isEmpty() ? null : spots.get(0);
+    }
 
     private static class DateSpotRowMapper implements RowMapper<DateSpot> {
         @Override
