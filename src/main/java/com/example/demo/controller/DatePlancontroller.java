@@ -81,37 +81,42 @@ public class DatePlancontroller {
     // スポットをデートプランに追加
     @PostMapping("/addSpotToPlan")
     public String addSpotToPlan(@RequestParam("spotName") String spotName,
-                                 @RequestParam("spotDescription") String spotDescription,
-                                 @RequestParam("spotAddress") String spotAddress,
-                                 @RequestParam("spotOpeningMonday") String spotOpeningMonday,
-                                 @RequestParam("spotOpeningTuesday") String spotOpeningTuesday,
-                                 @RequestParam("spotOpeningWednesday") String spotOpeningWednesday,
-                                 @RequestParam("spotOpeningThursday") String spotOpeningThursday,
-                                 @RequestParam("spotOpeningFriday") String spotOpeningFriday,
-                                 @RequestParam("spotOpeningSaturday") String spotOpeningSaturday,
-                                 @RequestParam("spotOpeningSunday") String spotOpeningSunday,
-                                 @RequestParam("spotLatitude") double spotLatitude,  // 緯度
-                                 @RequestParam("spotLongitude") double spotLongitude,  // 経度
-                                 @RequestParam()
-                                 Model model) {
-        // 新しいスポットオブジェクトを作成して、フォームから送られたデータをセット
-        DateSpot selectedSpot = new DateSpot();
-        selectedSpot.setSpotName(spotName);
-        selectedSpot.setDescription(spotDescription);
-        selectedSpot.setSpotAddress(spotAddress);
-        selectedSpot.setMonday(spotOpeningMonday);
-        selectedSpot.setTuesday(spotOpeningTuesday);
-        selectedSpot.setWednesday(spotOpeningWednesday);
-        selectedSpot.setThursday(spotOpeningThursday);
-        selectedSpot.setFriday(spotOpeningFriday);
-        selectedSpot.setSaturday(spotOpeningSaturday);
-        selectedSpot.setSunday(spotOpeningSunday);
-        selectedSpot.setLatitude(spotLatitude);  // 緯度を設定
-        selectedSpot.setLongitude(spotLongitude);  // 経度を設定
+                               @RequestParam("spotDescription") String spotDescription,
+                               @RequestParam("spotAddress") String spotAddress,
+                               @RequestParam("spotOpeningMonday") String spotOpeningMonday,
+                               @RequestParam("spotOpeningTuesday") String spotOpeningTuesday,
+                               @RequestParam("spotOpeningWednesday") String spotOpeningWednesday,
+                               @RequestParam("spotOpeningThursday") String spotOpeningThursday,
+                               @RequestParam("spotOpeningFriday") String spotOpeningFriday,
+                               @RequestParam("spotOpeningSaturday") String spotOpeningSaturday,
+                               @RequestParam("spotOpeningSunday") String spotOpeningSunday,
+                               @RequestParam("spotLatitude") double spotLatitude,
+                               @RequestParam("spotLongitude") double spotLongitude,
+                               Model model) {
+        // データベースから該当するスポットを検索
+        List<DateSpot> existingSpots = dateSpotRepository.findBySpotNameContaining(spotName);
+        DateSpot selectedSpot;
         
-        
-        // カテゴリ名を設定
-        selectedSpot.setCategoryName(convertDescriptionToCategory(spotDescription));
+        if (!existingSpots.isEmpty()) {
+            // データベースに存在する場合は、そのスポットを使用
+            selectedSpot = existingSpots.get(0);
+        } else {
+            // 新しいスポットオブジェクトを作成して、フォームから送られたデータをセット
+            selectedSpot = new DateSpot();
+            selectedSpot.setSpotName(spotName);
+            selectedSpot.setDescription(spotDescription);
+            selectedSpot.setSpotAddress(spotAddress);
+            selectedSpot.setMonday(spotOpeningMonday);
+            selectedSpot.setTuesday(spotOpeningTuesday);
+            selectedSpot.setWednesday(spotOpeningWednesday);
+            selectedSpot.setThursday(spotOpeningThursday);
+            selectedSpot.setFriday(spotOpeningFriday);
+            selectedSpot.setSaturday(spotOpeningSaturday);
+            selectedSpot.setSunday(spotOpeningSunday);
+            selectedSpot.setLatitude(spotLatitude);
+            selectedSpot.setLongitude(spotLongitude);
+            selectedSpot.setCategoryName(convertDescriptionToCategory(spotDescription));
+        }
 
         // セッションから選ばれたスポットリストを取得
         List<DateSpot> selectedSpots = (List<DateSpot>) model.getAttribute("selectedSpots");
@@ -119,22 +124,18 @@ public class DatePlancontroller {
             selectedSpots = new ArrayList<>();
         }
 
-        // 重複チェック：スポット名がすでに選ばれていないか確認
+        // 重複チェック
         boolean isDuplicate = selectedSpots.stream()
-                                           .anyMatch(spot -> spot.getSpotName().equals(selectedSpot.getSpotName()));
+                .anyMatch(spot -> spot.getSpotName().equals(selectedSpot.getSpotName()));
         if (!isDuplicate) {
-            selectedSpots.add(selectedSpot); // スポットを追加
+            selectedSpots.add(selectedSpot);
         } else {
             model.addAttribute("message", "このスポットはすでに追加されています。");
         }
 
-        // セッションに選ばれたスポットを保存
         model.addAttribute("selectedSpots", selectedSpots);
-
-        // デートプラン作成ページにリダイレクト
         return "redirect:/dateCreate";
     }
-
     // デートプラン確認
  // デートプラン確認
     @PostMapping("/createDatePlan")

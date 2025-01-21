@@ -65,7 +65,9 @@
             <!-- 緯度経度の隠しフィールド -->
             <input type="hidden" name="spotLatitudes" th:value="${spotLatitudes}" />
             <input type="hidden" name="spotLongitudes" th:value="${spotLongitudes}" />
-			<input type="hidden" name="spotIds" th:value="${spot.spotId}" th:each="spot : ${spots}" />
+			<th:block th:each="spot, spotStat : ${spots}">
+			        <input type="hidden" th:name="'spot' + ${spotStat.count} + 'Id'" th:value="${spot.spotId}" />
+			    </th:block>
 			
 
             <button type="submit">プラン確定</button>
