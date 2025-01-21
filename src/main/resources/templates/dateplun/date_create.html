@@ -71,7 +71,7 @@
         <div th:if="${selectedSpots == null or selectedSpots.isEmpty()}">
             <p>スポットが追加されていません。</p>
         </div>
-		<button type="button" onclick="history.back()">機能一覧画面に戻る</button>
+		
 		<div class="button-group">
 			<!-- スポットが3つ未満の時だけボタンを有効にする -->
 			    <button type="button" 
@@ -87,6 +87,7 @@
 			        ※最大3つまでスポットを追加できます
 			    </div>
         </div>
+		<button type="button" onclick="history.back()">機能一覧画面に戻る</button>
         <form action="/createDatePlan" method="post">
             <input type="hidden" name="spotNames" th:value="${spotNames}" />
             <input type="hidden" name="spotDescriptions" th:value="${spotDescriptions}" />
