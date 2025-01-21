@@ -72,6 +72,7 @@ public class DatePlancontroller {
         model.addAttribute("query", query);
 
         return "dateplun/date_add";  // 検索結果画面
+        
     }
 
     // スポットをデートプランに追加
