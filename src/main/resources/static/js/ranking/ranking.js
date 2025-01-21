@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 
+	// ハンバーガーボタンクリックイベント
 	hamburgerButton.addEventListener('click', toggleMenu);
 	overlay.addEventListener('click', toggleMenu);
 
@@ -31,13 +32,22 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 
-
-
-	// 戻るボタンのクリック時の処理
-	const backButtons = document.querySelectorAll('button[type="button"]');
-	backButtons.forEach(button => {
-		button.addEventListener('click', function() {
-			history.back();
+	// 画像の遅延読み込み
+	const images = document.querySelectorAll('.spot-image');
+	const imageObserver = new IntersectionObserver((entries, observer) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				const img = entry.target;
+				if (img.dataset.src) {
+					img.src = img.dataset.src;
+					img.removeAttribute('data-src');
+				}
+				observer.unobserve(img);
+			}
 		});
+	});
+
+	images.forEach(img => {
+		imageObserver.observe(img);
 	});
 });

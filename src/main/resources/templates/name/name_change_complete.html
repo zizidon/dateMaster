@@ -2,23 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset=" UTF-8">
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>名前変更完了画面</title>
+	<link rel="stylesheet" href="/css/name/name_change_complete.css">
+	<script src="/js/name/name_change_complete.js" defer></script>
 </head>
 
 <body>
 	<header>
-		<h1>名前変更完了</h1>
-
+		<h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
 	</header>
+
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	</ul>
+
 	<main>
+		<!-- 完了メッセージ -->
 		<div class="complete-message">
-			<p th:text="${message}">名前変更が完了しました。</p>
+			<div class="message-icon">✓</div>
+			<h2>名前の変更が完了しました</h2>
+
 		</div>
 
-		<div class="back-button">
-			<a th:href="@{'/dateMaster/setting'}">設定画面に戻る</a>
+		<!-- ホームへ戻るボタン -->
+		<div class="button-container">
+			<a th:href="@{/dateMaster/home}" class="home-button">ホームへ戻る</a>
 		</div>
 	</main>
 </body>
