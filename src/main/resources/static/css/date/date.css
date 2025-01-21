@@ -153,6 +153,8 @@ main {
     padding: 0;
 }
 
+
+
 /* 戻るボタン用のフォームコンテナ */
 main > form {
     padding: 0 0 2rem 2rem;
@@ -244,6 +246,7 @@ form button[type="submit"]:hover {
     font-size: 0.9rem;
     line-height: 1.5;
     margin: 0;
+	text-align: center;
 }
 
 /* アニメーション効果 */
@@ -295,4 +298,5 @@ form button[type="submit"]:hover {
     .button-link {
         width: 100%;
     }
+
 }
