@@ -1,0 +1,255 @@
+/* 全体のリセットとベーススタイル */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #f8f9fa;
+	min-height: 100vh;
+
+}
+
+/* ヘッダー部分 */
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	background-color: #fff;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: 100px;
+}
+
+header h1 {
+	color: #333;
+	font-size: 1.8rem;
+}
+
+/* ヘッダーロゴのリンクスタイル */
+header h1 a {
+	color: #333;
+	text-decoration: none;
+	transition: opacity 0.3s ease;
+}
+
+header h1 a:hover {
+	opacity: 0.7;
+}
+
+/* メインコンテンツ */
+main {
+	margin-top: 120px;
+	padding: 2rem;
+	min-height: calc(100vh - 120px);
+	position: relative;
+}
+
+/* 戻るボタン */
+.back-button {
+	position: absolute;
+	top: 2rem;
+	left: 2rem;
+	width: auto;
+}
+
+.back-button button {
+	padding: 0.8rem 2rem;
+	background-color: #6c757d;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+	min-width: 100px;
+}
+
+.back-button button:hover {
+	background-color: #5a6268;
+	transform: translateY(-2px);
+}
+
+/* マイページ情報カード */
+.mypage-info {
+	background: white;
+	border-radius: 15px;
+	padding: 2rem;
+	width: 100%;
+	max-width: 600px;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+	margin: 6rem auto 2rem auto;
+	/* 上部マージンを増やして戻るボタンの下に配置 */
+}
+
+.mypage-info table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0 1rem;
+}
+
+.mypage-info th {
+	text-align: left;
+	padding: 1rem;
+	width: 120px;
+	color: #666;
+	font-weight: 500;
+	font-size: 1.1rem;
+	position: relative;
+}
+
+.mypage-info th::after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	height: 20px;
+	width: 1px;
+	background-color: #ddd;
+}
+
+.mypage-info td {
+	padding: 1rem 1.5rem;
+	font-size: 1.2rem;
+	color: #333;
+	background-color: #f8f9fa;
+	border-radius: 8px;
+}
+
+/* ハンバーガーメニュー関連のスタイルは変更なし */
+.hamburger-button {
+	width: 30px;
+	height: 24px;
+	position: relative;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+.hamburger-button span {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	background-color: #333;
+	border-radius: 4px;
+	transition: all 0.4s ease-in-out;
+}
+
+.hamburger-button span:nth-child(1) {
+	top: 0;
+}
+
+.hamburger-button span:nth-child(2) {
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.hamburger-button span:nth-child(3) {
+	bottom: 0;
+}
+
+.hamburger-button.active span:nth-child(1) {
+	top: 50%;
+	transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger-button.active span:nth-child(2) {
+	opacity: 0;
+}
+
+.hamburger-button.active span:nth-child(3) {
+	bottom: 50%;
+	transform: translateY(50%) rotate(-45deg);
+}
+
+.hamburger-menu {
+	position: fixed;
+	top: 0;
+	right: -100%;
+	width: 300px;
+	height: 100vh;
+	background-color: #fff;
+	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+	transition: all 0.4s ease-in-out;
+	z-index: 999;
+}
+
+.hamburger-menu.active {
+	right: 0;
+}
+
+.hamburger-menu ul {
+	padding: 80px 0 0 0;
+	margin: 0;
+}
+
+.hamburger-menu li {
+	list-style: none;
+}
+
+.hamburger-menu a {
+	display: block;
+	padding: 1rem 2rem;
+	color: #333;
+	text-decoration: none;
+	font-size: 1.1rem;
+	transition: all 0.3s ease;
+}
+
+.hamburger-menu a:hover {
+	background-color: #f5f5f5;
+	padding-left: 2.5rem;
+}
+
+/* オーバーレイ */
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.4s ease-in-out;
+	z-index: 998;
+}
+
+.overlay.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+	.mypage-info {
+		padding: 1rem;
+		margin: 5rem 1rem 1rem 1rem;
+	}
+
+	.mypage-info th {
+		width: 80px;
+		font-size: 1rem;
+	}
+
+	.mypage-info td {
+		font-size: 1.1rem;
+		padding: 0.8rem 1rem;
+	}
+
+	.back-button {
+		top: 1rem;
+		left: 1rem;
+	}
+
+	main {
+		padding: 1rem;
+	}
+}

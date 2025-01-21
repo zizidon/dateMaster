@@ -19,13 +19,11 @@ header {
 	background-color: #fff;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 	position: fixed;
-	/* ヘッダーを固定 */
 	top: 0;
 	left: 0;
 	right: 0;
 	z-index: 100;
 	height: 100px;
-	/* ヘッダーの高さを固定 */
 }
 
 /* ヘッダーロゴのリンクスタイル */
@@ -41,134 +39,64 @@ header h1 a:hover {
 
 /* メインコンテンツ */
 main {
-	margin-top: 60px;
-	/* ヘッダーの高さ分のマージン */
-	padding: 1rem;
-	min-height: calc(100vh - 60px);
-	/* ヘッダーの高さを引いた最小の高さ */
+	margin-top: 120px;
+	padding: 2rem;
+	min-height: calc(100vh - 120px);
 }
 
-/* ユーザー情報セクション */
-.user-info {
-	background-color: #f8f9fa;
-	padding: 2rem 1rem;
-	border-bottom: 2px solid #e0e0e0;
-	margin: -1rem -1rem 2rem -1rem;
-	/* ネガティブマージンで端まで広げる */
-	width: calc(100% + 2rem);
-	/* 幅を調整 */
+/* 戻るボタン */
+.back-button {
+	margin-bottom: 2rem;
 }
 
-/* プロフィール部分のレスポンシブ対応 */
-.profiles {
-	display: flex;
-	justify-content: center;
-	gap: 2rem;
-	margin: 0 auto;
-	max-width: 800px;
-	padding: 0 1rem;
-	flex-wrap: wrap;
+.back-button button {
+	padding: 0.8rem 2rem;
+	background-color: #6c757d;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: all 0.3s ease;
 }
 
-.profile-card {
-	flex: 1;
-	min-width: 250px;
-	max-width: 300px;
-	margin: 0.5rem;
-	background: white;
-	padding: 1.5rem;
-	border-radius: 10px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	/* 追加：オーバーフロー制御 */
-	overflow: hidden;
+.back-button button:hover {
+	background-color: #5a6268;
+	transform: translateY(-2px);
 }
 
-/* 診断画像用のスタイル追加 */
-.profile-card img {
-	width: 100%;
-	height: auto;
-	max-width: 100%;
-	display: block;
-	object-fit: contain;
-	margin: 0 auto;
-}
-
-/* ボタングループのレスポンシブ対応 */
+/* ボタングループのスタイル */
 .button-group {
 	display: grid;
-	grid-template-columns: repeat(2, minmax(140px, 200px));
-	/* 最小幅と最大幅を設定 */
-	gap: 1.5rem;
-	justify-content: center;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 2rem;
 	max-width: 800px;
-	margin: 2rem auto;
-	padding: 0 1rem;
+	margin: 0 auto;
+	padding: 1rem;
 }
 
 .button-group button {
 	width: 100%;
-	aspect-ratio: 1;
+	padding: 2rem;
 	border: none;
 	border-radius: 10px;
-	color: white;
-	font-size: 1.1rem;
+	background-color: #fff;
+	color: #333;
+	font-size: 1.2rem;
 	font-weight: bold;
 	cursor: pointer;
 	transition: all 0.3s ease;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* ボタンの色設定 */
-.button-group a:nth-child(1) button {
-	background-color: #4a90e2;
-}
-
-.button-group a:nth-child(2) button {
-	background-color: #e24a90;
-}
-
-.button-group a:nth-child(3) button {
-	background-color: #90e24a;
-}
-
-.button-group a:nth-child(4) button {
-	background-color: #e2904a;
-}
-
-/* ボタンのホバー・アクティブ効果 */
 .button-group button:hover {
 	transform: translateY(-5px);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-	filter: brightness(1.1);
 }
 
 .button-group button:active {
 	transform: translateY(0);
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	filter: brightness(0.95);
-}
-
-/* スマートフォン向けのメディアクエリ */
-@media (max-width: 768px) {
-	.profiles {
-		flex-direction: column;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	.profile-card {
-		width: 100%;
-		max-width: none;
-		margin: 0.5rem 0;
-		/* 追加：モバイル時の最大幅設定 */
-		max-width: calc(100vw - 2rem);
-	}
-
-	.profile-card img {
-		/* 追加：モバイル時の画像サイズ調整 */
-		max-width: 100%;
-		height: auto;
-	}
 }
 
 /* ハンバーガーメニューの設定 */
@@ -203,7 +131,7 @@ main {
 	bottom: 0;
 }
 
-/* ハンバーガーボタンがアクティブ時の状態 */
+/* ハンバーガーメニューのアクティブ状態 */
 .hamburger-button.active span:nth-child(1) {
 	top: 50%;
 	transform: translateY(-50%) rotate(45deg);
@@ -236,14 +164,10 @@ main {
 
 .hamburger-menu ul {
 	padding: 80px 0 0 0;
-	margin: 0;
 }
 
 .hamburger-menu li {
 	list-style: none;
-	/* 黒点を消す */
-	margin: 0;
-	padding: 0;
 }
 
 .hamburger-menu a {
@@ -260,7 +184,6 @@ main {
 	padding-left: 2.5rem;
 }
 
-/* メニューが開いているときの背景オーバーレイ */
 .overlay {
 	position: fixed;
 	top: 0;
@@ -277,4 +200,21 @@ main {
 .overlay.active {
 	opacity: 1;
 	visibility: visible;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+	.button-group {
+		grid-template-columns: 1fr;
+		gap: 1rem;
+		padding: 1rem;
+	}
+
+	.button-group button {
+		padding: 1.5rem;
+	}
+
+	main {
+		padding: 1rem;
+	}
 }

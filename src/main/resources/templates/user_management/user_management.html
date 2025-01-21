@@ -5,21 +5,26 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ユーザー管理画面</title>
+	<link rel="stylesheet" href="/css/user_management/user_management.css">
 </head>
 
 <body>
 	<header>
-		<h1>ユーザー管理</h1>
-		<div class="hamburger-menu">
-			<ul>
-				<li><a href="date.html">デート</a></li>
-				<li><a href="diagnosis.html">診断</a></li>
-				<li><a href="partner.html">パートナー</a></li>
-				<li><a href="setting.html">設定</a></li>
-				<li><a href="logout.html">ログアウト</a></li>
-			</ul>
+		<h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
 		</div>
 	</header>
+
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	</ul>
 	<main>
 
 		<!-- 前の画面に戻るボタン　-->
@@ -41,6 +46,9 @@
 
 		</div>
 	</main>
+
+	<script src="/js/user_management/user_management.js"></script>
+
 </body>
 
 </html>

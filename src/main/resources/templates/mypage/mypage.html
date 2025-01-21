@@ -6,19 +6,27 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>マイページ画面</title>
+	<link rel="stylesheet" href="/css/mypage/mypage.css">
 </head>
 
 <body>
 	<header>
-		<h1>マイページ</h1>
-		<div class="hamburger-menu">
-			<li><a href="date.html">デート</a></li>
-			<li><a href="diagnosis.html">診断</a></li>
-			<li><a href="partner.html">パートナー</a></li>
-			<li><a href="setting.html">設定</a></li>
-			<li><a href="logout.html">ログアウト</a></li>
+		<h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
 		</div>
 	</header>
+
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	</ul>
+
 	<main>
 
 		<!-- 戻るボタン -->
@@ -30,23 +38,20 @@
 		<div class="mypage-info">
 			<table>
 				<tr>
-					<th>名前:</th>
+					<th>名前</th>
 					<td th:text="${userName}">ユーザー名</td>
 				</tr>
 				<tr>
-					<th>ID:</th>
+					<th>ID</th>
 					<td th:text="${userId}">ユーザーID</td>
 				</tr>
 
 			</table>
 		</div>
 
-
-		<!-- 閉じるボタン -->
-		<div class="back-button">
-			<button type="button" onclick="history.back()">閉じる</button>
-		</div>
 	</main>
+
+	<script src="/js/mypage/mypage.js"></script>
 </body>
 
 </html>
