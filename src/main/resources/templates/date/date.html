@@ -2,62 +2,77 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>デート機能一覧</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デート機能一覧</title>
+    <link rel="stylesheet" href="/css/date/date.css">
 </head>
 
 <body>
-	<header>
-		<h1>デート機能一覧</h1>
-	</header>
-	<main>
+    <header>
+        <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+        <div class="hamburger-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
 
+    <nav class="hamburger-menu">
+        <ul>
+            <li><a th:href="@{/dateMaster/date}">デート</a></li>
+            <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+            <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+            <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+            <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+        </ul>
+    </nav>
 
+    <div class="overlay"></div>
 
+    <main>
+        <!-- 既存のコンテンツ -->
+        <form th:action="@{/dateMaster/home}" method="get">
+            <button type="submit">戻る</button>
+        </form>
 
-		<form th:action="@{/dateMaster/home}" method="get">
-			<button type="submit">戻る</button>
-		</form>
+        <br>
+        <br>
 
-		<br>
+        <div class="button-group">
+            <!-- ランダムデートプランリンク -->
+            <a href="#" th:href="@{/randomDate}" class="button-link">
+                <button type="button">ランダムデートプラン</button>
+                <p>質問に答えるだけで手軽にデートプランを作成してくれる機能です♡</p>
+            </a>
+	
+            <!-- デートプランリンク -->
+            <a href="#" th:href="@{/dateCreate}" class="button-link">
+                <button type="button">デートプラン</button>
+                <p>自分でプランを作成することができる機能です♡</p>
+            </a>
 
+            <!-- デートミッションリンク -->
+            <a href="#" th:href="@{/dateRank}" class="button-link">
+                <button type="button">デートミッション</button>
+                <p>レベルで別れたミッションをデート中に実践できる機能です♡</p>
+            </a>
 
-		<br>
+            <!-- デートプランランキングリンク -->
+            <a href="#" th:href="@{/datePlanRanking}" class="button-link">
+                <button type="button">デートプランランキング</button>
+                <p>人気のプランをランキングで閲覧できる機能です♡</p>
+            </a>
 
-		<div class="button-group">
-			<!-- ランダムデートプランリンク -->
-			<a href="#" th:href="@{/randomDate}" class="button-link">
-				<button type="button">ランダムデートプラン</button>
-			</a>
-			<p>質問に答えるだけで、手軽にデートプランを作成してくれる機能です♡</p>
+            <!-- デートプラン共有リンク -->
+            <a href="#" th:href="@{/datePlanShare}" class="button-link">
+                <button type="button">デートプラン共有</button>
+                <p>お互いが作成したプランを共有できる機能です♡</p>
+            </a>
+        </div>
+    </main>
 
-			<!-- デートプランリンク -->
-			<a href="#" th:href="@{/dateCreate}" class="button-link">
-				<button type="button">デートプラン</button>
-			</a>
-			<p>自分でプランを作成することができる機能です</p>
-
-			<!-- デートミッションリンク -->
-
-			<a href="#" th:href="@{/dateRank}" class="button-link">
-				<button type="button">デートミッション</button>
-			</a>
-			<p>レベルで別れたミッションをデート中に実践できる機能です</p>
-
-			<!-- デートプランランキングリンク -->
-			<a href="#" th:href="@{/datePlanRanking}" class="button-link">
-				<button type="button">デートプランランキング</button>
-			</a>
-			<p>シチュエーションごとのプランをランキングで閲覧できる機能です</p>
-
-			<!-- デートプラン共有リンク -->
-			<a href="#" th:href="@{/datePlanShare}" class="button-link">
-				<button type="button">デートプラン共有</button>
-			</a>
-			<p>お互いが作成したプランを共有できる機能です</p>
-		</div>
-	</main>
+    <script src="/js/home/home.js"></script>
 </body>
 
 </html>

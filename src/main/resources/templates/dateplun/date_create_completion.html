@@ -5,119 +5,188 @@
     <title>デートプラン - 地図表示</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
-	<style>
-	        #map { 
-	            width: 70%; 
-	            height: 450px; 
-	            margin-bottom: 30px;
-	        }
-	        .spot-images {
-	            width: 70%;
-	            display: flex;
-	            align-items: center;
-	            gap: 10px;
-	            overflow-x: auto;
-	            padding: 20px 0;
-	        }
-	        .spot-image-container {
-	            display: flex;
-	            align-items: center;
-	            flex-shrink: 0;
-	        }
-	        .spot-image {
-	            width: 200px;
-	            height: 150px;
-	            object-fit: cover;
-	            border-radius: 8px;
-	            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-	        }
-	        .arrow {
-	            margin: 0 15px;
-	            font-size: 24px;
-	            color: #666;
-	        }
-	    </style>
-	</head>
-	<body>
-	    <header>
-	        <h1>デートプラン - 地図表示</h1>
-	    </header>
+    <style>
+        #map { 
+            width: 70%; 
+            height: 450px; 
+            margin-bottom: 30px;
+        }
+        .spot-images {
+            width: 70%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+        .spot-image-container {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .spot-image {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .arrow {
+            margin: 0 15px;
+            font-size: 24px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>デートプラン - 地図表示</h1>
+    </header>
 
-	    <main>
-	        <div id="map"></div>
+    <main>
+        
 
-	        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-	        <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-	        <script th:inline="javascript">
-	        /*<![CDATA[*/
-	        // 地図の初期設定 (鹿児島中央駅の座標)
-	        const map = L.map('map').setView([31.5837, 130.5412], 13);
+        <div id="map"></div>
 
-	        // OpenStreetMapタイルレイヤーを追加
-	        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-	        }).addTo(map);
+		<!-- 初期地点選択用のドロップダウン -->
+		        <label for="start-location">出発地点を選択:</label>
+		        <select id="start-location">
+		            <option value="kagoshima-chuo">鹿児島中央駅</option>
+		            <option value="kagoshima">鹿児島駅</option>
+		            <option value="tenmonkan">天文館</option>
+		            <option value="taniyama">谷山駅</option>
+		            <option value="kagoshima-airport">鹿児島空港</option>
+		        </select>
+		
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+        // 各地点の座標と画像パスを設定
+        const locations = {
+            "kagoshima-chuo": { 
+                lat: 31.5837, lng: 130.5412, 
+                name: "鹿児島中央駅", 
+                image: "spot_images/鹿児島中央駅.jpg"  // 画像パス
+            },
+            "kagoshima": { 
+                lat: 31.601668833428423, lng: 130.56298412289036, 
+                name: "鹿児島駅", 
+                image: "spot_images/鹿児島駅.jpg"  // 画像パス
+            },
+            "tenmonkan": { 
+                lat: 31.59125465657467, lng: 130.55504199999436, 
+                name: "天文館", 
+                image: "spot_images/天文館.jpg"  // 画像パス
+            },
+            "taniyama": { 
+                lat: 31.5267, lng: 130.5187, 
+                name: "谷山駅", 
+                image: "spot_images/谷山駅.jpg"  // 画像パス
+            },
+            "kagoshima-airport": { 
+                lat: 31.8031, lng: 130.7219, 
+                name: "鹿児島空港", 
+                image: "spot_images/鹿児島空港.jpg"  // 画像パス
+            }
+        };
 
-	        // Thymeleafで渡されたスポット情報をJavaScriptの変数に設定
-	        var spotNames = /*[[${spotNames}]]*/ [];
-	        var spotLatitudes = /*[[${spotLatitudes}]]*/ [];
-	        var spotLongitudes = /*[[${spotLongitudes}]]*/ [];
-	        var spotDescriptions = /*[[${spotDescriptions}]]*/ [];
-	        var spotAddresses = /*[[${spotAddresses}]]*/ [];
+        // 初期地点を鹿児島中央駅に設定
+        let currentLocation = locations["kagoshima-chuo"];
 
-	        // ルートのウェイポイントを作成
-	        var waypoints = [
-	            L.latLng(31.5837, 130.5412)  // 鹿児島中央駅を始点として追加
-	        ];
+        // 地図の初期設定
+        const map = L.map('map').setView([currentLocation.lat, currentLocation.lng], 13);
 
-	        // 選択されたスポットをウェイポイントに追加
-	        for (var i = 0; i < spotLatitudes.length; i++) {
-	            waypoints.push(L.latLng(spotLatitudes[i], spotLongitudes[i]));
-	        }
+        // OpenStreetMapタイルレイヤーを追加
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-	        // ルート表示の設定
-	        L.Routing.control({
-	            waypoints: waypoints,
-	            routeWhileDragging: true,
-	            lineOptions: {
-	                styles: [
-	                    {color: 'blue', opacity: 0.6, weight: 4}
-	                ]
-	            },
-	            createMarker: function(i, waypoint, n) {
-	                let markerContent = i === 0 ? 
-	                    "<b>鹿児島中央駅</b><br>出発地点" : 
-	                    "<b>" + spotNames[i-1] + "</b><br>" + spotAddresses[i-1] + "<br>" + spotDescriptions[i-1];
-	                
-	                return L.marker(waypoint.latLng)
-	                    .bindPopup(markerContent);
-	            },
-				show: false,  // ナビゲーションパネルを非表示に
-				draggable: false,  // ドラッグ操作を無効化
-				addWaypoints: false  // ユーザーがウェイポイントを追加できないようにする
-	        }).addTo(map);
+        // 地図のルート設定用の変数
+        var waypoints = [
+            L.latLng(currentLocation.lat, currentLocation.lng)  // 初期地点を出発地点として追加
+        ];
 
-	        /*]]>*/
-	        </script>
-		<br>
-		<!-- スポット画像表示部分 -->
-	        <div class="spot-images">
-	            <!-- 鹿児島中央駅の画像 -->
-	            <div class="spot-image-container">
-	                <img src="spot_images/鹿児島中央駅.jpg" alt="鹿児島中央駅" class="spot-image">
-	                <span class="arrow">➡</span>
-	            </div>
-	            
-	            <!-- 選択したスポットの画像を順番に表示 -->
-	            <div th:each="spotName, stat : ${spotNames}" class="spot-image-container">
-	                <img th:src="@{/spot_images/{name}.jpg(name=${spotName})}" 
-	                     th:alt="${spotName}" 
-	                     class="spot-image">
-	                <span th:if="${!stat.last}" class="arrow">➡</span>
-	            </div>
-	        </div>
-			<br>
-		<a th:href="@{/dateMaster/date}"><button type="button">機能一覧画面へ</button></a>
+        // スポット情報 (仮のデータ、サーバー側から渡されたデータに置き換える)
+        var spotNames = /*[[${spotNames}]]*/ [];
+        var spotLatitudes = /*[[${spotLatitudes}]]*/ [];
+        var spotLongitudes = /*[[${spotLongitudes}]]*/ [];
+        var spotDescriptions = /*[[${spotDescriptions}]]*/ [];
+        var spotAddresses = /*[[${spotAddresses}]]*/ [];
+
+        // 選択されたスポットをウェイポイントに追加
+        for (var i = 0; i < spotLatitudes.length; i++) {
+            waypoints.push(L.latLng(spotLatitudes[i], spotLongitudes[i]));
+        }
+
+        // ルート表示の設定
+        const routeControl = L.Routing.control({
+            waypoints: waypoints,
+            routeWhileDragging: true,
+            lineOptions: {
+                styles: [
+                    {color: 'blue', opacity: 0.6, weight: 4}
+                ]
+            },
+            createMarker: function(i, waypoint, n) {
+                let markerContent = i === 0 ? 
+                    "<b>" + currentLocation.name + "</b><br>出発地点" : 
+                    "<b>" + spotNames[i-1] + "</b><br>" + spotAddresses[i-1] + "<br>" + spotDescriptions[i-1];
+                
+                return L.marker(waypoint.latLng)
+                    .bindPopup(markerContent);
+            },
+            show: false,
+            draggable: false,
+            addWaypoints: false
+        }).addTo(map);
+
+        // 画像の表示部分を動的に変更
+        function updateImage() {
+            const imageContainer = document.getElementById('start-location-image');
+            imageContainer.src = currentLocation.image; // 出発地点に対応する画像をセット
+        }
+
+        // 地図の初期地点変更を監視
+        document.getElementById('start-location').addEventListener('change', function(event) {
+            currentLocation = locations[event.target.value];
+            map.setView([currentLocation.lat, currentLocation.lng], 13);
+
+            // ルートのウェイポイントを再設定
+            waypoints = [L.latLng(currentLocation.lat, currentLocation.lng)];
+            for (var i = 0; i < spotLatitudes.length; i++) {
+                waypoints.push(L.latLng(spotLatitudes[i], spotLongitudes[i]));
+            }
+            routeControl.setWaypoints(waypoints);
+
+            // 画像を更新
+            updateImage();
+        });
+
+        // 初回画像更新 (ページ読み込み時に必ず鹿児島中央駅の画像を表示)
+        window.onload = updateImage;
+
+        /*]]>*/
+        </script>
+
+        <br>
+        <!-- 出発地点の画像表示部分 -->
+        <div class="spot-images">
+            <div class="spot-image-container">
+                <img id="start-location-image" src="" alt="出発地点" class="spot-image"> <!-- 初期画像 -->
+                <span class="arrow">➡</span>
+            </div>
+            
+            <!-- 選択したスポットの画像を順番に表示 -->
+            <div th:each="spotName, stat : ${spotNames}" class="spot-image-container">
+                <img th:src="@{/spot_images/{name}.jpg(name=${spotName})}" 
+                     th:alt="${spotName}" 
+                     class="spot-image">
+                <span th:if="${!stat.last}" class="arrow">➡</span>
+            </div>
+        </div>
+        <br>
+        <a th:href="@{/dateMaster/date}"><button type="button">機能一覧画面へ</button></a>
     </main>
 </body>
 </html>

@@ -71,7 +71,23 @@
         <div th:if="${selectedSpots == null or selectedSpots.isEmpty()}">
             <p>スポットが追加されていません。</p>
         </div>
-
+		
+		<div class="button-group">
+			<!-- スポットが3つ未満の時だけボタンを有効にする -->
+			    <button type="button" 
+			            onclick="location.href='/searchSpots'" 
+			            th:disabled="${selectedSpots != null and selectedSpots.size() >= 3}"
+			            th:style="${selectedSpots != null and selectedSpots.size() >= 3 ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
+			        スポット追加
+			    </button>
+			    
+			    <!-- オプション: 3つ以上の場合にメッセージを表示 -->
+			    <div th:if="${selectedSpots != null and selectedSpots.size() >= 3}" 
+			         style="color: red; font-size: smaller; margin-top: 5px;">
+			        ※最大3つまでスポットを追加できます
+			    </div>
+        </div>
+		<button type="button" onclick="history.back()">機能一覧画面に戻る</button>
         <form action="/createDatePlan" method="post">
             <input type="hidden" name="spotNames" th:value="${spotNames}" />
             <input type="hidden" name="spotDescriptions" th:value="${spotDescriptions}" />
@@ -89,21 +105,7 @@
             <button type="submit">デートプラン作成</button>
         </form>
 
-        <div class="button-group">
-			<!-- スポットが3つ未満の時だけボタンを有効にする -->
-			    <button type="button" 
-			            onclick="location.href='/searchSpots'" 
-			            th:disabled="${selectedSpots != null and selectedSpots.size() >= 3}"
-			            th:style="${selectedSpots != null and selectedSpots.size() >= 3 ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
-			        スポット追加
-			    </button>
-			    
-			    <!-- オプション: 3つ以上の場合にメッセージを表示 -->
-			    <div th:if="${selectedSpots != null and selectedSpots.size() >= 3}" 
-			         style="color: red; font-size: smaller; margin-top: 5px;">
-			        ※最大3つまでスポットを追加できます
-			    </div>
-        </div>
+        
     </main>
 </body>
 </html>
