@@ -2,18 +2,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	// ハンバーガーメニューの制御
 	const hamburgerButton = document.querySelector('.hamburger-button');
 	const hamburgerMenu = document.querySelector('.hamburger-menu');
-
-	// オーバーレイ要素を作成
-	const overlay = document.createElement('div');
-	overlay.className = 'overlay';
-	document.body.appendChild(overlay);
+	const overlay = document.querySelector('.overlay');
 
 	function toggleMenu() {
 		hamburgerButton.classList.toggle('active');
 		hamburgerMenu.classList.toggle('active');
 		overlay.classList.toggle('active');
 
-		// メニューが開いているときはスクロールを無効化
 		if (hamburgerMenu.classList.contains('active')) {
 			document.body.style.overflow = 'hidden';
 		} else {
@@ -27,22 +22,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	// メニューリンクをクリックしたときにメニューを閉じる
 	const menuLinks = document.querySelectorAll('.hamburger-menu a');
 	menuLinks.forEach(link => {
-		link.addEventListener('click', () => {
-			toggleMenu();
-		});
+		link.addEventListener('click', toggleMenu);
 	});
 
+	// 確認コンテナのアニメーション
+	const confirmationContainer = document.querySelector('.confirmation-container');
+	confirmationContainer.style.opacity = '0';
+	confirmationContainer.style.transform = 'translateY(20px)';
 
-
-	// ボタンのホバーエフェクト強化
-	const buttons = document.querySelectorAll('button');
-	buttons.forEach(button => {
-		button.addEventListener('mouseenter', () => {
-			button.style.transform = 'translateY(-5px)';
-		});
-
-		button.addEventListener('mouseleave', () => {
-			button.style.transform = 'translateY(0)';
-		});
-	});
+	// ページ読み込み後にアニメーションを実行
+	setTimeout(() => {
+		confirmationContainer.style.transition = 'all 0.5s ease-out';
+		confirmationContainer.style.opacity = '1';
+		confirmationContainer.style.transform = 'translateY(0)';
+	}, 100);
 });

@@ -4,41 +4,56 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>アカウント削除</title>
+	<title>アカウント削除確認</title>
+	<link rel="stylesheet" href="/css/account_delete/account_delete_confirm.css">
+	<script src="/js/account_delete/account_delete_confirm.js" defer></script>
 </head>
 
 <body>
 	<header>
-		<h1>アカウント削除確認</h1>
-		<div class="hamburger-menu">
-			<ul>
-				<li><a href="date.html">デート</a></li>
-				<li><a href="diagnosis.html">診断</a></li>
-				<li><a href="partner.html">パートナー</a></li>
-				<li><a href="setting.html">設定</a></li>
-				<li><a href="logout.html">ログアウト</a></li>
-			</ul>
+		<h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
 		</div>
 	</header>
+
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	</ul>
+
 	<main>
-		<div class="back-button">
-			<button type="button" onclick="history.back()">戻る</button>
-		</div>
+		<div class="confirmation-container">
+			<div class="warning-icon">⚠️</div>
+			<h2>アカウント削除の確認</h2>
 
-		<form th:action="@{/dateMaster/completeDelete}" method="post">
-
-			<div class="delete-confirmation">
-				<p>本当に削除しますか？</p>
-				<div class="button-group">
-					<button type="submit" id="yes-button">はい</button>
-					<button type="button" onclick="history.back()">いいえ</button>
-				</div>
+			<div class="warning-message">
+				<p>アカウントを削除すると、以下のデータがすべて失われます：</p>
+				<ul>
+					<li>プロフィール情報</li>
+					<li>デート履歴</li>
+					<li>診断結果</li>
+					<li>パートナー情報</li>
+				</ul>
+				<p class="important-note">この操作は取り消すことができません。</p>
 			</div>
 
-		</form>
-
+			<form th:action="@{/dateMaster/completeDelete}" method="post" class="confirmation-form">
+				<div class="button-group">
+					<button type="button" onclick="history.back()" class="cancel-button">キャンセル</button>
+					<button type="submit" class="delete-button">削除する</button>
+				</div>
+			</form>
+		</div>
 	</main>
 
+	<!-- オーバーレイ -->
+	<div class="overlay"></div>
 </body>
 
 </html>

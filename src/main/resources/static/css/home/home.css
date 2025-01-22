@@ -39,13 +39,15 @@ header h1 a:hover {
 	opacity: 0.7;
 }
 
+
+
 /* メインコンテンツ */
 main {
-	margin-top: 60px;
-	/* ヘッダーの高さ分のマージン */
+	margin-top: 120px;
+	/* ヘッダーの高さ(100px)より大きい値に変更 */
 	padding: 1rem;
-	min-height: calc(100vh - 60px);
-	/* ヘッダーの高さを引いた最小の高さ */
+	min-height: calc(100vh - 120px);
+	/* 同じく調整 */
 }
 
 /* ユーザー情報セクション */
@@ -53,11 +55,12 @@ main {
 	background-color: #f8f9fa;
 	padding: 2rem 1rem;
 	border-bottom: 2px solid #e0e0e0;
-	margin: -1rem -1rem 2rem -1rem;
-	/* ネガティブマージンで端まで広げる */
+	margin: 0 -1rem 2rem -1rem;
+	/* 上部のネガティブマージンを削除 */
 	width: calc(100% + 2rem);
-	/* 幅を調整 */
 }
+
+
 
 /* プロフィール部分のレスポンシブ対応 */
 .profiles {
