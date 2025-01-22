@@ -10,4 +10,6 @@ public interface UserRepository extends CrudRepository<Users, Long> {
 
 	// ユーザー名で検索するメソッドを追加
 	Optional<Users> findByName(String name);
+
+	Users findById(String userid);
 }
