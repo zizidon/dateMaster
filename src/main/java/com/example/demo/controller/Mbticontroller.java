@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.entity.MbtiQuestion;
+import com.example.demo.entity.MbtiResult;
+import com.example.demo.entity.MbtiType;
 import com.example.demo.entity.Users;
+import com.example.demo.repository.MbtiResultRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.MbtiService;
 
 @Controller
@@ -27,6 +31,12 @@ public class Mbticontroller {
 	
 	@Autowired
 	MbtiService mbtiService;
+	
+	@Autowired
+	MbtiResultRepository mbtiResultRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	@GetMapping("questions")
 	public ModelAndView showMbtiQuestionsPage() {
@@ -54,8 +64,40 @@ public class Mbticontroller {
 	
 	@PostMapping("result")
 	public String calculateResult(@RequestParam Map<String, String> answers, Model model) {
-		String resultType = mbtiService.calculateResult(answers);
-		model.addAttribute("resultType", resultType);
-		return "mbti_diagonosis/result";
+	    // セッションからユーザー情報を取得
+	    Users user = (Users) session.getAttribute("loginUser");
+
+	    // ユーザーがログインしている場合、診断結果を計算
+	    String resultType = mbtiService.calculateResult(answers, user.getId());
+	    model.addAttribute("resultType", resultType);
+
+	    // ユーザーの診断結果に基づいてMbtiTypeを取得
+	    List<MbtiType> mbtiDetails = mbtiService.getMbtiDetailsByUserId(user.getId());
+
+	    // 診断結果に関連する説明を取得
+	    if (!mbtiDetails.isEmpty()) {
+	        MbtiType mbtiType = mbtiDetails.get(0);  // 最新の結果のタイプを取得
+	        model.addAttribute("description", mbtiType.getDescription());
+	    }
+
+	    return "mbti_diagonosis/result"; // 結果を表示するHTMLに遷移
 	}
+	
+	@GetMapping("history")
+	public String showHistory(Model model) {
+	    // セッションからログインユーザー情報を取得
+	    Users user = (Users) session.getAttribute("loginUser");
+
+	    // ユーザーがログインしている場合
+	    if (user != null) {
+	        // ユーザーの診断結果をデータベースから取得
+	        List<MbtiResult> results = mbtiResultRepository.findByUserId(user.getId());
+	        model.addAttribute("results", results);  // モデルに診断結果をセット
+	    }
+
+	    // 診断結果履歴を表示するためのHTMLページを返す
+	    return "mbti_diagonosis/history";
+	}
+
+
 }

@@ -76,8 +76,9 @@ public class Logincontroller {
 		String result = userLoginService.login(userid, password);
 
 		if ("OK".equals(result)) {
-			Users user = (Users) session.getAttribute("loginUser"); //セッションからユーザー情報を取得
-
+			Users user = userRepository.findById(userid); // ユーザー情報をデータベースから取得
+	        session.setAttribute("loginUser", user); // セッションにユーザー情報を格納
+	        
 			// ユーザーの診断結果画像を取得
 			String userImagePath = getImagePathFromDiagnosis(user.getDiagnosis());
 			mav.addObject("diagnosisImage", userImagePath);

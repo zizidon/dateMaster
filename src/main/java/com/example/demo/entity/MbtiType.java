@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class MbtiType {
 
 	@Id
-	private Long id;
+	private Long type_id;
     private String type;
     private String description;
 }

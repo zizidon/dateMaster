@@ -1,4 +1,3 @@
-<!-- diagnosis.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -6,50 +5,61 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>診断一覧</title>
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="/css/diagonosis/diagonosis.css">
 </head>
 
 <body>
 	<header>
-		<h1>診断一覧</h1>
-		<div class="hamburger-menu">
-			<ul>
-				<li><a href="date.html">デート</a></li>
-				<li><a href="diagnosis.html">診断</a></li>
-				<li><a href="partner.html">パートナー</a></li>
-				<li><a href="setting.html">設定</a></li>
-				<li><a href="logout.html">ログアウト</a></li>
-			</ul>
-		</div>
-	</header>
+	        <h1><a th:href="@{/dateMaster/home}">診断一覧</a></h1>
+	        <div class="hamburger-button">
+	            <span></span>
+	            <span></span>
+	            <span></span>
+	        </div>
+	    </header>
+
+	    <nav class="hamburger-menu">
+	        <ul>
+	            <li><a th:href="@{/dateMaster/date}">デート</a></li>
+	            <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+	            <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+	            <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+	            <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	        </ul>
+	    </nav>
+
+	    <div class="overlay"></div>
+
 	<main>
-
 		<!-- 戻るボタン -->
-		<form th:action="@{/dateMaster/home}" method="get">
-			<button type="submit">戻る</button>
-		</form>
-
-		<br>
-
-		<div class="button-group">
-			<!-- 自己診断ボタンを押すと、diagonosis.htmlに遷移するリンク-->
-			<a th:href="@{/dateMaster/self_diagonosis}"><button type="button">自己診断</button></a>
-
-			<!-- 自己診断結果を押すと、diagonosis_result_self.htmlに遷移するリンク-->
-			<a th:href="@{/dateMaster/diagonosis_result_self}"><button type="button">自己診断結果</button></a>
-
-			<!-- MBTI診断ボタンを押すと、mbti_diagonosis.htmlに遷移するリンク-->
-			<a th:href="@{/dateMaster/questions}"><button type="button">MBTI診断</button></a>
-
-			<!-- MBTI診断結果を押すと、diagonosis_result_mbti.htmlに遷移するリンク-->
-			<a th:href="@{/dateMaster/}"><button type="button">MBTI診断結果</button></a>
-
+		<div class="back-button-container">
+			<form th:action="@{/dateMaster/home}" method="get">
+				<button type="submit">戻る</button>
+			</form>
 		</div>
 
-
-
-
+		<!-- 診断ボタン -->
+		<div class="button-group">
+			<a class="button-link" th:href="@{/dateMaster/self_diagonosis}">
+				<button type="button">自己診断</button>
+				<p>自己診断の説明テキスト</p>
+			</a>
+			<a class="button-link" th:href="@{/dateMaster/diagonosis_result_self}">
+				<button type="button">自己診断結果</button>
+				<p>自己診断結果の説明テキスト</p>
+			</a>
+			<a class="button-link" th:href="@{/dateMaster/questions}">
+				<button type="button">MBTI診断</button>
+				<p>MBTI診断の説明テキスト</p>
+			</a>
+			<a class="button-link" th:href="@{/dateMaster/history}">
+				<button type="button">MBTI診断結果</button>
+				<p>MBTI診断結果の説明テキスト</p>
+			</a>
+		</div>
 	</main>
+
+    <script src="/js/home/home.js"></script>
 </body>
 
 </html>

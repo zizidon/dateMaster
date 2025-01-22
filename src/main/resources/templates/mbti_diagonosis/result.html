@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html lang="ja">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>MBTI 結果</title>
+    <meta charset="UTF-8">
+    <title>MBTI Result</title>
 </head>
-
 <body>
-	<h1>あなたのMBTIタイプ</h1>
-	<p th:text="'結果: ' + ${resultType}"></p>
-	<form name="form1" th:action="@{/dateMaster/diagonosis}" method="get">
-		<button type="submit">戻る</button>
-	</form>
-</body>
+    <h1>ＭＢＴＩ診断結果</h1>
 
+    <div＞>
+        <p>タイプ: <span th:text="${resultType}"></span></p>
+        <!-- descriptionの表示 -->
+		<p>タイプの特徴: <span th:text="${description}"></span></p>
+
+
+
+    </div＞>
+    <!-- メッセージがある場合に表示 -->
+    <div th:if="${message}">
+        <p th:text="${message}"></p>
+    </div>
+
+    <a href="/dateMaster/diagonosis">診断一覧に戻る</a>
+</body>
 </html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MBTI History</title>
+</head>
+<body>
+    <h1>ＭＢＴＩ診断履歴</h1>
+
+    <!-- Check if results exist -->
+    <div th:if="${results}">
+        <h2>診断結果履歴</h2>
+        <ul>
+            <li th:each="result : ${results}">
+                タイプ: <span th:text="${result.resultType}"></span> - 
+                タイプの特徴: <span th:text="${result.description}"></span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Message if no results are found -->
+    <div th:if="${#lists.isEmpty(results)}">
+        <p>診断結果はありません。</p>
+    </div>
+
+    <a href="/dateMaster/diagonosis">診断一覧に戻る</a>
+</body>
+</html>
