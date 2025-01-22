@@ -19,4 +19,6 @@ public class Users {
 	private Long applicant; // 申請者名
 	private Long coaching_id; // コーチングの問題
 	private int diagnosis; // 自己診断結果
+	private String question; // 秘密の質問の番号
+	private String answer; // 秘密の質問の答え
 }

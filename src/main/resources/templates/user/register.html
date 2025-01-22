@@ -36,6 +36,25 @@
 					required>
 			</div>
 
+			<!-- 秘密の質問選択 -->
+			<div class="input-group">
+				<label for="security-question">秘密の質問</label>
+				<select id="securityQuestion" th:name="question" required>
+					<option value="">質問を選択してください</option>
+					<option value="1">初めて飼ったペットの名前は？</option>
+					<option value="2">母親の旧姓は？</option>
+					<option value="3">思い出の場所は？</option>
+					<option value="4">好きだった給食のメニューは？</option>
+					<option value="5">尊敬する人は？</option>
+				</select>
+			</div>
+
+			<!-- 秘密の質問の回答入力欄 -->
+			<div class="input-group">
+				<label for="security-answer">秘密の質問の回答</label>
+				<input type="text" id="securityAnswer" th:name="answer" placeholder="回答を入力してください" required>
+			</div>
+
 			<!-- エラーメッセージ -->
 			<p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
 
