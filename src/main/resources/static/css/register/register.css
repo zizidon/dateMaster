@@ -2,68 +2,63 @@
 body {
 	font-family: 'Arial', sans-serif;
 	background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-	/* 背景グラデーション */
 	display: flex;
 	justify-content: center;
-	/* 水平方向の中央寄せ */
 	align-items: center;
-	/* 垂直方向の中央寄せ */
 	min-height: 100vh;
-	/* ビューポート全体の高さを確保 */
 	margin: 0;
-	/* デフォルトの余白をリセット */
 	padding: 0;
 }
 
-/* 共通のコンテナスタイル */
-.register-container,
-.login-container {
+.register-container {
 	background: #ffffff;
-	padding: 40px;
-	/* 内側の余白を均等に確保 */
+	padding: 25px;
+	/* 40pxから25pxに縮小 */
 	border-radius: 8px;
 	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-	/* 影を追加 */
 	text-align: center;
-	/* 全体のテキストを中央揃え */
 	max-width: 400px;
 	width: 100%;
-	/* 小さな画面では100%幅に */
 	box-sizing: border-box;
-	/* パディングを含めた幅に調整 */
 }
 
-/* 見出し */
-.register-container h2,
-.login-container h2 {
+h2 {
 	color: #333333;
-	font-size: 24px;
-	margin-bottom: 20px;
+	font-size: 22px;
+	/* 24pxから22pxに縮小 */
+	margin-bottom: 15px;
+	/* 20pxから15pxに縮小 */
 }
 
-/* フォーム */
-form {
-	display: flex;
-	flex-direction: column;
-	/* フォーム要素を縦並びに */
-	gap: 15px;
-	/* 各入力項目の間隔 */
+/* 入力グループのスタイル */
+.input-group {
+	background-color: white;
+	padding: 0.7rem;
+	/* 1remから0.7remに縮小 */
+	border-radius: 8px;
+	margin-bottom: 1rem;
+	/* 1.5remから1remに縮小 */
+	text-align: left;
 }
 
 label {
-	color: #555555;
-	font-size: 14px;
-	text-align: left;
-	/* ラベルは左揃え */
 	display: block;
+	color: #555555;
+	font-size: 13px;
+	/* 14pxから13pxに縮小 */
+	margin-bottom: 5px;
+	/* 8pxから5pxに縮小 */
+	font-weight: bold;
 }
 
 input[type="text"],
 input[type="password"] {
 	width: 100%;
-	padding: 10px 15px;
-	font-size: 16px;
-	border: 1px solid #cccccc;
+	padding: 8px 12px;
+	/* 10px 15pxから8px 12pxに縮小 */
+	font-size: 15px;
+	/* 16pxから15pxに縮小 */
+	border: 2px solid #e0e0e0;
 	border-radius: 4px;
 	transition: border-color 0.3s ease;
 }
@@ -72,54 +67,136 @@ input[type="text"]:focus,
 input[type="password"]:focus {
 	outline: none;
 	border-color: #7a9cff;
-	/* フォーカス時に青く光る */
 	box-shadow: 0px 0px 5px rgba(122, 156, 255, 0.5);
+}
+
+/* パスワード要件のスタイル */
+.password-requirements {
+	margin-top: 8px;
+	/* 10pxから8pxに縮小 */
+}
+
+.requirement-item {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	/* 8pxから6pxに縮小 */
+	margin-bottom: 4px;
+	/* 6pxから4pxに縮小 */
+	font-size: 11px;
+	/* 12pxから11pxに縮小 */
+	color: #666;
+}
+
+.requirement-icon {
+	width: 14px;
+	/* 16pxから14pxに縮小 */
+	height: 14px;
+	/* 16pxから14pxに縮小 */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background-color: #f0f0f0;
+	transition: all 0.3s ease;
+}
+
+.requirement-item.valid .requirement-icon {
+	background-color: #00C851;
+	color: white;
 }
 
 /* エラーメッセージ */
 .error-message {
-	color: red;
-	font-size: 14px;
-	font-weight: bold;
-	margin-top: -10px;
+	color: #ff4444;
+	font-size: 13px;
+	/* 14pxから13pxに縮小 */
+	margin: 8px 0;
+	/* 10pxから8pxに縮小 */
+	padding: 8px;
+	/* 10pxから8pxに縮小 */
+	background-color: #ffebee;
+	border-radius: 4px;
+	border-left: 4px solid #ff4444;
 }
 
-/* 登録ボタン */
+/* トースト通知 */
+.toast-container {
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1000;
+	width: 100%;
+	max-width: 400px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.toast {
+	background-color: white;
+	padding: 12px 20px;
+	/* 16px 24pxから12px 20pxに縮小 */
+	border-radius: 8px;
+	margin-bottom: 8px;
+	/* 10pxから8pxに縮小 */
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	/* 12pxから10pxに縮小 */
+	width: 90%;
+	opacity: 0;
+	transition: all 0.3s ease-in-out;
+}
+
+.toast.show {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* ボタンスタイル */
 button[type="submit"] {
 	background: #7a9cff;
 	color: white;
 	border: none;
-	padding: 12px 0;
+	padding: 10px 0;
+	/* 12pxから10pxに縮小 */
 	border-radius: 4px;
-	font-size: 16px;
+	font-size: 15px;
+	/* 16pxから15pxに縮小 */
 	cursor: pointer;
-	transition: background-color 0.3s ease;
+	transition: all 0.3s ease;
+	width: 100%;
+	margin-top: 15px;
+	/* 20pxから15pxに縮小 */
 }
 
 button[type="submit"]:hover {
 	background: #4a6fb3;
+	transform: translateY(-2px);
+}
+
+button[type="submit"]:active {
+	transform: translateY(0);
 }
 
 /* ログインリンク */
-.login-link,
-.register-link {
-	margin-top: 20px;
-	font-size: 14px;
+.login-link {
+	margin-top: 15px;
+	/* 20pxから15pxに縮小 */
+	font-size: 13px;
+	/* 14pxから13pxに縮小 */
 	color: #666666;
-	text-align: center;
-	/* テキストを中央揃え */
-	line-height: 1.5;
-	/* 行間を広げて読みやすく */
 }
 
-.login-link a,
-.register-link a {
+.login-link a {
 	color: #7a9cff;
 	text-decoration: none;
 	font-weight: bold;
 }
 
-.login-link a:hover,
-.register-link a:hover {
+.login-link a:hover {
 	text-decoration: underline;
 }

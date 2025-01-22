@@ -1,4 +1,3 @@
-<!-- register.html -->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -7,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>新規登録</title>
 	<link rel="stylesheet" href="/css/register/register.css">
+	<script src="/js/register/register.js" defer></script>
 </head>
 
 <body>
@@ -15,19 +15,28 @@
 
 		<form th:action="@{/dateMaster/register/send}" th:method="post">
 			<!-- 名前入力欄 -->
-			<label for="name">名前</label>
-			<input type="text" id="name" th:name="name" placeholder="名前を入力してください" required>
+			<div class="input-group">
+				<label for="name">名前</label>
+				<input type="text" id="name" th:name="name" placeholder="名前を入力してください" required>
+			</div>
 
 			<!-- パスワード入力欄 -->
-			<label for="password">パスワード</label>
-			<input type="password" id="password" th:name="password" placeholder="パスワードを入力してください" required>
+			<div class="input-group">
+				<label for="password">パスワード</label>
+				<input type="password" id="password" th:name="password" placeholder="パスワードを入力してください" required>
+				<div class="password-requirements">
+					<!-- パスワード要件はJSで動的に追加 -->
+				</div>
+			</div>
 
 			<!-- 確認用パスワード入力欄 -->
-			<label for="confirm-password">確認用パスワード</label>
-			<input type="password" id="confirmPassword" th:name="confirmPassword" placeholder="もう一度パスワードを入力してください"
-				required>
+			<div class="input-group">
+				<label for="confirm-password">確認用パスワード</label>
+				<input type="password" id="confirmPassword" th:name="confirmPassword" placeholder="もう一度パスワードを入力してください"
+					required>
+			</div>
 
-			<!-- エラーメッセージ-->
+			<!-- エラーメッセージ -->
 			<p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
 
 			<!-- 登録ボタン -->
@@ -38,9 +47,7 @@
 		<p class="login-link">
 			すでにアカウントをお持ちの方は <a th:href="@{/dateMaster}">ログイン</a>
 		</p>
-
 	</div>
-
 </body>
 
 </html>
