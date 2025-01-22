@@ -25,12 +25,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		toast.innerHTML = `
             <span class="toast-icon">${icon}</span>
             <div class="toast-content">${message}</div>
+            <button class="toast-close">×</button>
         `;
 
 		toastContainer.appendChild(toast);
 		activeToast = toast;
 
 		requestAnimationFrame(() => toast.classList.add('show'));
+
+		const closeBtn = toast.querySelector('.toast-close');
+		closeBtn.addEventListener('click', () => {
+			toast.classList.remove('show');
+			setTimeout(() => toast.remove(), 300);
+			activeToast = null;
+		});
 
 		setTimeout(() => {
 			if (toast.isConnected) {
@@ -41,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}, 3000);
 	}
 
-	// パスワード要件の定義
+	// パスワード要件の設定
 	const requirements = [
 		{ id: 'length', text: '8文字以上', regex: /.{8,}/ },
 		{ id: 'uppercase', text: '大文字を含む', regex: /[A-Z]/ },
@@ -50,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	];
 
 	// パスワード要件リストの作成と配置
-	const passwordInput = document.getElementById('password');
+	const newPasswordInput = document.getElementById('newPassword');
 	const requirementsList = document.createElement('div');
 	requirementsList.className = 'password-requirements';
 
@@ -65,83 +73,69 @@ document.addEventListener('DOMContentLoaded', function() {
 		requirementsList.appendChild(item);
 	});
 
-	passwordInput.parentNode.appendChild(requirementsList);
+	newPasswordInput.parentNode.appendChild(requirementsList);
 
 	// パスワードの入力チェック
-	passwordInput.addEventListener('input', function() {
+	newPasswordInput.addEventListener('input', function() {
 		const password = this.value;
-		let validCount = 0;
+		let isValid = true;
 
 		requirements.forEach(req => {
 			const item = document.getElementById(`req-${req.id}`);
-			const isValid = req.regex.test(password);
-			item.classList.toggle('valid', isValid);
-			item.querySelector('.requirement-icon').textContent = isValid ? '✓' : '○';
-			if (isValid) validCount++;
+			const meetsRequirement = req.regex.test(password);
+			item.classList.toggle('valid', meetsRequirement);
+			item.querySelector('.requirement-icon').textContent = meetsRequirement ? '✓' : '○';
+			if (!meetsRequirement) isValid = false;
 		});
+
+		return isValid;
 	});
 
 	// フォームのバリデーション
 	const form = document.querySelector('form');
-	const nameInput = document.getElementById('name');
 	const confirmPasswordInput = document.getElementById('confirmPassword');
-	const securityQuestionSelect = document.getElementById('securityQuestion');
-	const securityAnswerInput = document.getElementById('securityAnswer');
 
 	form.addEventListener('submit', function(event) {
 		event.preventDefault();
 
-		const name = nameInput.value.trim();
-		const password = passwordInput.value;
+		const newPassword = newPasswordInput.value;
 		const confirmPassword = confirmPasswordInput.value;
 
-		// 秘密の質問のバリデーション
-		if (!securityQuestionSelect.value) {
-			showToast('秘密の質問を選択してください', 'error');
-			securityQuestionSelect.focus();
-			return;
-		}
+		let isValid = requirements.every(req => req.regex.test(newPassword));
 
-		// 秘密の質問の回答のバリデーション
-		const answer = securityAnswerInput.value.trim();
-		if (answer.length < 1) {
-			showToast('秘密の質問の回答を入力してください', 'error');
-			securityAnswerInput.focus();
-			return;
-		}
-
-		// 名前のバリデーション
-		if (name.length < 1) {
-			showToast('名前を入力してください', 'error');
-			nameInput.focus();
-			return;
-		}
-
-		// パスワード要件のチェック
-		let isValid = requirements.every(req => req.regex.test(password));
 		if (!isValid) {
 			showToast('パスワードの要件を満たしていません', 'warning');
-			passwordInput.focus();
+			newPasswordInput.focus();
 			return;
 		}
 
-		// パスワード一致チェック
-		if (password !== confirmPassword) {
-			showToast('パスワードが一致しません', 'error');
+		if (newPassword !== confirmPassword) {
+			showToast('新しいパスワードと確認用パスワードが一致しません', 'error');
 			confirmPasswordInput.focus();
 			return;
 		}
 
-		showToast('登録を実行します', 'success');
+		showToast('パスワードの変更を確認します', 'success');
 		setTimeout(() => form.submit(), 1000);
 	});
 
-	// セレクトボックスの変更イベント
-	securityQuestionSelect.addEventListener('change', function() {
-		if (this.value) {
-			securityAnswerInput.placeholder = 'この質問に対する回答を入力してください';
-		} else {
-			securityAnswerInput.placeholder = '回答を入力してください';
-		}
+	// ハンバーガーメニューの制御（既存のコード維持）
+	const hamburgerButton = document.querySelector('.hamburger-button');
+	const hamburgerMenu = document.querySelector('.hamburger-menu');
+	const overlay = document.querySelector('.overlay');
+
+	function toggleMenu() {
+		hamburgerButton.classList.toggle('active');
+		hamburgerMenu.classList.toggle('active');
+		overlay.classList.toggle('active');
+		document.body.style.overflow = hamburgerMenu.classList.contains('active') ? 'hidden' : '';
+	}
+
+	hamburgerButton.addEventListener('click', toggleMenu);
+	overlay.addEventListener('click', toggleMenu);
+
+	const menuLinks = document.querySelectorAll('.hamburger-menu a');
+	menuLinks.forEach(link => {
+		link.addEventListener('click', toggleMenu);
 	});
 });
