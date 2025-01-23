@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DateShare {
     @Id
-    private Long plans_id;  // 自動採番
+    private Long plansId;  // 自動採番
     private Long spot1;  // スポット1のID
     private Long spot2;  // スポット2のID
     private Long spot3;  // スポット3のID
