@@ -1,5 +1,4 @@
 package com.example.demo.entity;
-
 import org.springframework.data.annotation.Id;
 
 import lombok.AllArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Users {
-
     @Id
     private Long id; //自動採番
     private String name; //ユーザー名
@@ -22,4 +20,5 @@ public class Users {
     private String question; // 秘密の質問の番号
     private String answer; // 秘密の質問の答え
     private Long date_share; // プラン作成者が最近作成したプランのID
+    private Long shared_date_plan;//共有されたプランのID
 }

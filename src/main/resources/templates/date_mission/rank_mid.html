@@ -2,33 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Rank Row</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/datemission/rank_row.css">
+<script src="/js/datemission/rank_row.js"></script>
+<title>中級ミッション</title>
 </head>
 
 <body>
-    <h1>中級ミッション</h1>
+<h1>中級ミッション</h1>
 
-    <!-- 戻るボタン -->
-    <div class="back-button">
-        <a th:href="@{/rankSelection}">
-            <button type="button">ランク選択に戻る</button>
-        </a>
-    </div>
+<!-- 戻るボタン -->
+<div class="back-button">
+<a th:href="@{/rankSelection}">
+<button type="button">ランク選択に戻る</button>
+</a>
+</div>
 
-    <!-- ランダムに取得したミッションを表示 -->
-    <ul>
-        <li th:each="mission : ${missions}" th:text="${mission.missionText}"></li>
-    </ul>
+<!-- ランダムに取得したミッションを表示 -->
+<ul>
+<li th:each="mission : ${missions}" th:text="${mission.missionText}"></li>
+</ul>
 
-    <!-- ミッション更新ボタン -->
-    <form action="/updateMissions2" method="get">
-        <button type="submit">ミッションを更新</button>
-    </form>
-	
-	<!-- スタートボタン -->
-	    <form action="/start2" method="get">
-	        <button type="submit">スタート</button>
-	    </form>
+<!-- ボタンコンテナ -->
+<div class="button-container">
+<!-- ミッション更新ボタン -->
+<form action="/updateMissions2" method="get">
+<button type="submit" class="update-btn">ミッションを更新</button>
+</form>
+
+<!-- スタートボタン -->
+<form action="/start2" method="get">
+<button type="submit" class="start-btn">スタート</button>
+</form>
+</div>
 </body>
-
 </html>

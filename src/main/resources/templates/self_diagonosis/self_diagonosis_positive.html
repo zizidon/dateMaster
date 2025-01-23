@@ -2,75 +2,115 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ポジティブ診断</title>
-	<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポジティブ診断</title>
+	<link rel="stylesheet" href="/css/self_diagonosis/self_diagonosis_positive.css">	
 </head>
 
 <body>
 	<header>
-		<h1>ポジティブ診断</h1>
-	</header>
+	       <h1><a th:href="@{/dateMaster/diagonosis}">診断内容</a></h1>
+	       <div class="hamburger-button">
+	           <span></span>
+	           <span></span>
+	           <span></span>
+	       </div>
+	   </header>
 
-	<main>
-		<!-- 質問 -->
-		<h2>以下の質問に答えてください</h2>
+	   <nav class="hamburger-menu">
+	       <ul>
+	           <li><a th:href="@{/dateMaster/date}">デート</a></li>
+	           <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+	           <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+	           <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+	           <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	       </ul>
+	   </nav>
 
-		<form th:action="@{/dateMaster/self_diagonosis_check_positive}" method="post">
+	   <div class="overlay"></div>
+
+    <divmain>
+        <!-- 質問 -->
+        <h2>以下の質問に答えてください</h2>
+
+        <form th:action="@{/dateMaster/self_diagonosis_check_positive}" method="post">
 			<!-- 質問1 -->
-			<div>
-				<h3>1. 新しいアイデアや方法を試すのが好きですか？</h3>
-				<input type="radio" name="q1" value="はい" required> はい
-				<input type="radio" name="q1" value="いいえ"> いいえ
+			<div class="question">
+			    <h3>1. 新しいアイデアや方法を試すのが好きですか？</h3>
+			    <div class="radio-box">
+			        <input type="radio" id="q1_yes" name="q1" value="はい" required>
+			        <label for="q1_yes">はい</label>
+
+			        <input type="radio" id="q1_no" name="q1" value="いいえ">
+			        <label for="q1_no">いいえ</label>
+			    </div>
 			</div>
-			<br>
 
 			<!-- 質問2 -->
-			<div>
-				<h3>2. 困難な状況でも挑戦し続けることを楽しめますか？</h3>
-				<input type="radio" name="q2" value="はい" required> はい
-				<input type="radio" name="q2" value="いいえ"> いいえ
+			<div class="question">
+			    <h3>2. 困難な状況でも挑戦し続けることを楽しめますか？</h3>
+			    <div class="radio-box">
+			        <input type="radio" id="q2_yes" name="q2" value="はい" required>
+			        <label for="q2_yes">はい</label>
+
+			        <input type="radio" id="q2_no" name="q2" value="いいえ">
+			        <label for="q2_no">いいえ</label>
+			    </div>
 			</div>
-			<br>
 
 			<!-- 質問3 -->
-			<div>
-				<h3>3. 身の回りの物事に興味を持つことが多いですか？</h3>
-				<input type="radio" name="q3" value="はい" required> はい
-				<input type="radio" name="q3" value="いいえ"> いいえ
+			<div class="question">
+			    <h3>3. 身の回りの物事に興味を持つことが多いですか？</h3>
+			    <div class="radio-box">
+			        <input type="radio" id="q3_yes" name="q3" value="はい" required>
+			        <label for="q3_yes">はい</label>
+
+			        <input type="radio" id="q3_no" name="q3" value="いいえ">
+			        <label for="q3_no">いいえ</label>
+			    </div>
 			</div>
-			<br>
 
 			<!-- 質問4 -->
-			<div>
-				<h3>4. 熱中していることがあると時間を忘れて没頭してしまうことがありますか？</h3>
-				<input type="radio" name="q4" value="はい" required> はい
-				<input type="radio" name="q4" value="いいえ"> いいえ
+			<div class="question">
+			    <h3>4. 熱中していることがあると時間を忘れて没頭してしまうことがありますか？</h3>
+			    <div class="radio-box">
+			        <input type="radio" id="q4_yes" name="q4" value="はい" required>
+			        <label for="q4_yes">はい</label>
+
+			        <input type="radio" id="q4_no" name="q4" value="いいえ">
+			        <label for="q4_no">いいえ</label>
+			    </div>
 			</div>
-			<br>
 
 			<!-- 質問5 -->
-			<div>
-				<h3>5. どんな小さな進歩でもポジティブに評価できる方ですか？</h3>
-				<input type="radio" name="q5" value="はい" required> はい
-				<input type="radio" name="q5" value="いいえ"> いいえ
+			<div class="question">
+			    <h3>5. どんな小さな進歩でもポジティブに評価できる方ですか？</h3>
+			    <div class="radio-box">
+			        <input type="radio" id="q5_yes" name="q5" value="はい" required>
+			        <label for="q5_yes">はい</label>
+
+			        <input type="radio" id="q5_no" name="q5" value="いいえ">
+			        <label for="q5_no">いいえ</label>
+			    </div>
 			</div>
-			<br>
 
-			<!-- ボタングループ -->
-			<div class="button-group">
-				<button type="submit">確認</button>
+            <!-- ボタングループ -->
+            <div class="button-group">
+                <button type="submit">確認</button>	
+				
+			</div> 		
+
+        	</form>
+			<!-- 戻るボタン -->
+			<div class="butto-group">
+				<form th:action="@{/dateMaster/self_diagonosis}" method="get" class="back-button">
+				      <button type="submit">戻る</button>
+				 </form>
 			</div>
-		</form>
-
-		<br>
-
-		<!-- 戻るボタン -->
-		<form th:action="@{/dateMaster/self_diagonosis}" method="get">
-			<button type="submit">戻る</button>
-		</form>
-	</main>
+    </main>
+	
+	<script src="/js/home/home.js"></script>
 </body>
 
 </html>

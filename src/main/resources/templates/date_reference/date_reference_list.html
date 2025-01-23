@@ -1,10 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< HEAD
 <meta charset="UTF-8">
 <title>Insert title here</title>
+=======
+    <title>My Date Plans</title>
+    <style>
+        .spot-image img {
+            width: 200px;
+            height: auto;
+        }
+        .date-plan-section {
+            margin-bottom: 20px;
+        }
+    </style>
+>>>>>>> branch 'master' of https://github.com/zizidon/dateMaster.git
 </head>
 <body>
+<<<<<<< HEAD
+=======
+    <h1>My Date Plans</h1>
+    <button type="button" class="button-style" onclick="history.back()">戻る</button>
+>>>>>>> branch 'master' of https://github.com/zizidon/dateMaster.git
 
+<<<<<<< HEAD
+=======
+    <!-- Own Date Plan Section -->
+    <div class="date-plan-section" th:if="${not #lists.isEmpty(ownPlanSpots)}">
+        <h2>自分が作成したプラン</h2>
+        
+        <div th:each="spot : ${ownPlanSpots}">
+            <div class="spot-image">
+                <img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像">
+            </div>
+            <div><strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span></div>
+            <div><strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">カテゴリー</span></div>
+            <div><strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span></div>
+        </div>
+        
+        <!-- 参照ボタンの追加 -->
+<button type="button" th:onclick="|window.location.href='@{/viewOwnDatePlanMap}'|" class="btn btn-primary">マップで参照</button>
+    </div>
+    
+    <div th:unless="${not #lists.isEmpty(ownPlanSpots)}">
+        <p>まだ自分のデートプランを作成していません。</p>
+    </div>
+
+    <!-- Shared Date Plan Section -->
+    <div class="date-plan-section" th:if="${not #lists.isEmpty(sharedPlanSpots)}">
+        <h2>共有されたプラン</h2>
+        
+        <div th:each="spot : ${sharedPlanSpots}">
+            <div class="spot-image">
+                <img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像">
+            </div>
+            <div><strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span></div>
+            <div><strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">カテゴリー</span></div>
+            <div><strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span></div>
+        </div>
+
+        <!-- 参照ボタンの追加 -->
+<button type="button" th:onclick="|window.location.href='@{/viewSharedDatePlanMap}'|" class="btn btn-primary">マップで参照</button>
+    </div>
+    
+    <div th:unless="${not #lists.isEmpty(sharedPlanSpots)}">
+        <p>共有されたデートプランはありません。</p>
+    </div>
+>>>>>>> branch 'master' of https://github.com/zizidon/dateMaster.git
 </body>
 </html>

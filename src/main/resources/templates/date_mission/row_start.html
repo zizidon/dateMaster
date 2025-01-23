@@ -1,22 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ミッション開始</title>
-    <style>
-        .mission-container {
-            margin: 20px;
-            padding: 15px;
-        }
-        .mission-item {
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .radio-group {
-            margin: 10px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/datemission/row_start.css">
+	    <script src="js/datemission/row_start.js"></script>
 </head>
 <body>
     <h1>初級ミッション</h1>
@@ -28,21 +17,27 @@
     </div>
 
     <div class="mission-container">
-        <form action="/missionAchieve" method="post">
+        <form id="missionForm" action="/missionAchieve" method="post">
             <div th:each="mission, stat : ${missions}" class="mission-item">
                 <p th:text="${mission.missionText}"></p>
                 <div class="radio-group">
-                    <input type="radio" th:name="'mission' + ${stat.index}" value="1" required>
-                    <label>達成</label>
-                    <input type="radio" th:name="'mission' + ${stat.index}" value="0" required>
-                    <label>未達成</label>
+                    <div>
+                        <input type="radio" th:name="'mission' + ${stat.index}" 
+                               th:id="'achieve' + ${stat.index}" value="1" required>
+                        <label th:for="'achieve' + ${stat.index}">達成</label>
+                    </div>
+                    <div>
+                        <input type="radio" th:name="'mission' + ${stat.index}" 
+                               th:id="'notAchieve' + ${stat.index}" value="0" required>
+                        <label th:for="'notAchieve' + ${stat.index}">未達成</label>
+                    </div>
                 </div>
             </div>
-            
+
             <button type="submit">デート終了</button>
         </form>
-
-        
     </div>
+
+    <script src="/js/mission.js"></script>
 </body>
 </html>

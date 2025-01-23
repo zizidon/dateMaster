@@ -2,7 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Rank Row</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/datemission/rank_high.css">
+    <script src="js/datemission/rank_high.js"></script>
+    <title>上級ミッション</title>
 </head>
 
 <body>
@@ -20,15 +24,17 @@
         <li th:each="mission : ${missions}" th:text="${mission.missionText}"></li>
     </ul>
 
-    <!-- ミッション更新ボタン -->
-    <form action="/updateMissions3" method="get">
-        <button type="submit">ミッションを更新</button>
-    </form>
-	
-	<!-- スタートボタン -->
-	    <form action="/start3" method="get">
-	        <button type="submit">スタート</button>
-	    </form>
-</body>
+    <!-- ボタンコンテナ -->
+    <div class="button-container">
+        <!-- ミッション更新ボタン -->
+        <form action="/updateMissions3" method="get">
+            <button type="submit" class="update-btn">ミッションを更新</button>
+        </form>
 
+        <!-- スタートボタン -->
+        <form action="/start3" method="get">
+            <button type="submit" class="start-btn">スタート</button>
+        </form>
+    </div>
+</body>
 </html>

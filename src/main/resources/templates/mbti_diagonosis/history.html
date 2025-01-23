@@ -10,7 +10,7 @@
     <div th:if="${results}">
         <h2>診断結果履歴</h2>
         <ul>
-            <li th:each="result : ${results}">
+			<li th:each="result : ${results}">
                 タイプ: <span th:text="${result.resultType}"></span> - 
                 タイプの特徴: <span th:text="${result.description}"></span>
             </li>
