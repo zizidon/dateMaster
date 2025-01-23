@@ -28,7 +28,9 @@
             <div><strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">カテゴリー</span></div>
             <div><strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span></div>
         </div>
-
+        
+        <!-- 参照ボタンの追加 -->
+<button type="button" th:onclick="|window.location.href='@{/viewOwnDatePlanMap}'|" class="btn btn-primary">マップで参照</button>
     </div>
     
     <div th:unless="${not #lists.isEmpty(ownPlanSpots)}">
@@ -48,6 +50,8 @@
             <div><strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span></div>
         </div>
 
+        <!-- 参照ボタンの追加 -->
+<button type="button" th:onclick="|window.location.href='@{/viewSharedDatePlanMap}'|" class="btn btn-primary">マップで参照</button>
     </div>
     
     <div th:unless="${not #lists.isEmpty(sharedPlanSpots)}">
