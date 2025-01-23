@@ -5,6 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>アカウント削除完了画面</title>
+	<link rel="stylesheet" href="/css/account_delete/account_delete_complete.css">
+	<script src="/js/account_delete/account_delete_complete.js" defer></script>
 </head>
 
 <body>
@@ -14,7 +16,7 @@
 
 	<main>
 		<p>削除が完了しました。</p>
-		<p><a th:href="@{/dateMaster}">ログイン画面に戻る</a></p>
+		<p><a th:href="@{/dateMaster}" class="back-button">ログイン画面に戻る</a></p>
 	</main>
 </body>
 
