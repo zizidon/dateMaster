@@ -44,21 +44,39 @@ public class DatePlanSharecontroller {
             return "redirect:/login";
         }
         
+        List<DateSpot> ownPlanSpots = new ArrayList<>();
+        List<DateSpot> sharedPlanSpots = new ArrayList<>();
+        
+        // Fetch own date plan
         if (currentUser.getDate_share() != null) {
             Optional<DateShare> datePlanOptional = dateShareRepository.findById(currentUser.getDate_share());
             
             if (datePlanOptional.isPresent()) {
                 DateShare plan = datePlanOptional.get();
-                List<DateSpot> planSpots = new ArrayList<>();
+                addSpotIfExists(plan.getSpot1(), ownPlanSpots);
+                addSpotIfExists(plan.getSpot2(), ownPlanSpots);
+                addSpotIfExists(plan.getSpot3(), ownPlanSpots);
                 
-                addSpotIfExists(plan.getSpot1(), planSpots);
-                addSpotIfExists(plan.getSpot2(), planSpots);
-                addSpotIfExists(plan.getSpot3(), planSpots);
-                
-                model.addAttribute("planSpots", planSpots);
-                model.addAttribute("planCount", plan.getCount());
+                model.addAttribute("ownPlanCount", plan.getCount());
             }
         }
+        
+        // Fetch shared date plan
+        if (currentUser.getShared_date_plan() != null) {
+            Optional<DateShare> sharedPlanOptional = dateShareRepository.findById(currentUser.getShared_date_plan());
+            
+            if (sharedPlanOptional.isPresent()) {
+                DateShare sharedPlan = sharedPlanOptional.get();
+                addSpotIfExists(sharedPlan.getSpot1(), sharedPlanSpots);
+                addSpotIfExists(sharedPlan.getSpot2(), sharedPlanSpots);
+                addSpotIfExists(sharedPlan.getSpot3(), sharedPlanSpots);
+                
+                model.addAttribute("sharedPlanCount", sharedPlan.getCount());
+            }
+        }
+        
+        model.addAttribute("ownPlanSpots", ownPlanSpots);
+        model.addAttribute("sharedPlanSpots", sharedPlanSpots);
         
         return "date_reference/date_reference_list";
     }
