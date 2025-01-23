@@ -213,19 +213,35 @@ public class DatePlancontroller {
             Long spot2Id = selectedSpots.size() >= 2 ? selectedSpots.get(1).getSpotId() : null;
             Long spot3Id = selectedSpots.size() >= 3 ? selectedSpots.get(2).getSpotId() : null;
 
-            // DateShareエンティティを使用して新しいプランを保存
-            DateShare newPlan = new DateShare();
-            newPlan.setSpot1(spot1Id);
-            newPlan.setSpot2(spot2Id);
-            newPlan.setSpot3(spot3Id);
-            newPlan.setCount(1);
-            DateShare savedPlan = dateShareRepository.save(newPlan);
+            // 既存のプランを検索
+            DateShare existingPlan = dateShareRepository.findBySpot1AndSpot2AndSpot3(spot1Id, spot2Id, spot3Id);
 
-            // セッションからログインユーザーを取得し、date_shareを更新
-            Users currentUser = (Users) session.getAttribute("loginUser"); // Assuming "loginUser" is the session attribute name
-            if (currentUser != null) {
-                currentUser.setDate_share(savedPlan.getPlansId()); // Use getId() instead of getPlansId()
-                userRepository.save(currentUser); // Use the autowired userRepository
+            if (existingPlan != null) {
+                // 既存のプランが見つかった場合はcountをインクリメント
+                existingPlan.setCount(existingPlan.getCount() + 1);
+                DateShare savedPlan = dateShareRepository.save(existingPlan);
+
+                // セッションからログインユーザーを取得し、date_shareを更新
+                Users currentUser = (Users) session.getAttribute("loginUser");
+                if (currentUser != null) {
+                    currentUser.setDate_share(savedPlan.getPlansId());
+                    userRepository.save(currentUser);
+                }
+            } else {
+                // 新しいプランを作成
+                DateShare newPlan = new DateShare();
+                newPlan.setSpot1(spot1Id);
+                newPlan.setSpot2(spot2Id);
+                newPlan.setSpot3(spot3Id);
+                newPlan.setCount(1);
+                DateShare savedPlan = dateShareRepository.save(newPlan);
+
+                // セッションからログインユーザーを取得し、date_shareを更新
+                Users currentUser = (Users) session.getAttribute("loginUser");
+                if (currentUser != null) {
+                    currentUser.setDate_share(savedPlan.getPlansId());
+                    userRepository.save(currentUser);
+                }
             }
         } catch (Exception e) {
             System.err.println("プランの保存中にエラーが発生しました: " + e.getMessage());
