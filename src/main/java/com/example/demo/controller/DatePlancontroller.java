@@ -5,6 +5,8 @@ package com.example.demo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.demo.entity.DateShare;
 import com.example.demo.entity.DateSpot;
+import com.example.demo.entity.Users;
 import com.example.demo.repository.DateShareRepository;
-import com.example.demo.repository.DateSpotRepository; 
+import com.example.demo.repository.DateSpotRepository;
+import com.example.demo.repository.UserRepository; 
 
 
 @Controller
@@ -185,6 +189,11 @@ public class DatePlancontroller {
         // デートプラン作成ページにリダイレクト
         return "redirect:/dateCreate";
     }
+    @Autowired
+    private UserRepository userRepository; // Add this autowired field
+
+    @Autowired
+    private HttpSession session; // Add HttpSession autowiring
 
     @Autowired
     private DateShareRepository dateShareRepository;  // リポジトリ名変更
@@ -204,19 +213,19 @@ public class DatePlancontroller {
             Long spot2Id = selectedSpots.size() >= 2 ? selectedSpots.get(1).getSpotId() : null;
             Long spot3Id = selectedSpots.size() >= 3 ? selectedSpots.get(2).getSpotId() : null;
 
-            // DateShareエンティティを使用するように変更
-            DateShare existingPlan = dateShareRepository.findBySpot1AndSpot2AndSpot3(spot1Id, spot2Id, spot3Id);
+            // DateShareエンティティを使用して新しいプランを保存
+            DateShare newPlan = new DateShare();
+            newPlan.setSpot1(spot1Id);
+            newPlan.setSpot2(spot2Id);
+            newPlan.setSpot3(spot3Id);
+            newPlan.setCount(1);
+            DateShare savedPlan = dateShareRepository.save(newPlan);
 
-            if (existingPlan != null) {
-                existingPlan.setCount(existingPlan.getCount() + 1);
-                dateShareRepository.save(existingPlan);
-            } else {
-                DateShare newPlan = new DateShare();
-                newPlan.setSpot1(spot1Id);
-                newPlan.setSpot2(spot2Id);
-                newPlan.setSpot3(spot3Id);
-                newPlan.setCount(1);
-                dateShareRepository.save(newPlan);
+            // セッションからログインユーザーを取得し、date_shareを更新
+            Users currentUser = (Users) session.getAttribute("loginUser"); // Assuming "loginUser" is the session attribute name
+            if (currentUser != null) {
+                currentUser.setDate_share(savedPlan.getPlansId()); // Use getId() instead of getPlansId()
+                userRepository.save(currentUser); // Use the autowired userRepository
             }
         } catch (Exception e) {
             System.err.println("プランの保存中にエラーが発生しました: " + e.getMessage());
