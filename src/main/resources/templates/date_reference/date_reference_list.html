@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>デートプラン共有</title>
+    <title>My Date Plans</title>
+    <style>
+        .spot-image img {
+            width: 200px; /* 画像の幅を200pxに設定 */
+            height: auto; /* 高さは自動調整 */
+        }
+    </style>
 </head>
 <body>
-  <!-- ヘッダー -->
-  <header>
-    <h1>デートプラン共有</h1>
-    
-  </header>
-	<button class="back-button" onclick="history.back()">戻る</button>
-  <!-- 自分のデートプラン -->
-  <div class="my-plan">
-    <h2>自分のデートプラン</h2>
-    <div class="plan-info">
-      <img th:src="@{${myPlanImage}}" alt="自分のデートプランの写真">
-      <span>→</span>
-      <img th:src="@{${myPlanImage2}}" alt="自分のデートプランの写真2">
+    <h1>My Date Plan</h1>
+	<button type="button" class="button-style" onclick="history.back()">戻る</button>
+    <div th:if="${planSpots}">
+        <h2>自分が作成したプラン</h2>
+        
+        <div th:each="spot : ${planSpots}">
+            <div class="spot-image">
+                <img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像">
+            </div>
+            <div><strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span></div>
+            <div><strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">カテゴリー</span></div>
+            <div><strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span></div>
+        </div>
     </div>
-    <button class="refer-button">参照する</button>
-  </div>
-
-  <!-- パートナーのデートプラン -->
-  <div class="partner-plan">
-    <h2>パートナーのデートプラン</h2>
-    <p th:text="${partnerPlanMessage}">デートプランが共有されていません。。</p>
-  </div>
+    
+    <div th:unless="${planSpots}">
+        <p>まだデートプランを作成していません。</p>
+    </div>
 </body>
 </html>

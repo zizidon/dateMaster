@@ -15,4 +15,12 @@ public interface UserRepository extends CrudRepository<Users, Long> {
 	
     // date_shareを更新するためのメソッド
     Users save(Users user);
+    
+    // Find partner by current user's ID
+    Optional<Users> findByPartner(Long userId);
+    
+ 
+
+    // Find user by ID (corrected return type)
+    Optional<Users> findById(Long userid);
 }
