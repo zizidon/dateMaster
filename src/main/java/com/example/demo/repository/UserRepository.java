@@ -12,4 +12,7 @@ public interface UserRepository extends CrudRepository<Users, Long> {
 	Optional<Users> findByName(String name);
 
 	Users findById(String userid);
+	
+    // date_shareを更新するためのメソッド
+    Users save(Users user);
 }
