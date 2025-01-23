@@ -155,7 +155,21 @@ header h1 a {
     opacity: 1;
     visibility: visible;
 }
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
 
+.button-container a, 
+.button-container button {
+    flex: 0 1 auto;
+    margin: 0;
+	text-decoration: none;
+}
 /* メインコンテンツ設定 */
 main {
     max-width: 1200px;
@@ -255,6 +269,7 @@ select:focus {
      font-weight: 600;
      display: block;
      margin: 2rem auto;
+	 text-decoration: none;
  }
 
  button:hover {
