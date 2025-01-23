@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DateShare {
     @Id
-    private Long plansId; // カラム名をスネークケースからキャメルケースに変更
-    private Long spot1;
-    private Long spot2;
-    private Long spot3;
-    private Integer count;
+    private Long plans_id;  // 自動採番
+    private Long spot1;  // スポット1のID
+    private Long spot2;  // スポット2のID
+    private Long spot3;  // スポット3のID
+    private Integer count;  // プランの使用回数
 }

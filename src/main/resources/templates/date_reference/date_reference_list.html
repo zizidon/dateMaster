@@ -1,31 +1,139 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>デートプラン共有</title>
+    <meta charset="UTF-8">
+    <title>デートプラン一覧</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .date-plan-title {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .date-plan-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .date-plan-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        .spot-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .arrow {
+            font-size: 2em;
+            margin: 0 15px;
+            color: #666;
+        }
+        .plan-details {
+            margin-left: 20px;
+        }
+        .plan-usage {
+            color: #888;
+            font-size: 0.9em;
+        }
+        #no-plans {
+            text-align: center;
+            color: #666;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
-  <!-- ヘッダー -->
-  <header>
-    <h1>デートプラン共有</h1>
+    <div class="date-plan-title">デートプラン</div>
     
-  </header>
-	<button class="back-button" onclick="history.back()">戻る</button>
-  <!-- 自分のデートプラン -->
-  <div class="my-plan">
-    <h2>自分のデートプラン</h2>
-    <div class="plan-info">
-      <img th:src="@{${myPlanImage}}" alt="自分のデートプランの写真">
-      <span>→</span>
-      <img th:src="@{${myPlanImage2}}" alt="自分のデートプランの写真2">
+    <div id="date-plans-container" class="date-plan-container">
+        <!-- JavaScriptで動的にデートプランを挿入 -->
     </div>
-    <button class="refer-button">参照する</button>
-  </div>
 
-  <!-- パートナーのデートプラン -->
-  <div class="partner-plan">
-    <h2>パートナーのデートプラン</h2>
-    <p th:text="${partnerPlanMessage}">デートプランが共有されていません。。</p>
-  </div>
+    <div id="no-plans" style="display: none;">
+        まだデートプランがありません。
+    </div>
+
+    <script>
+        async function fetchSpotDetails(spotId) {
+            try {
+                // スポット詳細を取得するAPIエンドポイント（仮）
+                const response = await fetch(`/api/spots/${spotId}`);
+                if (!response.ok) {
+                    throw new Error('スポット情報の取得に失敗');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('スポット情報取得エラー:', error);
+                return null;
+            }
+        }
+
+        async function fetchDatePlans() {
+            try {
+                // デートプランを取得するAPIエンドポイント
+                const response = await fetch('/api/date-share/top-plans');
+                const plans = await response.json();
+
+                const container = document.getElementById('date-plans-container');
+                const noPlansDiv = document.getElementById('no-plans');
+
+                if (plans.length === 0) {
+                    noPlansDiv.style.display = 'block';
+                    return;
+                }
+
+                noPlansDiv.style.display = 'none';
+
+                for (const plan of plans) {
+                    const planCard = document.createElement('div');
+                    planCard.className = 'date-plan-card';
+
+                    // 各スポットの詳細を取得
+                    const spot1Details = await fetchSpotDetails(plan.spot1);
+                    const spot2Details = await fetchSpotDetails(plan.spot2);
+                    const spot3Details = await fetchSpotDetails(plan.spot3);
+
+                    planCard.innerHTML = `
+                        <img src="${spot1Details?.imageUrl || '/default-image.jpg'}" 
+                             alt="スポット1" class="spot-image">
+                        <div class="arrow">→</div>
+                        <img src="${spot2Details?.imageUrl || '/default-image.jpg'}" 
+                             alt="スポット2" class="spot-image">
+                        <div class="arrow">→</div>
+                        <img src="${spot3Details?.imageUrl || '/default-image.jpg'}" 
+                             alt="スポット3" class="spot-image">
+                        <div class="plan-details">
+                            <div class="plan-usage">使用回数: ${plan.count}回</div>
+                        </div>
+                    `;
+
+                    container.appendChild(planCard);
+                }
+            } catch (error) {
+                console.error('デートプラン取得エラー:', error);
+                document.getElementById('no-plans').style.display = 'block';
+                document.getElementById('no-plans').textContent = 'データの読み込みに失敗しました。';
+            }
+        }
+
+        // ページ読み込み時にデートプランを取得
+        document.addEventListener('DOMContentLoaded', fetchDatePlans);
+    </script>
 </body>
 </html>
