@@ -1,0 +1,329 @@
+/* 全体のリセットとベーススタイル */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #fff0f5;
+	min-height: 100vh;
+	font-family: 'Arial', sans-serif;
+	transition: background-color 0.5s ease;
+}
+
+/* ヘッダー部分 */
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	background-color: #fff;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: 100px;
+}
+
+/* ヘッダーロゴのリンクスタイル */
+header h1 a {
+	color: #333;
+	text-decoration: none;
+	transition: opacity 0.3s ease;
+}
+
+header h1 a:hover {
+	opacity: 0.7;
+}
+
+/* メインコンテンツ */
+main {
+	margin-top: 120px;
+	padding: 2rem;
+	min-height: calc(100vh - 120px);
+}
+
+/* 戻るボタン */
+.back-button {
+	margin-bottom: 2rem;
+}
+
+.back-button button {
+	padding: 0.8rem 2rem;
+	background-color: #6c757d;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+}
+
+.back-button button:hover {
+	background-color: #5a6268;
+	transform: translateY(-2px);
+}
+
+/* ハンバーガーメニューの設定 */
+.hamburger-button {
+	width: 30px;
+	height: 24px;
+	position: relative;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+.hamburger-button span {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	background-color: #333;
+	border-radius: 4px;
+	transition: all 0.4s ease-in-out;
+}
+
+.hamburger-button span:nth-child(1) {
+	top: 0;
+}
+
+.hamburger-button span:nth-child(2) {
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.hamburger-button span:nth-child(3) {
+	bottom: 0;
+}
+
+/* ハンバーガーメニューのアクティブ状態 */
+.hamburger-button.active span:nth-child(1) {
+	top: 50%;
+	transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger-button.active span:nth-child(2) {
+	opacity: 0;
+}
+
+.hamburger-button.active span:nth-child(3) {
+	bottom: 50%;
+	transform: translateY(50%) rotate(-45deg);
+}
+
+.hamburger-menu {
+	position: fixed;
+	top: 0;
+	right: -100%;
+	width: 300px;
+	height: 100vh;
+	background-color: #fff;
+	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+	transition: all 0.4s ease-in-out;
+	z-index: 999;
+}
+
+.hamburger-menu.active {
+	right: 0;
+}
+
+.hamburger-menu ul {
+	padding: 80px 0 0 0;
+}
+
+.hamburger-menu li {
+	list-style: none;
+}
+
+.hamburger-menu a {
+	display: block;
+	padding: 1rem 2rem;
+	color: #333;
+	text-decoration: none;
+	font-size: 1.1rem;
+	transition: all 0.3s ease;
+}
+
+.hamburger-menu a:hover {
+	background-color: #f5f5f5;
+	padding-left: 2.5rem;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.4s ease-in-out;
+	z-index: 998;
+}
+
+.overlay.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* パートナーリクエストコンテナ */
+.partner-request-container {
+	background-color: white;
+	padding: 2rem;
+	border-radius: 15px;
+	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+	max-width: 500px;
+	margin: 0 auto;
+	transition: all 0.3s ease;
+}
+
+.partner-request-container h2 {
+	color: #ff69b4;
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+/* フォームスタイル */
+.partner-request-container form {
+	background-color: white;
+	padding: 2rem;
+	border-radius: 15px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	width: 100%;
+	margin-bottom: 2rem;
+	transition: all 0.3s ease;
+}
+
+.partner-request-container label {
+	display: block;
+	margin-bottom: 0.5rem;
+	color: #ff69b4;
+	font-weight: bold;
+}
+
+.partner-request-container input[type="number"] {
+	width: 100%;
+	padding: 1rem;
+	border: 2px solid #ff69b4;
+	border-radius: 10px;
+	margin-bottom: 1rem;
+	font-size: 1rem;
+}
+
+.partner-request-container button {
+	width: 100%;
+	padding: 1rem;
+	background-color: #ff69b4;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	font-size: 1.1rem;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.partner-request-container button:hover {
+	background-color: #ff1493;
+}
+
+/* 検索結果スタイル */
+.search-result {
+	background-color: white;
+	border-radius: 15px;
+	padding: 2rem;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	margin-top: 1rem;
+	text-align: center;
+}
+
+.search-result p {
+	margin: 1rem 0;
+	color: #333;
+}
+
+.diagnosis-image {
+	max-width: 200px;
+	max-height: 200px;
+	border-radius: 15px;
+	margin: 1rem auto;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+	body {
+		padding: 1rem;
+	}
+
+	.partner-request-container,
+	.search-result {
+		margin: 1rem 0;
+		padding: 1.5rem;
+	}
+}
+
+/* 既存のCSSに追加 */
+
+/* ハート降下アニメーション */
+@keyframes fallHeart {
+	0% {
+		transform: translateY(-100vh) rotate(0deg);
+		opacity: 0.7;
+	}
+
+	100% {
+		transform: translateY(100vh) rotate(360deg);
+		opacity: 0;
+	}
+}
+
+body::before {
+	content: '';
+	position: fixed;
+	top: -50px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 9999;
+	animation: fall-hearts 10s linear infinite;
+}
+
+.heart {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff69b4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center/cover;
+	animation: fallHeart 5s linear infinite;
+	opacity: 0;
+}
+
+/* 検索欄ホバーエフェクト */
+.partner-request-container input[type="number"] {
+	transition: all 0.3s ease;
+	border: 2px solid #ff69b4;
+}
+
+.partner-request-container input[type="number"]:hover,
+.partner-request-container input[type="number"]:focus {
+	transform: scale(1.02);
+	box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+	border-color: #ff1493;
+}
+
+/* 検索結果フェードイン */
+.search-result {
+	opacity: 0;
+	transform: translateY(20px);
+	transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.search-result.show {
+	opacity: 1;
+	transform: translateY(0);
+}
