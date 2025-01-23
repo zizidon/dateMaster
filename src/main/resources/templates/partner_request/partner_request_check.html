@@ -4,14 +4,27 @@
 <head>
 	<meta charset="UTF-8">
 	<title>申請確認</title>
+	<style>
+		.diagnosis-image {
+			max-width: 200px;
+			max-height: 200px;
+		}
+	</style>
 </head>
 
 <body>
 	<h1>確認画面</h1>
 	<p>こちらのユーザーにパートナー申請をしてもよろしいですか？♥</p>
+
 	<p>名前: <span th:text="${partner.name}"></span></p>
 
-	<form th:action="@{/dateMaster/partner}" method="get">
+	<!-- 診断結果の情報を表示 -->
+	<div th:if="${diagnosisType != null}">
+		<p>診断結果: <span th:text="${diagnosisType}"></span></p>
+		<img th:if="${diagnosisImage != null}" th:src="@{${diagnosisImage}}" alt="診断結果の画像" class="diagnosis-image">
+	</div>
+
+	<form th:action="@{/dateMaster/partnerRequest}" method="get">
 		<button type="submit">いいえ</button>
 	</form>
 

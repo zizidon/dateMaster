@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.entity.Coaching;
+import com.example.demo.entity.Negative;
+import com.example.demo.entity.Positive;
 import com.example.demo.entity.Users;
 import com.example.demo.repository.CoachingRepository;
+import com.example.demo.repository.NegativeRepository;
+import com.example.demo.repository.PositiveRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.PartnerRequestService;
 
@@ -31,6 +35,12 @@ public class Partnercontroller {
 
 	@Autowired
 	CoachingRepository coachingRepo;
+
+	@Autowired
+	PositiveRepository positiveRepository;
+
+	@Autowired
+	NegativeRepository negativeRepository;
 
 	//パートナー画面へ遷移
 	@GetMapping("partner")
@@ -417,6 +427,23 @@ public class Partnercontroller {
 					mav.addObject("message", "既にパートナーがいるユーザーです。");
 				} else {
 					mav.addObject("searchedUser", searchedUser);
+
+					// 診断結果に基づいて画像パスを取得
+					if (searchedUser.getDiagnosis() > 0) {
+						// Positiveテーブルから検索
+						Positive positive = positiveRepository.findByTypeId(searchedUser.getDiagnosis());
+						if (positive != null) {
+							mav.addObject("diagnosisType", positive.getType());
+							mav.addObject("diagnosisImage", positive.getImagePath());
+						}
+					} else if (searchedUser.getDiagnosis() < 0) {
+						// Negativeテーブルから検索
+						Negative negative = negativeRepository.findByTypeId(Math.abs(searchedUser.getDiagnosis()));
+						if (negative != null) {
+							mav.addObject("diagnosisType", negative.getType());
+							mav.addObject("diagnosisImage", negative.getImagePath());
+						}
+					}
 				}
 			} else {
 				mav.addObject("message", "該当するユーザーが見つかりませんでした。");
@@ -435,6 +462,23 @@ public class Partnercontroller {
 
 		if (user != null && partner != null) {
 			mav.addObject("partner", partner);
+			
+			// 診断結果に基づいて画像パスを取得
+			if (partner.getDiagnosis() > 0) {
+				// Positiveテーブルから検索
+				Positive positive = positiveRepository.findByTypeId(partner.getDiagnosis());
+				if (positive != null) {
+					mav.addObject("diagnosisType", positive.getType());
+					mav.addObject("diagnosisImage", positive.getImagePath());
+				}
+			} else if (partner.getDiagnosis() < 0) {
+				// Negativeテーブルから検索
+				Negative negative = negativeRepository.findByTypeId(Math.abs(partner.getDiagnosis()));
+				if (negative != null) {
+					mav.addObject("diagnosisType", negative.getType());
+					mav.addObject("diagnosisImage", negative.getImagePath());
+				}
+			}
 			mav.setViewName("partner_request/partner_request_check");
 		} else {
 			mav.setViewName("partner_request/partner_request");
