@@ -335,7 +335,7 @@ public class Diagnosiscontroller {
 			model.addAttribute("imagePath", ""); // 画像がない場合のデフォルト値
 		}
 
-		return "diagonosis_result/diagonosis_result_self";
+		return "self_diagonosis/diagonosis_result_self";
 	}
 
 	private Long getLoggedInUserId() {

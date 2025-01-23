@@ -116,10 +116,11 @@ public class Logincontroller {
 	//新規登録処理
 	@PostMapping("/register/send")
 	public ModelAndView register(@RequestParam String name, @RequestParam String password,
-			@RequestParam String confirmPassword, ModelAndView mav) {
+			@RequestParam String confirmPassword, @RequestParam String question, @RequestParam String answer,
+			ModelAndView mav) {
 
 		try {
-			Long userId = userRegisterService.register(name, password, confirmPassword);
+			Long userId = userRegisterService.register(name, password, confirmPassword, question, answer);
 			mav.addObject("userId", userId);
 			mav.setViewName("user/register_complete");
 		} catch (IllegalArgumentException e) {
@@ -129,7 +130,7 @@ public class Logincontroller {
 
 		return mav;
 	}
-	
+
 	//ログアウト処理
 	@GetMapping("/logout")
 	public String logout() {

@@ -2,62 +2,76 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>スポット検索結果</title>
+	<link rel="stylesheet" href="css/dateplun/date_add.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 <body>
     <header>
-        <h1>スポット検索結果</h1>
+        <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+        <div class="hamburger-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
 
-    <main>
-        <!-- 戻るボタン -->
-        <button type="button" onclick="history.back()">戻る</button>
+    <div class="hamburger-menu">
+        <ul>
+            <li><a th:href="@{/dateMaster/date}">デート</a></li>
+            <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+            <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+            <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+            <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+        </ul>
+    </div>
 
-        <!-- 検索フォーム -->
-        <div>
+    <div class="overlay"></div>
+
+    <main>
+		<h1>検索結果</h1>
+        <button type="button" class="button-style" onclick="history.back()">戻る</button>
+
+        <div class="search-container">
             <label for="search-bar">デートスポット検索:</label>
             <input type="text" id="search-bar" th:value="${query}" placeholder="スポット名で検索" />
             <button type="button" onclick="searchSpots()">検索</button>
         </div>
 
         <!-- 検索結果が空の場合に表示するエラーメッセージ -->
-        <div th:if="${noResults}">
+        <div th:if="${noResults}" class="spot-container">
             <p>該当するスポットはありません。</p>
         </div>
 
         <!-- 検索結果がある場合にスポットのリストを表示 -->
         <div th:if="${spots != null && !spots.isEmpty()}">
             <h2>検索結果</h2>
-            <div th:each="spot : ${spots}">
-				<div>
-				    
-				    <img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像" style="max-width: 200px;">
-				</div>
-
-                <div>
-                    <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
-                </div>
-                <div>
-					<strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">スポットのカテゴリー</span>
-
-                </div>
-                <div>
-                    <strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span>
-                </div>
-                <div>
-                    <strong>営業時間:</strong>
-                    <ul>
-                        <li>月曜日: <span th:text="${spot.Monday}">月曜日</span></li>
-                        <li>火曜日: <span th:text="${spot.Tuesday}">火曜日</span></li>
-                        <li>水曜日: <span th:text="${spot.Wednesday}">水曜日</span></li>
-                        <li>木曜日: <span th:text="${spot.Thursday}">木曜日</span></li>
-                        <li>金曜日: <span th:text="${spot.Friday}">金曜日</span></li>
-                        <li>土曜日: <span th:text="${spot.Saturday}">土曜日</span></li>
-                        <li>日曜日: <span th:text="${spot.Sunday}">日曜日</span></li>
-                    </ul>
+            <div th:each="spot : ${spots}" class="spot-container">
+                <div class="spot-info">
+                    <div class="spot-image">
+                        <img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像">
+                    </div>
+                    <div class="spot-details">
+                        <div><strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span></div>
+                        <div><strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">カテゴリー</span></div>
+                        <div><strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span></div>
+                        <div class="business-hours">
+                            <strong>営業時間:</strong>
+                            <ul>
+                                <li>月曜日: <span th:text="${spot.Monday}"></span></li>
+                                <li>火曜日: <span th:text="${spot.Tuesday}"></span></li>
+                                <li>水曜日: <span th:text="${spot.Wednesday}"></span></li>
+                                <li>木曜日: <span th:text="${spot.Thursday}"></span></li>
+                                <li>金曜日: <span th:text="${spot.Friday}"></span></li>
+                                <li>土曜日: <span th:text="${spot.Saturday}"></span></li>
+                                <li>日曜日: <span th:text="${spot.Sunday}"></span></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- デートプランにスポットを追加するフォーム -->
                 <form action="/addSpotToPlan" method="post">
                     <input type="hidden" name="spotName" th:value="${spot.spotName}" />
                     <input type="hidden" name="spotDescription" th:value="${spot.description}" />
@@ -69,11 +83,9 @@
                     <input type="hidden" name="spotOpeningFriday" th:value="${spot.Friday}" />
                     <input type="hidden" name="spotOpeningSaturday" th:value="${spot.Saturday}" />
                     <input type="hidden" name="spotOpeningSunday" th:value="${spot.Sunday}" />
-                    <!-- 緯度・経度も追加 -->
                     <input type="hidden" name="spotLatitude" th:value="${spot.latitude}" />
                     <input type="hidden" name="spotLongitude" th:value="${spot.longitude}" />
-					<input type="hidden" name="spotId" th:value="${spot.spotId}" />
-					
+                    <input type="hidden" name="spotId" th:value="${spot.spotId}" />
                     <button type="submit">デートプランに追加</button>
                 </form>
             </div>
@@ -85,6 +97,24 @@
             const query = document.getElementById('search-bar').value;
             window.location.href = '/searchSpots?query=' + encodeURIComponent(query);
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerButton = document.querySelector('.hamburger-button');
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+            const overlay = document.querySelector('.overlay');
+
+            hamburgerButton.addEventListener('click', function() {
+                this.classList.toggle('active');
+                hamburgerMenu.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+
+            overlay.addEventListener('click', function() {
+                hamburgerButton.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        });
     </script>
 </body>
 </html>

@@ -2,110 +2,137 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>デートプラン作成画面</title>
+    <link rel="stylesheet" href="css/dateplun/date_create.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <header>
-        <h1>デートプラン作成</h1>
+        <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+        <div class="hamburger-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
 
+    <div class="hamburger-menu">
+        <ul>
+            <li><a th:href="@{/dateMaster/date}">デート</a></li>
+            <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+            <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+            <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+            <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+        </ul>
+    </div>
+
+    <div class="overlay"></div>
+
     <main>
-        <button type="button" onclick="history.back()">戻る</button>
+        <br>
+        <button type="button" class="button-style" onclick="history.back()">戻る</button>
 
         <h2>選択されたスポット</h2>
 
-        <div th:if="${selectedSpots != null and !selectedSpots.isEmpty()}">
-            <ul>
+        <div th:if="${selectedSpots != null and !selectedSpots.isEmpty()}" class="spot-list-container">
+            <ul class="spot-list">
                 <li th:each="spot, iterStat : ${selectedSpots}">
-					<div>
-									    
-						<img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像" style="max-width: 200px;">
-					</div>
-                    <div>
-                        <strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span>
-                    </div>
-                    <div>
-						<strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">スポットのカテゴリー</span>
-
-                    </div>
-                    <div>
-                        <strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span>
-                    </div>
-                    <div>
-                        <strong>営業時間:</strong>
-                        <div>
-                            <strong>月曜日:</strong> <span th:text="${spot.Monday}">月曜日</span>
+                    <div class="spot-content">
+                        <div class="spot-image">
+                            <img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像">
                         </div>
-                        <div>
-                            <strong>火曜日:</strong> <span th:text="${spot.Tuesday}">火曜日</span>
+                        <div class="spot-details">
+                            <div class="spot-info">
+                                <div><strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span></div>
+                                <div><strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">カテゴリー</span></div>
+                                <div><strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span></div>
+                            </div>
+                            <div class="business-hours">
+                                <strong>営業時間:</strong>
+                                <div><strong>月曜日:</strong> <span th:text="${spot.Monday}"></span></div>
+                                <div><strong>火曜日:</strong> <span th:text="${spot.Tuesday}"></span></div>
+                                <div><strong>水曜日:</strong> <span th:text="${spot.Wednesday}"></span></div>
+                                <div><strong>木曜日:</strong> <span th:text="${spot.Thursday}"></span></div>
+                                <div><strong>金曜日:</strong> <span th:text="${spot.Friday}"></span></div>
+                                <div><strong>土曜日:</strong> <span th:text="${spot.Saturday}"></span></div>
+                                <div><strong>日曜日:</strong> <span th:text="${spot.Sunday}"></span></div>
+                            </div>
                         </div>
-                        <div>
-                            <strong>水曜日:</strong> <span th:text="${spot.Wednesday}">水曜日</span>
-                        </div>
-                        <div>
-                            <strong>木曜日:</strong> <span th:text="${spot.Thursday}">木曜日</span>
-                        </div>
-                        <div>
-                            <strong>金曜日:</strong> <span th:text="${spot.Friday}">金曜日</span>
-                        </div>
-                        <div>
-                            <strong>土曜日:</strong> <span th:text="${spot.Saturday}">土曜日</span>
-                        </div>
-                        <div>
-                            <strong>日曜日:</strong> <span th:text="${spot.Sunday}">日曜日</span>
+                        <div class="delete-button-container">
+                            <form action="/removeSpotFromPlan" method="post">
+                                <input type="hidden" name="spotName" th:value="${spot.spotName}" />
+                                <button type="submit" class="delete-button" title="削除">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
-
-                    <!-- 削除ボタン -->
-                    <form action="/removeSpotFromPlan" method="post">
-                        <input type="hidden" name="spotName" th:value="${spot.spotName}" />
-                        <button type="submit">削除</button>
-                    </form>
-
-                    <!-- スポットの間に下矢印を表示 -->
-                    <div th:if="${iterStat.index < selectedSpots.size() - 1}"> ▼ </div>
+                    <div th:if="${iterStat.index < selectedSpots.size() - 1}" class="spot-divider"></div>
                 </li>
             </ul>
         </div>
 
-        <div th:if="${selectedSpots == null or selectedSpots.isEmpty()}">
+        <div th:if="${selectedSpots == null or selectedSpots.isEmpty()}" class="empty-state">
             <p>スポットが追加されていません。</p>
         </div>
-		
-		<div class="button-group">
-			<!-- スポットが3つ未満の時だけボタンを有効にする -->
-			    <button type="button" 
-			            onclick="location.href='/searchSpots'" 
-			            th:disabled="${selectedSpots != null and selectedSpots.size() >= 3}"
-			            th:style="${selectedSpots != null and selectedSpots.size() >= 3 ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
-			        スポット追加
-			    </button>
-			    
-			    <!-- オプション: 3つ以上の場合にメッセージを表示 -->
-			    <div th:if="${selectedSpots != null and selectedSpots.size() >= 3}" 
-			         style="color: red; font-size: smaller; margin-top: 5px;">
-			        ※最大3つまでスポットを追加できます
-			    </div>
-        </div>
-		<button type="button" onclick="history.back()">機能一覧画面に戻る</button>
-        <form action="/createDatePlan" method="post">
-            <input type="hidden" name="spotNames" th:value="${spotNames}" />
-            <input type="hidden" name="spotDescriptions" th:value="${spotDescriptions}" />
-            <input type="hidden" name="spotAddresses" th:value="${spotAddresses}" />
-            <input type="hidden" name="spotOpenings" th:value="${spotOpenings}" />
+
+        <div class="button-group">
+            <button type="button" 
+                    onclick="location.href='/searchSpots'" 
+                    th:disabled="${selectedSpots != null and selectedSpots.size() >= 3}"
+                    th:style="${selectedSpots != null and selectedSpots.size() >= 3 ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
+                スポット追加
+            </button>
             
-            <!-- 緯度経度の情報も追加 -->
-            <input type="hidden" name="spotLatitudes" th:value="${spotLatitudes}" />
-            <input type="hidden" name="spotLongitudes" th:value="${spotLongitudes}" />
-			<div th:each="spot : ${selectedSpots}">
-			    <input type="hidden" name="spotIds" th:value="${spot.spotId}" />
-			</div>
+            <div th:if="${selectedSpots != null and selectedSpots.size() >= 3}" 
+                 class="error-message">
+                ※最大3つまでスポットを追加できます
+            </div>
+        </div>
 
-
-            <button type="submit">デートプラン作成</button>
-        </form>
-
-        
+        <div class="bottom-buttons">
+            <button type="button" class="button-style" onclick="location.href='/date'">
+                機能一覧画面に戻る
+            </button>
+            
+            <form action="/createDatePlan" method="post">
+                <input type="hidden" name="spotNames" th:value="${spotNames}" />
+                <input type="hidden" name="spotDescriptions" th:value="${spotDescriptions}" />
+                <input type="hidden" name="spotAddresses" th:value="${spotAddresses}" />
+                <input type="hidden" name="spotOpenings" th:value="${spotOpenings}" />
+                <input type="hidden" name="spotLatitudes" th:value="${spotLatitudes}" />
+                <input type="hidden" name="spotLongitudes" th:value="${spotLongitudes}" />
+                
+                <div th:each="spot : ${selectedSpots}">
+                    <input type="hidden" name="spotIds" th:value="${spot.spotId}" />
+                </div>
+                
+                <button type="submit" class="create-plan-button">
+                    デートプラン作成
+                </button>
+            </form>
+        </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerButton = document.querySelector('.hamburger-button');
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+            const overlay = document.querySelector('.overlay');
+
+            hamburgerButton.addEventListener('click', function() {
+                this.classList.toggle('active');
+                hamburgerMenu.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+
+            overlay.addEventListener('click', function() {
+                hamburgerButton.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
