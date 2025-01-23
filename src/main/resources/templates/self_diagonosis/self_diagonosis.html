@@ -5,21 +5,32 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>自己診断</title>
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="/css/self_diagonosis/self_diagonosis.css">
 </head>
 
 <body>
 	<header>
-		<h1>自己診断</h1>
-	</header>
+		<h1><a th:href="@{/dateMaster/diagonosis}">自己診断</a></h1>
+		    <div class="hamburger-button">
+		        <span></span>
+		        <span></span>
+		        <span></span>
+		    </div>
+		    </header>
+			
+			<nav class="hamburger-menu">
+		        <ul>
+		            <li><a th:href="@{/dateMaster/date}">デート</a></li>
+		            <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		            <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		            <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		            <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+		        </ul>
+		    </nav>
 
+		    <div class="overlay"></div>
+		
 	<main>
-		<!-- 戻るボタン -->
-		<form th:action="@{/dateMaster/diagonosis}" method="get">
-			<button type="submit">戻る</button>
-		</form>
-
-		<br>
 
 		<!-- 質問 -->
 		<h2>自己診断画面へようこそ🔮</h2>
@@ -33,6 +44,14 @@
 			<button type="submit" name="choice" value="negative">ネガティブ</button>
 		</form>
 	</main>
+	
+	<!-- 戻るボタン -->
+		<form th:action="@{/dateMaster/home}" method="get">
+			<button type="submit">戻る</button>
+		</form>
+	</div>
+	
+	<script src="/js/home/home.js"></script>
 </body>
 
 </html>

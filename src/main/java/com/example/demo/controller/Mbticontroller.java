@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -92,9 +93,15 @@ public class Mbticontroller {
 	    if (user != null) {
 	        // ユーザーの診断結果をデータベースから取得
 	        List<MbtiResult> results = mbtiResultRepository.findByUserId(user.getId());
+	        
+	        // 最後の5件のみ取得し、逆順に並び替える
+	        if (results.size() > 5) {
+	            results = results.subList(results.size() - 5, results.size()); // 最後の5件
+	        }
+	        Collections.reverse(results); // 逆順に並び替え
+	        
 	        model.addAttribute("results", results);  // モデルに診断結果をセット
 	    }
-
 	    // 診断結果履歴を表示するためのHTMLページを返す
 	    return "mbti_diagonosis/history";
 	}

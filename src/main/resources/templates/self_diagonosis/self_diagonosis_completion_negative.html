@@ -2,37 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>診断結果</title>
-	<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>診断結果</title>
+	<link rel="stylesheet" href="/css/self_diagonosis/self_diagonosis_completion_negative.css">
 </head>
 
 <body>
-	<header>
-		<h1>診断結果</h1>
-	</header>
+    <header>
+        <h1><a th:href="@{/dateMaster/diagonosis}">診断結果</a></h1>
+        <div class="hamburger-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
 
-	<main>
-		<h2>あなたの性格は、、、</h2>
+    <nav class="hamburger-menu">
+        <ul>
+            <li><a th:href="@{/dateMaster/date}">デート</a></li>
+            <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+            <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+            <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+            <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+        </ul>
+    </nav>
 
-		<!-- 診断結果表示 -->
-		<div>
+    <div class="overlay"></div>
 
-			<!-- 画像表示 -->
-			<div>
-				<img th:src="@{${imagePath}}" alt="診断結果の画像" style="max-width: 50%; height: auto;" />
-			</div>
+    <main>
+        <h2>あなたの性格は、、、</h2>
 
-			<h3 th:text="${type}"></h3>
-			<p th:text="${text}"></p>
-		</div>
+        <!-- 診断結果表示 -->
+        <div>
+            <!-- 画像表示 -->
+            <div>
+                <img th:src="@{${imagePath}}" alt="診断結果の画像" style="max-width: 50%; height: auto;" />
+            </div>
 
-		<!-- 戻るボタン -->
-		<form th:action="@{/dateMaster/diagonosis}" method="get">
-			<button type="submit">診断一覧に戻る</button>
-		</form>
-	</main>
+            <h3 th:text="${type}"></h3>
+            <p th:text="${text}"></p>
+        </div>
+
+        <!-- 戻るボタン -->
+        <form th:action="@{/dateMaster/diagonosis}" method="get">
+            <button type="submit">診断一覧に戻る</button>
+        </form>
+    </main>
+	<script src="/js/home/home.js"></script>
 </body>
 
 </html>

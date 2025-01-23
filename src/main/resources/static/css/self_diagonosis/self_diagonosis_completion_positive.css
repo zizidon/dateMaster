@@ -1,0 +1,199 @@
+/* ==============================
+   全体リセットと基本設定
+=============================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    text-align: center;
+    background: linear-gradient(to right, #8360c3, #2ebf91);
+    color: white;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+main {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ==============================
+   ヘッダー
+=============================== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px 20px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+header h1 a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.6rem;
+    transition: opacity 0.3s ease;
+}
+
+header h1 a:hover {
+    opacity: 0.7;
+}
+
+/* ==============================
+   ハンバーガーメニュー
+=============================== */
+.hamburger-button {
+    width: 35px;
+    height: 25px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.hamburger-button span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    border-radius: 4px;
+    transition: all 0.4s ease-in-out;
+}
+
+.hamburger-button span:nth-child(1) {
+    top: 0;
+}
+
+.hamburger-button span:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.hamburger-button span:nth-child(3) {
+    bottom: 0;
+}
+
+.hamburger-button.active span:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger-button.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-button.active span:nth-child(3) {
+    bottom: 50%;
+    transform: translateY(50%) rotate(-45deg);
+}
+
+.hamburger-menu {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 280px;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s ease-in-out;
+    z-index: 999;
+    padding-top: 80px;
+}
+
+.hamburger-menu.active {
+    right: 0;
+}
+
+.hamburger-menu ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.hamburger-menu li {
+    margin: 0;
+    padding: 0;
+}
+
+.hamburger-menu a {
+    display: block;
+    padding: 15px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu a:hover {
+    background: #f0f0f0;
+    padding-left: 30px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
+    z-index: 998;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==============================
+   メインコンテンツ
+=============================== */
+h2,
+h3 {
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* ==============================
+   ボタンデザイン
+=============================== */
+button,
+form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover,
+form button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.back-button button {
+    background-color: #6c757d;
+}
+
+.back-button button:hover {
+    background-color: #495057;
+}
