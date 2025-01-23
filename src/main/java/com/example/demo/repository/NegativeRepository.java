@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import com.example.demo.entity.Negative;
 
 public interface NegativeRepository extends CrudRepository<Negative, Integer> {
-
+	Negative findByTypeId(int typeId);
 }
