@@ -27,7 +27,24 @@ header {
     z-index: 1000;
     height: 100px;
 }
+.alert {
+    display: block;  /* 確実に表示されるように */
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 8px;
+}
 
+.alert-success {
+    background-color: #dff0d8;
+    color: #3c763d;
+    border: 1px solid #d6e9c6;
+}
+
+.alert-danger {
+    background-color: #f2dede;
+    color: #a94442;
+    border: 1px solid #ebccd1;
+}
 header h1 a {
     color: #333;
     text-decoration: none;
