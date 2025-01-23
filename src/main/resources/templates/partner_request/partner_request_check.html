@@ -3,35 +3,58 @@
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>申請確認</title>
-	<style>
-		.diagnosis-image {
-			max-width: 200px;
-			max-height: 200px;
-		}
-	</style>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link rel="stylesheet" href="/css/partner/partner_request_check.css">
 </head>
 
 <body>
-	<h1>確認画面</h1>
-	<p>こちらのユーザーにパートナー申請をしてもよろしいですか？♥</p>
+	<header>
+		<h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</header>
 
-	<p>名前: <span th:text="${partner.name}"></span></p>
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	</ul>
 
-	<!-- 診断結果の情報を表示 -->
-	<div th:if="${diagnosisType != null}">
-		<p>診断結果: <span th:text="${diagnosisType}"></span></p>
-		<img th:if="${diagnosisImage != null}" th:src="@{${diagnosisImage}}" alt="診断結果の画像" class="diagnosis-image">
-	</div>
+	<main>
+		<div class="confirmation-container">
+			<h1>確認画面</h1>
+			<p>こちらのユーザーにパートナー申請をしてもよろしいですか？♥</p>
 
-	<form th:action="@{/dateMaster/partnerRequest}" method="get">
-		<button type="submit">いいえ</button>
-	</form>
+			<p>名前: <span th:text="${partner.name}"></span></p>
 
-	<form th:action="@{/dateMaster/partnerRequestConfirm}" method="post">
-		<input type="hidden" name="partnerId" th:value="${partner.id}">
-		<button type="submit">はい</button>
-	</form>
+			<!-- 診断結果の情報を表示 -->
+			<div th:if="${diagnosisType != null}">
+				<p>診断結果: <span th:text="${diagnosisType}"></span></p>
+				<img th:if="${diagnosisImage != null}" th:src="@{${diagnosisImage}}" alt="診断結果の画像"
+					class="diagnosis-image">
+			</div>
+
+			<div class="button-container">
+				<form th:action="@{/dateMaster/partnerRequest}" method="get">
+					<button type="submit">いいえ</button>
+				</form>
+
+				<form th:action="@{/dateMaster/partnerRequestConfirm}" method="post">
+					<input type="hidden" name="partnerId" th:value="${partner.id}">
+					<button type="submit">はい</button>
+				</form>
+			</div>
+		</div>
+	</main>
+
+	<script src="/js/partner/partner_request_check.js"></script>
 </body>
 
 </html>
