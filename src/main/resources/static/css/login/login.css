@@ -55,15 +55,15 @@ label {
 	/* ラベルは左揃え */
 	display: block;
 }
-
 input[type="text"],
 input[type="password"] {
-	width: 100%;
-	padding: 10px 15px;
-	font-size: 16px;
-	border: 1px solid #cccccc;
-	border-radius: 4px;
-	transition: border-color 0.3s ease;
+    width: 100%; /* This ensures full width of the container */
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box; /* This ensures padding doesn't increase the total width */
 }
 
 input[type="text"]:focus,
