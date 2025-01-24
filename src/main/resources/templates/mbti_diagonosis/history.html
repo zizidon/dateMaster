@@ -1,27 +1,98 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>MBTI History</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI診断履歴</title>
+    <link rel="stylesheet" href="/css/mbti_diagonosis/history.css">
 </head>
 <body>
-    <h1>ＭＢＴＩ診断履歴</h1>
+	<header>
+	    <h1><a th:href="@{/dateMaster/diagonosis}">ＭＢＴＩ診断履歴</a></h1>
+	    <div class="hamburger-button">
+	        <span></span>
+	        <span></span>
+	        <span></span>
+	    </div>
+	</header>
 
-    <!-- Check if results exist -->
-    <div th:if="${results}">
-        <h2>診断結果履歴</h2>
-        <ul>
-			<li th:each="result : ${results}">
-                タイプ: <span th:text="${result.resultType}"></span> - 
-                タイプの特徴: <span th:text="${result.description}"></span>
+	<nav class="hamburger-menu">
+	    <ul>
+	        <li><a th:href="@{/dateMaster/date}">デート</a></li>
+	        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+	        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+	        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+	        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	    </ul>
+	</nav>
+
+	<div class="overlay"></div>
+
+    <!-- 診断結果履歴の表示 -->
+    <div class="result-container">
+        <h2>診断履歴</h2>
+        
+        <!-- 履歴がある場合に表示 -->
+        <ul th:if="${not #lists.isEmpty(results)}">
+            <li th:each="result : ${results}">
+                <p><strong>タイプ:</strong> <span th:text="${result.resultType}"></span></p>
+                <p><strong>特徴:</strong> <span th:text="${result.description}"></span></p>
             </li>
         </ul>
+
+        <!-- 診断履歴がない場合 -->
+        <p th:if="${#lists.isEmpty(results)}">診断履歴はありません。</p>
     </div>
 
-    <!-- Message if no results are found -->
-    <div th:if="${#lists.isEmpty(results)}">
-        <p>診断結果はありません。</p>
-    </div>
+    <a href="/dateMaster/diagonosis" class="back-button">診断一覧に戻る</a>
 
-    <a href="/dateMaster/diagonosis">診断一覧に戻る</a>
+    <hr>
+
+    <!-- MBTIタイプ一覧 -->
+    <section class="mbti-list">
+        <h2>MBTIタイプ一覧</h2>
+        
+        <div class="mbti-category">
+            <h3>分析型 (Analysts)</h3>
+            <ul>
+                <li><strong>INTJ:</strong> 戦略的な計画を得意とし、独立した思考を持つ戦略家</li>
+                <li><strong>INTP:</strong> 論理と分析に優れ、理論的な課題を好む論理学者</li>
+                <li><strong>ENTJ:</strong> リーダーシップを発揮し、効率的な計画を立てる指揮官</li>
+                <li><strong>ENTP:</strong> 革新と創造を好み、新しいアイデアを追求する討論者</li>
+            </ul>
+        </div>
+
+        <div class="mbti-category">
+            <h3>外交型 (Diplomats)</h3>
+            <ul>
+                <li><strong>INFJ:</strong> 深い洞察力を持ち、他人を助けることに情熱を注ぐ提唱者</li>
+                <li><strong>INFP:</strong> 理想主義者であり、価値観に基づいて行動する仲介者</li>
+                <li><strong>ENFJ:</strong> 人々を導き、他人の可能性を引き出す主人公</li>
+                <li><strong>ENFP:</strong> 熱意を持ち、創造的で自由を重んじる広報活動家</li>
+            </ul>
+        </div>
+
+        <div class="mbti-category">
+            <h3>番人型 (Sentinels)</h3>
+            <ul>
+                <li><strong>ISTJ:</strong> 責任感が強く、実践的な行動を好む物流管理者</li>
+                <li><strong>ISFJ:</strong> 献身的で細部に気を配る防衛者</li>
+                <li><strong>ESTJ:</strong> 現実的で秩序を重んじ、組織を効率的に運営する幹部</li>
+                <li><strong>ESFJ:</strong> 人々をサポートし、社会的な調和を重視する領事</li>
+            </ul>
+        </div>
+
+        <div class="mbti-category">
+            <h3>探検型 (Explorers)</h3>
+            <ul>
+                <li><strong>ISTP:</strong> 柔軟で冷静に問題を解決する職人</li>
+                <li><strong>ISFP:</strong> 繊細で芸術的な感覚を持つ冒険者</li>
+                <li><strong>ESTP:</strong> 行動力があり、現実に即した決断を行う起業家</li>
+                <li><strong>ESFP:</strong> 社交的で楽しいことを好み、人々を楽しませるエンターテイナー</li>
+            </ul>
+        </div>
+    </section>
+
+	<script src="/js/home/home.js"></script>
 </body>
 </html>
