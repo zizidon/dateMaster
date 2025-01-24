@@ -68,6 +68,25 @@ public class Partnercontroller {
 		if (user != null && user.getPartner() != null) {
 			Users partner = userRepository.findById(user.getPartner()).orElse(null);
 			mav.addObject("partner", partner);
+
+			// 診断結果に基づいて画像パスを取得
+			if (partner != null) {
+				if (partner.getDiagnosis() > 0) {
+					// Positiveテーブルから検索
+					Positive positive = positiveRepository.findByTypeId(partner.getDiagnosis());
+					if (positive != null) {
+						mav.addObject("diagnosisType", positive.getType());
+						mav.addObject("diagnosisImage", positive.getImagePath());
+					}
+				} else if (partner.getDiagnosis() < 0) {
+					// Negativeテーブルから検索
+					Negative negative = negativeRepository.findByTypeId(Math.abs(partner.getDiagnosis()));
+					if (negative != null) {
+						mav.addObject("diagnosisType", negative.getType());
+						mav.addObject("diagnosisImage", negative.getImagePath());
+					}
+				}
+			}
 		} else {
 			mav.addObject("partner", null);
 		}
@@ -116,6 +135,7 @@ public class Partnercontroller {
 		if (user != null) {
 			// 浮気チェック
 			if (user.getPartner() != null) {
+				mav.addObject("message", "浮気は許しません👁👁");
 				mav.setViewName("partnerAccept/partner_already");
 				return mav;
 			}
@@ -124,6 +144,25 @@ public class Partnercontroller {
 			Users applicant = null;
 			if (user.getApplicant() != null) {
 				applicant = userRepository.findById(user.getApplicant()).orElse(null);
+
+				// 診断結果に基づいて画像パスを取得
+				if (applicant != null) {
+					if (applicant.getDiagnosis() > 0) {
+						// Positiveテーブルから検索
+						Positive positive = positiveRepository.findByTypeId(applicant.getDiagnosis());
+						if (positive != null) {
+							mav.addObject("diagnosisType", positive.getType());
+							mav.addObject("diagnosisImage", positive.getImagePath());
+						}
+					} else if (applicant.getDiagnosis() < 0) {
+						// Negativeテーブルから検索
+						Negative negative = negativeRepository.findByTypeId(Math.abs(applicant.getDiagnosis()));
+						if (negative != null) {
+							mav.addObject("diagnosisType", negative.getType());
+							mav.addObject("diagnosisImage", negative.getImagePath());
+						}
+					}
+				}
 			}
 			mav.addObject("applicant", applicant);
 		}
@@ -462,7 +501,7 @@ public class Partnercontroller {
 
 		if (user != null && partner != null) {
 			mav.addObject("partner", partner);
-			
+
 			// 診断結果に基づいて画像パスを取得
 			if (partner.getDiagnosis() > 0) {
 				// Positiveテーブルから検索
