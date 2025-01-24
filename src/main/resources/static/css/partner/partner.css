@@ -248,6 +248,30 @@ main {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* 戻るボタン用のフォームコンテナ */
+main>form {
+	padding: 0 0 2rem 2rem;
+	width: 100%;
+}
+
+/* 戻るボタン */
+form button[type="submit"] {
+	padding: 0.8rem 2rem;
+	background-color: #6c757d;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+	background-color: #5a6268;
+	transform: translateY(-2px);
+}
+
+
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
 	.partner-info {
@@ -257,5 +281,9 @@ main {
 
 	.button-group {
 		padding: 0 1rem;
+	}
+
+	main>form {
+		padding: 0 0 1rem 1rem;
 	}
 }

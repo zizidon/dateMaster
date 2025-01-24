@@ -73,4 +73,26 @@ document.addEventListener('DOMContentLoaded', function() {
 			this.style.boxShadow = '';
 		});
 	});
+
+	// 戻るボタンのホバーとクリックエフェクト
+	const backButton = document.querySelector('.back-button');
+	if (backButton) {
+		backButton.addEventListener('mouseover', function() {
+			this.style.transform = 'scale(1.1)';
+			this.style.backgroundColor = '#357abd';
+		});
+
+		backButton.addEventListener('mouseout', function() {
+			this.style.transform = '';
+			this.style.backgroundColor = '#4a90e2';
+		});
+
+		backButton.addEventListener('mousedown', function() {
+			this.style.transform = 'scale(0.95)';
+		});
+
+		backButton.addEventListener('mouseup', function() {
+			this.style.transform = '';
+		});
+	}
 });
