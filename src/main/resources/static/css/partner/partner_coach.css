@@ -1,0 +1,135 @@
+@charset "UTF-8";
+/* partner_request.cssと共通のスタイル */
+@import url('/css/partner/partner_request.css');
+
+/* 背景を熱いレッドに変更 */
+body {
+    background-color: #FF4500; /* 鮮やかな赤オレンジ色 */
+    background-image: linear-gradient(to bottom right, #FF4500, #FF6347);
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+    transition: background-color 0.5s ease;
+    color: white;
+}
+
+.partner-coaching-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    margin: 2rem auto;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+
+.partner-coaching-container {
+	background-color: #fff0f5;
+	padding: 2rem;
+	border-radius: 15px;
+	box-shadow: 0 4px 20px rgba(255, 105, 180, 0.2);
+	max-width: 500px;
+	margin: 2rem auto;
+	text-align: center;
+	transition: all 0.3s ease;
+}
+
+.partner-coaching-container h2 {
+	color: #ff69b4;
+	margin-bottom: 1.5rem;
+	font-size: 2rem;
+	text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+}
+
+.partner-coaching-container p {
+	color: #ff1493;
+	font-weight: bold;
+	margin-bottom: 2rem;
+	font-size: 1.2rem;
+	animation: heartBeat 1.5s infinite;
+}
+
+.button-group {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.coaching-form button {
+	width: 100%;
+	padding: 1rem;
+	background-color: #ff69b4;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	font-size: 1.1rem;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+}
+
+.coaching-form button:hover {
+	background-color: #ff1493;
+	transform: scale(1.05);
+}
+
+/* 応援アニメーション */
+@keyframes heartBeat {
+
+	0%,
+	100% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.1);
+	}
+}
+
+@keyframes glowPink {
+
+	0%,
+	100% {
+		text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+	}
+
+	50% {
+		text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
+	}
+}
+
+/* 愛の星エフェクト */
+@keyframes twinkleStar {
+
+	0%,
+	100% {
+		opacity: 0.6;
+	}
+
+	50% {
+		opacity: 1;
+	}
+}
+
+body::before {
+	content: '❤️';
+	position: fixed;
+	top: -50px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 9999;
+	color: pink;
+	font-size: 30px;
+	animation: fallHearts 10s linear infinite;
+}
+
+.star {
+	position: absolute;
+	color: pink;
+	font-size: 20px;
+	animation: twinkleStar 2s infinite, fallHearts 5s linear infinite;
+}
