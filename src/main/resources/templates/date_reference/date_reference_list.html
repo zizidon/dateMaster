@@ -1,61 +1,123 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>My Date Plans</title>
-    <style>
-        .spot-image img {
-            width: 200px;
-            height: auto;
-        }
-        .date-plan-section {
-            margin-bottom: 20px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デートプラン</title>
+	<link rel="stylesheet" href="css/date_reference/date_reference_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 <body>
-    <h1>My Date Plans</h1>
-    <button type="button" class="button-style" onclick="history.back()">戻る</button>
+    <header>
+        <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+        <div class="hamburger-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
 
-    <!-- Own Date Plan Section -->
-    <div class="date-plan-section" th:if="${not #lists.isEmpty(ownPlanSpots)}">
-        <h2>自分が作成したプラン</h2>
-        
-        <div th:each="spot : ${ownPlanSpots}">
-            <div class="spot-image">
-                <img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像">
+    <div class="hamburger-menu">
+        <ul>
+            <li><a th:href="@{/dateMaster/date}">デート</a></li>
+            <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+            <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+            <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+            <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+        </ul>
+    </div>
+
+    <div class="overlay"></div>
+
+    <main>
+		<br>
+        <button type="button" class="button-style" onclick="history.back()">戻る</button>
+		<br>
+		<br>
+        <!-- Own Date Plan Section -->
+        <div class="date-plan-section" th:if="${not #lists.isEmpty(ownPlanSpots)}">
+            <h2>自分が作成したプラン</h2>
+            
+            <div class="spot-list-container">
+                <ul class="spot-list">
+					<li th:each="spot, iterStat : ${ownPlanSpots}">
+					      <div class="spot-content">
+					       <div class="spot-image">
+					        <img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像">
+					          </div>
+					        <div class="spot-details">
+					          <div class="spot-info">
+					          <div><strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span></div>
+					          <div><strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">カテゴリー</span></div>
+					          <div><strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span></div>
+					          </div>
+					        </div>
+					    </div>
+					</li>
+                </ul>
             </div>
-            <div><strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span></div>
-            <div><strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">カテゴリー</span></div>
-            <div><strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span></div>
+            
+            <div class="bottom-buttons">
+                <button type="button" th:onclick="|window.location.href='@{/viewOwnDatePlanMap}'|" class="button-style">マップで参照</button>
+            </div>
         </div>
         
-        <!-- 参照ボタンの追加 -->
-<button type="button" th:onclick="|window.location.href='@{/viewOwnDatePlanMap}'|" class="btn btn-primary">マップで参照</button>
-    </div>
-    
-    <div th:unless="${not #lists.isEmpty(ownPlanSpots)}">
-        <p>まだ自分のデートプランを作成していません。</p>
-    </div>
-
-    <!-- Shared Date Plan Section -->
-    <div class="date-plan-section" th:if="${not #lists.isEmpty(sharedPlanSpots)}">
-        <h2>共有されたプラン</h2>
-        
-        <div th:each="spot : ${sharedPlanSpots}">
-            <div class="spot-image">
-                <img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像">
-            </div>
-            <div><strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span></div>
-            <div><strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">カテゴリー</span></div>
-            <div><strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span></div>
+        <div th:unless="${not #lists.isEmpty(ownPlanSpots)}" class="empty-state">
+            <p>まだ自分のデートプランを作成していません。</p>
         </div>
 
-        <!-- 参照ボタンの追加 -->
-<button type="button" th:onclick="|window.location.href='@{/viewSharedDatePlanMap}'|" class="btn btn-primary">マップで参照</button>
-    </div>
-    
-    <div th:unless="${not #lists.isEmpty(sharedPlanSpots)}">
-        <p>共有されたデートプランはありません。</p>
-    </div>
+        <!-- Shared Date Plan Section -->
+        <div class="date-plan-section" th:if="${not #lists.isEmpty(sharedPlanSpots)}">
+            <h2>共有されたプラン</h2>
+            
+            <div class="spot-list-container">
+                <ul class="spot-list">
+                    <li th:each="spot : ${sharedPlanSpots}">
+                        <div class="spot-content">
+                            <div class="spot-image">
+                                <img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" alt="スポット画像">
+                            </div>
+                            <div class="spot-details">
+                                <div class="spot-info">
+                                    <div><strong>スポット名:</strong> <span th:text="${spot.spotName}">スポット名</span></div>
+                                    <div><strong>カテゴリー:</strong> <span th:text="${spot.categoryName}">カテゴリー</span></div>
+                                    <div><strong>住所:</strong> <span th:text="${spot.spotAddress}">住所</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="bottom-buttons">
+                <button type="button" th:onclick="|window.location.href='@{/viewSharedDatePlanMap}'|" class="button-style">マップで参照</button>
+            </div>
+        </div>
+        
+        <div th:unless="${not #lists.isEmpty(sharedPlanSpots)}" class="empty-state">
+            <p>共有されたデートプランはありません。</p>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerButton = document.querySelector('.hamburger-button');
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+            const overlay = document.querySelector('.overlay');
+
+            hamburgerButton.addEventListener('click', function() {
+                this.classList.toggle('active');
+                hamburgerMenu.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+
+            overlay.addEventListener('click', function() {
+                hamburgerButton.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
