@@ -1,0 +1,227 @@
+/* ==============================
+   全体リセットと基本設定
+================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background: linear-gradient(to right, rgb(128, 255, 255), rgb(0, 128, 255));
+    color: rgb(0, 0, 0);
+    margin: 0;
+    padding: 0;
+}
+
+/* ==============================
+   ヘッダー
+================================= */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header h1 a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.8rem;
+    transition: opacity 0.3s ease;
+}
+
+header h1 a:hover {
+    opacity: 0.7;
+}
+
+/* ==============================
+   ハンバーガーメニュー
+================================= */
+.hamburger-button {
+    width: 30px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.hamburger-button span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    border-radius: 4px;
+    transition: all 0.4s ease-in-out;
+}
+
+.hamburger-button span:nth-child(1) { top: 0; }
+.hamburger-button span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.hamburger-button span:nth-child(3) { bottom: 0; }
+
+/* メニュー開閉アニメーション */
+.hamburger-button.active span:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger-button.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-button.active span:nth-child(3) {
+    bottom: 50%;
+    transform: translateY(50%) rotate(-45deg);
+}
+
+/* メニュー本体 */
+.hamburger-menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s ease-in-out;
+    z-index: 999;
+    padding-top: 80px;
+}
+
+.hamburger-menu.active {
+    right: 0;
+}
+
+.hamburger-menu ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.hamburger-menu li { margin: 0; padding: 0; }
+
+.hamburger-menu a {
+    display: block;
+    padding: 15px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu a:hover {
+    background: #f0f0f0;
+    padding-left: 30px;
+}
+
+/* オーバーレイ */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
+    z-index: 998;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==============================
+   回答確認コンテナ
+================================= */
+.confirmation-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-container h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* ==============================
+   回答リスト
+================================= */
+.confirmation-list {
+    list-style: none;
+    padding: 0;
+}
+
+.confirmation-list li {
+    background: #fff;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.confirmation-list li:hover {
+    transform: translateY(-2px);
+}
+
+.confirmation-list p {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.confirmation-list span {
+    font-weight: bold;
+    color: #4A90E2;
+}
+
+/* ==============================
+   ボタンデザイン
+================================= */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+button {
+    width: 100%;
+    max-width: 200px;
+    background: #4A90E2;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background: #357ABD;
+    transform: translateY(-2px);
+}
+
+/* 戻るボタン */
+.back-button {
+    background: #aaa;
+}
+
+.back-button:hover {
+    background: #888;
+}

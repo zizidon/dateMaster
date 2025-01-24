@@ -5,7 +5,26 @@
     <title>MBTI Result</title>
 </head>
 <body>
-    <h1>ＭＢＴＩ診断結果</h1>
+	<header>
+	    <h1><a th:href="@{/dateMaster/diagonosis}">タイプ診断結果</a></h1>
+	    <div class="hamburger-button">
+	        <span></span>
+	        <span></span>
+	        <span></span>
+	    </div>
+	</header>
+
+	<nav class="hamburger-menu">
+	    <ul>
+	        <li><a th:href="@{/dateMaster/date}">デート</a></li>
+	        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+	        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+	        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+	        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	    </ul>
+	</nav>
+
+	<div class="overlay"></div>
 
     <div＞>
         <p>タイプ: <span th:text="${resultType}"></span></p>
@@ -21,5 +40,7 @@
     </div>
 
     <a href="/dateMaster/diagonosis">診断一覧に戻る</a>
+	
+	<script src="/js/home/home.js"></script>
 </body>
 </html>

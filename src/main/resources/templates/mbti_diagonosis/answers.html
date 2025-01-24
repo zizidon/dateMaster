@@ -1,25 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>回答確認</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回答確認</title>
+    <link rel="stylesheet" href="/css/mbti_diagonosis/answers.css">
 </head>
 <body>
-	<h1>回答確認</h1>
-	<form action="/dateMaster/result" method="post">
-		<div>
-			<ul>
-				<li th:each="question : ${questions}">
-					<p th:text="${question.question_text}"></p>
-					<p>診断を確定： <span th:text="${answers[#strings.concat('answer_', question.id)]}"></span></p>
-					<input type="hidden" th:name="${#strings.concat('answer_', question.id)}" th:value="${answers[#strings.concat('answer_', question.id)]}">
-				</li>
-			</ul>
-		</div>
-		<button type="submit">結果を見る</button>
-	</form>
-	<form name="form1" th:action="@{/dateMaster/questions}" method="get">
-		<button type="submit">戻る</button>
-	</form>
+	<header>
+	    <h1><a th:href="@{/dateMaster/diagonosis}">診断結果確認</a></h1>
+	    <div class="hamburger-button">
+	        <span></span>
+	        <span></span>
+	        <span></span>
+	    </div>
+	</header>
+
+	<nav class="hamburger-menu">
+	    <ul>
+	        <li><a th:href="@{/dateMaster/date}">デート</a></li>
+	        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+	        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+	        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+	        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	    </ul>
+	</nav>
+
+	<div class="overlay"></div>
+	
+    <div class="confirmation-container">
+        <h1>回答確認</h1>
+        <form action="/dateMaster/result" method="post">
+            <ul class="confirmation-list">
+                <li th:each="question : ${questions}">
+                    <p th:text="${question.question_text}"></p>
+                    <p>診断を確定： <span th:text="${answers[#strings.concat('answer_', question.id)]}"></span></p>
+                    <input type="hidden" th:name="${#strings.concat('answer_', question.id)}" th:value="${answers[#strings.concat('answer_', question.id)]}">
+                </li>
+            </ul>
+            <div class="button-group">
+                <button type="submit" class="submit-button">結果を見る</button>
+                <button type="submit" formaction="/dateMaster/questions" formmethod="get" class="back-button">戻る</button>
+            </div>
+        </form>
+    </div>
+	<script src="/js/home/home.js"></script>
 </body>
 </html>

@@ -1,26 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>ＭＢＴＩ 質問</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ＭＢＴＩ診断</title>
+	<link rel="stylesheet" href="/css/mbti_diagonosis/questions.css">
 </head>
+
 <body>
-	<h1>ＭＢＴＩ 質問</h1>
-	<form action="/dateMaster/answers" method="post">
-		<div>
+	<header>
+		<h1><a th:href="@{/dateMaster/diagonosis}">ＭＢＴＩ診断</a></h1>
+		<!-- ハンバーガーメニューのボタン -->
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</header>
+
+	<!-- ハンバーガーメニュー -->
+	<nav class="hamburger-menu">
+		<ul>
+			<li><a th:href="@{/dateMaster/date}">デート</a></li>
+			<li><a th:href="@{/dateMaster/diagnosis}">診断</a></li>
+			<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+			<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+			<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+		</ul>
+	</nav>
+
+	<!-- メニューオーバーレイ -->
+	<div class="overlay"></div>
+
+	<!-- 質問フォーム -->
+	<main>
+		<form action="/dateMaster/answers" method="post" class="question-form">
 			<ul>
 				<li th:each="question : ${questions}">
-					<p th:text="${question.question_text}"></p>
-					<input type="radio" th:name="'answer_' + ${question.id}" value="yes" required>はい
-					<input type="radio" th:name="'answer_' + ${question.id}" value="no">いいえ
+				    <p th:text="${question.question_text}"></p>
+				    <div class="radio-group">
+				        <input type="radio" th:id="'yes_' + ${question.id}" th:name="'answer_' + ${question.id}" value="yes" required>
+				        <label th:for="'yes_' + ${question.id}">はい</label>
+				        
+				        <input type="radio" th:id="'no_' + ${question.id}" th:name="'answer_' + ${question.id}" value="no">
+				        <label th:for="'no_' + ${question.id}">いいえ</label>
+				    </div>
 				</li>
-				<p th:if="${#lists.isEmpty(questions)}">質問がありません。</p>
 			</ul>
-		</div>
-		<button type="submit">回答を確認</button>
-	</form>
-	<form name="form1" th:action="@{/dateMaster/diagnosis}" method="get">
-		<button type="submit">戻る</button>
-	</form>
+			<p th:if="${#lists.isEmpty(questions)}">質問がありません。</p>
+			<button type="submit">回答を確認</button>
+		</form>
+
+		<!-- 戻るボタン -->
+		<form name="form1" th:action="@{/dateMaster/diagonosis}" method="get">
+			<button type="submit" class="back-button">戻る</button>
+		</form>
+	</main>
+
+	<script src="/js/home/home.js"></script>
 </body>
 </html>
