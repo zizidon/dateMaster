@@ -1,29 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('missionForm');
-
-    form.addEventListener('submit', function(event) {
-        // すべてのミッション項目を取得
-        const missions = form.querySelectorAll('.mission-item');
-        let allMissionsSelected = true;
-
-        // 各ミッションのラジオボタンの選択状況をチェック
-        missions.forEach(mission => {
-            const radioButtons = mission.querySelectorAll('input[type="radio"]');
-            const isSelected = Array.from(radioButtons).some(radio => radio.checked);
-
-            // 選択されていないミッションがある場合
-            if (!isSelected) {
-                allMissionsSelected = false;
-                mission.style.borderColor = 'red';
-            } else {
-                mission.style.borderColor = '#ddd';
-            }
+    // 戻るボタンのアニメーション
+    const backButton = document.querySelector('.back-button button');
+    if (backButton) {
+        backButton.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateX(-5px)';
         });
 
-        // すべてのミッションが選択されていない場合
-        if (!allMissionsSelected) {
-            event.preventDefault(); // フォーム送信を阻止
-            alert('すべてのミッションの達成状況を選択してください。');
-        }
-    });
+        backButton.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateX(0)';
+        });
+    }
+
+    // 送信ボタンのアニメーションと検証
+    const submitButton = document.querySelector('.submit-button');
+    if (submitButton) {
+        submitButton.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.02)';
+        });
+
+        submitButton.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+
+        const missionForm = document.getElementById('missionForm');
+        missionForm.addEventListener('submit', function(event) {
+            const radioGroups = document.querySelectorAll('.radio-group');
+            
+            // すべてのミッションで選択が行われているか確認
+            const allMissionsSelected = Array.from(radioGroups).every(group => {
+                return group.querySelector('input:checked');
+            });
+
+            if (!allMissionsSelected) {
+                event.preventDefault();
+                alert('すべてのミッションの達成状況を選択してください。');
+            }
+        });
+    }
+
+    // ページ読み込み時のアニメーション
+    const missionContainer = document.querySelector('.mission-container');
+    if (missionContainer) {
+        missionContainer.style.opacity = '0';
+        missionContainer.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            missionContainer.style.transition = 'all 0.5s ease';
+            missionContainer.style.opacity = '1';
+            missionContainer.style.transform = 'translateY(0)';
+        }, 100);
+    }
 });

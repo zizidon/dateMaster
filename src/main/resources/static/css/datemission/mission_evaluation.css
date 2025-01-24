@@ -1,1 +1,92 @@
-@charset "UTF-8";
+/* リセットとベーススタイル */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ヘッダー */
+header {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    color: #333;
+}
+
+/* メインコンテンツ */
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.date-evaluation {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    max-width: 500px;
+    width: 100%;
+}
+
+.date-evaluation p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+.date-evaluation h2 {
+    font-size: 2rem;
+    color: #333;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.button-group button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-group button:hover {
+    background-color: #3a7bd5;
+    transform: translateY(-3px);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+    .date-evaluation {
+        padding: 1rem;
+        margin: 1rem;
+    }
+    
+    .date-evaluation h2 {
+        font-size: 1.5rem;
+    }
+}

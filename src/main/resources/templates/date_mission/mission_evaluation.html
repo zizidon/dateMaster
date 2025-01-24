@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>デート評価画面</title>
+    <link rel="stylesheet" href="/css/datemission/mission_evaluation.css">
+	    <script src="/js/datemission/mission_evaluation.css"></script>
 </head>
 <body>
     <header>
@@ -12,13 +14,14 @@
     <main>
         <div class="date-evaluation">
             <p>あなたの評価は…</p>
-            <h2 th:text="${evaluation}"></h2>
+            <h2 th:text="${evaluation}">評価結果</h2>
         </div>
         <div class="button-group">
-            <a th:href="@{/date}">
+            <a th:href="@{/dateMaster/date}">
                 <button type="button">機能一覧に戻る</button>
             </a>
         </div>
     </main>
+    <script src="/js/date-evaluation.js"></script>
 </body>
 </html>

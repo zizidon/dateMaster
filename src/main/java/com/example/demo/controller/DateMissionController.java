@@ -106,6 +106,7 @@ public class DateMissionController {
 
         model.addAttribute("evaluation", evaluation);
         
+        
         // 評価後にカウントを初期化
         session.setAttribute("missionCount", 0);
         

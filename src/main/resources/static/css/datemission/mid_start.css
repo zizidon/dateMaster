@@ -1,95 +1,165 @@
-/* リセットとベースのスタイル */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+@charset "UTF-8";
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
-    font-family: Arial, sans-serif;
     background-color: #f8f9fa;
-    line-height: 1.6;
-    padding: 20px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
     position: relative;
 }
 
-/* ページタイトル */
-h1 {
-    text-align: center;
+/* ヘッダー */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 100px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+header h1 {
     color: #333;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+/* メインコンテンツ */
+main {
+    margin-top: 120px;
+    padding: 1rem;
+    min-height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* 戻るボタン */
 .back-button {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 100;
+    position: absolute;
+    top: 120px;
+    left: 10px;
+    z-index: 101;
 }
 
 .back-button button {
     background-color: #e2904a;
-    color: white;
     border: none;
+    color: white;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
 }
 
 .back-button button:hover {
-    background-color: #d17c3e;
+    transform: translateX(-5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    filter: brightness(1.1);
+}
+
+.back-button button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    filter: brightness(0.95);
 }
 
 /* ミッションコンテナ */
 .mission-container {
+    width: 100%;
     max-width: 600px;
-    margin: 0 auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1rem;
 }
 
-/* 個々のミッションアイテム */
 .mission-item {
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: white;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .mission-item p {
-    margin-bottom: 10px;
-    font-weight: bold;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #333;
 }
 
-/* ラジオボタングループ */
 .radio-group {
     display: flex;
     justify-content: space-around;
+}
+
+.radio-group div {
+    display: flex;
     align-items: center;
 }
 
-.radio-group label {
-    margin-left: 5px;
+.radio-group input[type="radio"] {
+    margin-right: 0.5rem;
 }
 
-/* 送信ボタン */
-form button[type="submit"] {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
+.submit-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.submit-button {
+    background-color: #4a90e2;
     border: none;
-    border-radius: 5px;
+    color: white;
+    padding: 15px 50px;
+    border-radius: 10px;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-form button[type="submit"]:hover {
-    background-color: #218838;
+.submit-button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    filter: brightness(1.1);
+}
+
+.submit-button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    filter: brightness(0.95);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .mission-container {
+        max-width: 100%;
+        padding: 0.5rem;
+    }
+
+    .back-button {
+        top: 110px;
+        left: 5px;
+    }
+
+    .submit-button {
+        padding: 12px 40px;
+        font-size: 1rem;
+    }
 }
