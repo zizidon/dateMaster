@@ -1,0 +1,269 @@
+@charset "UTF-8";
+
+/* partner_request.cssをベースに、悲しみと雨のテーマを反映 */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #1c1c3c;
+	min-height: 100vh;
+	font-family: 'Arial', sans-serif;
+	color: #b0b0d0;
+	position: relative;
+	overflow: hidden;
+}
+
+/* ヘッダー設定は同一 */
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	background-color: rgba(20, 20, 50, 0.9);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: 100px;
+}
+
+header h1 a {
+	color: #6a6acd;
+	text-decoration: none;
+	transition: opacity 0.3s ease;
+}
+
+header h1 a:hover {
+	opacity: 0.7;
+}
+
+/* ハンバーガーメニューの設定 */
+.hamburger-button {
+	width: 30px;
+	height: 24px;
+	position: relative;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+.hamburger-button span {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	background-color: #333;
+	border-radius: 4px;
+	transition: all 0.4s ease-in-out;
+}
+
+.hamburger-button span:nth-child(1) {
+	top: 0;
+}
+
+.hamburger-button span:nth-child(2) {
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.hamburger-button span:nth-child(3) {
+	bottom: 0;
+}
+
+/* ハンバーガーメニューのアクティブ状態 */
+.hamburger-button.active span:nth-child(1) {
+	top: 50%;
+	transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger-button.active span:nth-child(2) {
+	opacity: 0;
+}
+
+.hamburger-button.active span:nth-child(3) {
+	bottom: 50%;
+	transform: translateY(50%) rotate(-45deg);
+}
+
+.hamburger-menu {
+	position: fixed;
+	top: 0;
+	right: -100%;
+	width: 300px;
+	height: 100vh;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+	transition: all 0.4s ease-in-out;
+	z-index: 999;
+}
+
+.hamburger-menu.active {
+	right: 0;
+}
+
+.hamburger-menu ul {
+	padding: 80px 0 0 0;
+}
+
+.hamburger-menu li {
+	list-style: none;
+}
+
+.hamburger-menu a {
+	display: block;
+	padding: 1rem 2rem;
+	color: #333;
+	text-decoration: none;
+	font-size: 1.1rem;
+	transition: all 0.3s ease;
+}
+
+.hamburger-menu a:hover {
+	background-color: #f5f5f5;
+	padding-left: 2.5rem;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.4s ease-in-out;
+	z-index: 998;
+}
+
+.overlay.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* メインコンテンツ設定 */
+main {
+	margin-top: 120px;
+	padding: 2rem;
+	min-height: calc(100vh - 120px);
+	position: relative;
+	z-index: 10;
+}
+
+/* 戻るボタンは完全に同一 */
+.back-button {
+	margin-bottom: 2rem;
+}
+
+.back-button button {
+	padding: 0.8rem 2rem;
+	background-color: #6c757d;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+}
+
+.back-button button:hover {
+	background-color: #5a6268;
+	transform: translateY(-2px);
+}
+
+/* 削除完了コンテナ */
+.delete-complete-container {
+	background-color: rgba(30, 30, 70, 0.7);
+	padding: 3rem;
+	border-radius: 15px;
+	max-width: 600px;
+	margin: 0 auto;
+	text-align: center;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+	position: relative;
+	z-index: 20;
+}
+
+.crying-text {
+	margin-bottom: 2rem;
+}
+
+.crying-text p {
+	color: #8a8ad0;
+	font-size: 1.2rem;
+	line-height: 1.6;
+	opacity: 0;
+	animation: fadeInText 2s forwards;
+}
+
+.crying-text p:nth-child(2) {
+	animation-delay: 1s;
+}
+
+.delete-complete-container form button {
+	width: 100%;
+	padding: 1rem;
+	background-color: #4444aa;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	font-size: 1.1rem;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.delete-complete-container form button:hover {
+	background-color: #3333bb;
+}
+
+/* 雨のアニメーション */
+.rain {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.raindrop {
+	position: absolute;
+	width: 2px;
+	height: 20px;
+	background: rgba(100, 149, 237, 0.5);
+	opacity: 0.6;
+	left: -20px;
+	animation: fall linear infinite;
+}
+
+/* キーフレームアニメーション */
+@keyframes fadeInText {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fall {
+	to {
+		transform: translateY(100vh) rotate(20deg);
+	}
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+	.delete-complete-container {
+		padding: 1.5rem;
+		margin: 1rem;
+	}
+}

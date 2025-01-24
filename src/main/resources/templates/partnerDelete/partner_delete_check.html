@@ -4,27 +4,52 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>削除確認画面</title>
-	<link rel="stylesheet" th:href="@{/styles.css}">
+	<title>パートナー削除確認</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link rel="stylesheet" href="/css/partner/partner_delete_check.css">
 </head>
 
 <body>
 	<header>
-		<h1>削除確認</h1>
+		<h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
 	</header>
 
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	</ul>
+
 	<main>
-		<p>本当に削除していいんですか...？</p>
-
-		<div class="button-group">
-			<button type="button" th:onclick="history.back()">いいえ</button>
-
-			<form name="form1" th:action="@{/dateMaster/partnerDeleteComplete}" method="post">
-				<button type="submit">はい</button>
-
-			</form>
-
+		<div class="back-button">
+			<a th:href="@{'/dateMaster/partner'}"><button type="button">戻る</button></a>
 		</div>
+
+		<div class="delete-confirmation-container">
+			<div class="warning-icon">
+				<i class="fas fa-exclamation-triangle"></i>
+			</div>
+			<h2>パートナー削除の確認</h2>
+			<p>本当にこのパートナーを削除してもよろしいですか？</p>
+			<p class="warning-text">この操作は取り消せません。慎重に判断してください。</p>
+
+			<div class="button-group">
+				<button type="button" class="cancel-btn" onclick="history.back()">キャンセル</button>
+				<form name="form1" th:action="@{/dateMaster/partnerDeleteComplete}" method="post">
+					<button type="submit" class="delete-btn">削除</button>
+				</form>
+			</div>
+		</div>
+	</main>
+
+	<script src="/js/partner/partner_delete.js"></script>
 </body>
 
 </html>

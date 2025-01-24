@@ -1,0 +1,137 @@
+@charset "UTF-8";
+/* partner_request.cssの共通スタイルを継承 */
+@import url('/css/partner/partner_request.css');
+
+/* 削除確認コンテナ */
+
+body {
+	background-color: #300000;
+	/* 深い暗赤色に変更 */
+	color: #fff;
+	min-height: 100vh;
+	font-family: 'Arial', sans-serif;
+	transition: background-color 0.5s ease;
+}
+
+body::before {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, #300000 0%, #600000 100%);
+	opacity: 0.95;
+	z-index: -1;
+}
+
+.delete-confirmation-container {
+	background-color: #fff;
+	padding: 3rem;
+	border-radius: 15px;
+	box-shadow: 0 4px 20px rgba(255, 0, 0, 0.2);
+	max-width: 500px;
+	margin: 2rem auto;
+	text-align: center;
+	border: 3px solid #ff4444;
+	animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+
+	0%,
+	100% {
+		transform: translateX(0);
+	}
+
+	10%,
+	30%,
+	50%,
+	70%,
+	90% {
+		transform: translateX(-5px);
+	}
+
+	20%,
+	40%,
+	60%,
+	80% {
+		transform: translateX(5px);
+	}
+}
+
+.warning-icon {
+	color: #ff4444;
+	font-size: 4rem;
+	margin-bottom: 1rem;
+}
+
+.delete-confirmation-container h2 {
+	color: #ff4444;
+	margin-bottom: 1rem;
+}
+
+.warning-text {
+	color: #333;
+	font-weight: bold;
+	margin: 1rem 0;
+	font-size: 0.9rem;
+	color: #ff4444;
+}
+
+.button-group {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 2rem;
+}
+
+.delete-btn,
+.cancel-btn {
+	flex: 1;
+	margin: 0 0.5rem;
+	padding: 1rem;
+	border-radius: 10px;
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.delete-btn {
+	background-color: #ff4444;
+	color: white;
+	border: none;
+}
+
+.delete-btn:hover {
+	background-color: #cc0000;
+}
+
+.cancel-btn {
+	background-color: #6c757d;
+	color: white;
+	border: none;
+}
+
+.cancel-btn:hover {
+	background-color: #5a6268;
+}
+
+/* 警告アニメーション */
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.05);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+.delete-confirmation-container {
+	animation: shake 0.5s infinite, pulse 2s infinite;
+}
