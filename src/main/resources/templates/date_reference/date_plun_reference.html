@@ -6,36 +6,31 @@
     <title>デートプラン - 地図表示</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
-    <style>
-        #map { height: 400px; }
-        .spot-images {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 20px 0;
-        }
-        .spot-image-container {
-            text-align: center;
-            margin: 0 10px;
-        }
-        .spot-image {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
-        .arrow {
-            font-size: 24px;
-            margin: 0 10px;
-        }
-        .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/date_reference/date_plun_reference.css">
 </head>
 <body>
+    <header>
+        <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+        <div class="hamburger-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <div class="hamburger-menu">
+        <ul>
+            <li><a th:href="@{/dateMaster/date}">デート</a></li>
+            <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+            <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+            <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+            <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+        </ul>
+    </div>
+
+    <div class="overlay"></div>
+
     <main>
         <div class="location-selector">
             <label for="start-location">出発地点を選択:</label>
@@ -175,6 +170,25 @@
             routeControl.setWaypoints(waypoints);
 
             updateImage();
+        });
+
+        // ハンバーガーメニューの制御
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerButton = document.querySelector('.hamburger-button');
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+            const overlay = document.querySelector('.overlay');
+            
+            hamburgerButton.addEventListener('click', function() {
+                this.classList.toggle('active');
+                hamburgerMenu.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+            
+            overlay.addEventListener('click', function() {
+                hamburgerButton.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+                this.classList.remove('active');
+            });
         });
 
         window.onload = function() {
