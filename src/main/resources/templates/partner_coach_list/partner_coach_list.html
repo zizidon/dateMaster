@@ -15,36 +15,37 @@
 	</header>
 
 	<main>
-	        <div>
-	            <h2>あなたの問題</h2>
-	            <!-- Coaching リストをループして表示 -->
-	            <div th:each="coaching : ${coachingList}">
-	                <p th:text="${coaching.question}">問題文が表示されます</p>
-	                
-	                <!-- 共有ボタン -->
-	                <form th:action="@{/dateMaster/shareProblem}" method="post">
-	                    <input type="hidden" name="coachingId" th:value="${coaching.id}">
-	                    <button type="submit">共有する</button>
-	                </form>
-	            </div>
-	        </div>
+		<div>
+			<h2>あなたの問題</h2>
+			<!-- Coaching リストをループして表示 -->
+			<div th:each="coaching : ${coachingList}">
+				<p th:text="${coaching.question}">問題文が表示されます</p>
+
+				<!-- パートナーがいる場合のみ共有ボタンを表示 -->
+				<form th:if="${session.loginUser.partner != null}" th:action="@{/dateMaster/shareProblem}"
+					method="post">
+					<input type="hidden" name="coachingId" th:value="${coaching.id}">
+					<button type="submit">共有する</button>
+				</form>
+			</div>
+		</div>
+
+		<br>
+
+		<div class="button-group">
+			<!-- 問題編集ボタン -->
+			<form th:action="@{/dateMaster/editProblem}" method="get">
+				<button type="submit">問題編集</button>
+			</form>
 
 			<br>
-				
-	        <div class="button-group">
-	            <!-- 問題編集ボタン -->
-	            <form th:action="@{/dateMaster/editProblem}" method="get">
-	                <button type="submit">問題編集</button>
-	            </form>
 
-				<br>
-				
-	            <!-- 戻るボタン -->
-	            <form th:action="@{/dateMaster/partnerCoaching}" method="get">
-	                <button type="submit">戻る</button>
-	            </form>
-	        </div>
-	    </main>
+			<!-- 戻るボタン -->
+			<form th:action="@{/dateMaster/partnerCoaching}" method="get">
+				<button type="submit">戻る</button>
+			</form>
+		</div>
+	</main>
 </body>
 
 </html>
