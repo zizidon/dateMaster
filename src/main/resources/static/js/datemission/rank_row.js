@@ -1,4 +1,61 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const hamburgerButton = document.querySelector('.hamburger-button');
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+
+    // オーバーレイ要素を作成
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    document.body.appendChild(overlay);
+
+    function toggleMenu() {
+        hamburgerButton.classList.toggle('active');
+        hamburgerMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+
+        // メニューが開いているときはスクロールを無効化
+        if (hamburgerMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+
+    hamburgerButton.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+
+    // メニューリンクをクリックしたときにメニューを閉じる
+    const menuLinks = document.querySelectorAll('.hamburger-menu a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            toggleMenu();
+        });
+    });
+
+    // ボタンのアニメーション効果
+    const buttons = document.querySelectorAll('button');
+    
+    buttons.forEach(button => {
+        // タップまたはクリック時の振動効果
+        button.addEventListener('touchstart', function() {
+            if (window.navigator.vibrate) {
+                window.navigator.vibrate(50);
+            }
+        });
+    });
+
+    // ミッションリストのアニメーション
+    const missionItems = document.querySelectorAll('.mission-list li');
+    missionItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            item.style.transition = 'all 0.5s ease';
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, 100 * (index + 1));
+    });
+
     // 戻るボタンのアニメーション
     const backButton = document.querySelector('.back-button button');
     if (backButton) {
@@ -10,47 +67,4 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = 'translateX(0)';
         });
     }
-
-    // ミッションリストのアニメーション
-    const missions = document.querySelectorAll('ul li');
-    missions.forEach((mission, index) => {
-        mission.style.opacity = '0';
-        mission.style.transform = 'translateY(20px)';
-
-        setTimeout(() => {
-            mission.style.transition = 'all 0.5s ease';
-            mission.style.opacity = '1';
-            mission.style.transform = 'translateY(0)';
-        }, 100 * (index + 1));
-    });
-
-    // ボタンのインタラクティブ効果
-    const buttons = document.querySelectorAll('form button');
-    buttons.forEach(button => {
-        // タップまたはクリック時の振動効果（サポートされている場合）
-        button.addEventListener('touchstart', function() {
-            if (window.navigator.vibrate) {
-                window.navigator.vibrate(50);
-            }
-        });
-
-        // タッチとマウスのホバーエフェクト
-        button.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.02)';
-        });
-
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
-
-        // クリック時の色のフィードバック（フォーム送信を妨げない）
-        button.addEventListener('click', function() {
-            const originalColor = this.style.backgroundColor;
-            this.style.backgroundColor = this.classList.contains('update-btn') ? '#2c70a3' : '#67a339';
-            
-            setTimeout(() => {
-                this.style.backgroundColor = originalColor;
-            }, 300);
-        });
-    });
 });

@@ -1,49 +1,44 @@
-@charset "UTF-8";
-
+/* 全体のリセットとベーススタイル */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
-    height: 100%;
-    overflow: hidden; /* スクロール無効化 */
-}
-
 body {
     background-color: #f8f9fa;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    position: relative; /* 追加: 戻るボタンの位置設定のために */
+    min-height: 100vh;
 }
 
 /* ヘッダー部分 */
 header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 1rem;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    height: 100px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
+    height: 100px;
 }
 
-header h1 {
+header h1 a {
     color: #333;
-    font-size: 1.5rem;
-    text-align: center;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+header h1 a:hover {
+    opacity: 0.7;
 }
 
 /* メインコンテンツ */
 main {
-    margin-top: 120px;
+    margin-top: 160px;
     padding: 1rem;
     min-height: calc(100vh - 120px);
     display: flex;
@@ -62,9 +57,13 @@ main p {
 /* 戻るボタン */
 .back-button {
     position: absolute;
-    top: 120px;
+    top: 160px;
     left: 10px;
-    z-index: 101; /* ヘッダーよりも上に表示 */
+    z-index: 101;
+}
+
+.back-button a {
+    text-decoration: none; /* リンクの下線を削除 */
 }
 
 .back-button button {
@@ -132,6 +131,102 @@ main p {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     filter: brightness(0.95);
+}
+
+/* ハンバーガーメニュー */
+.hamburger-button {
+    width: 30px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.hamburger-button span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+    border-radius: 4px;
+    transition: all 0.4s ease-in-out;
+}
+
+.hamburger-button span:nth-child(1) { top: 0; }
+.hamburger-button span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.hamburger-button span:nth-child(3) { bottom: 0; }
+
+.hamburger-button.active span:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger-button.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-button.active span:nth-child(3) {
+    bottom: 50%;
+    transform: translateY(50%) rotate(-45deg);
+}
+
+.hamburger-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease-in-out;
+    z-index: 999;
+}
+
+.hamburger-menu.active {
+    right: 0;
+}
+
+.hamburger-menu ul {
+    padding: 80px 0 0 0;
+    margin: 0;
+}
+
+.hamburger-menu li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.hamburger-menu a {
+    display: block;
+    padding: 1rem 2rem;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu a:hover {
+    background-color: #f5f5f5;
+    padding-left: 2.5rem;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
+    z-index: 998;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* レスポンシブ対応 */

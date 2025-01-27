@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ランク選択</title>
     <link rel="stylesheet" href="/css/datemission/rank_selection.css">
-    <script src="/js/datemission/rank_selection.js"></script>
-    <title>デートミッションランク選択画面</title>
 </head>
+
 <body>
+	<br>
+	<br>
     <header>
-        <h1>デートミッションランク選択</h1>
+        <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+        <div class="hamburger-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
+
+    <ul class="hamburger-menu">
+        <li><a th:href="@{/dateMaster/date}">デート</a></li>
+        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+    </ul>
+
     <main>
         <div class="back-button">
-            <a th:href="@{/date}" class="button-link">
-               <button type="button">戻る</button>
+            <a th:href="@{/dateMaster/date}">
+                <button type="button">デート選択に戻る</button>
             </a>
         </div>
 
-        <p>ミッションのランクを選択してね</p>
-        
+        <p>難易度を選択してください</p>
+
         <div class="button-group">
-            <a th:href="@{/rank_row}" class="button-link">
+			<a th:href="@{/rank_row}" class="button-link">
                 <button type="button">初級</button>
             </a>
             <a th:href="@{/rank_mid}" class="button-link">
@@ -29,9 +46,14 @@
             </a>
             <a th:href="@{/rank_high}" class="button-link">
                 <button type="button">上級</button>
-				
             </a>
         </div>
+		<br>
+		<br>
+		
     </main>
+
+    <script src="/js/datemission/rank_selection.js"></script>
 </body>
+
 </html>
