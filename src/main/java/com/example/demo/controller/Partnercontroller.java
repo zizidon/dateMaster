@@ -456,14 +456,14 @@ public class Partnercontroller {
 					mav.addObject("searchedUser", searchedUser);
 
 					// 診断結果に基づいて画像パスを取得
-					if (searchedUser.getDiagnosis() > 0) {
+					if (searchedUser.getDiagnosis() > 0 && searchedUser.getDiagnosis() <= 4) {
 						// Positiveテーブルから検索
 						Positive positive = positiveRepository.findByTypeId(searchedUser.getDiagnosis());
 						if (positive != null) {
 							mav.addObject("diagnosisType", positive.getType());
 							mav.addObject("diagnosisImage", positive.getImagePath());
 						}
-					} else if (searchedUser.getDiagnosis() < 0) {
+					} else if (searchedUser.getDiagnosis() > 0) {
 						// Negativeテーブルから検索
 						Negative negative = negativeRepository.findByTypeId(Math.abs(searchedUser.getDiagnosis()));
 						if (negative != null) {
