@@ -1,4 +1,3 @@
-<!-- problem-list.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -17,16 +16,22 @@
 	<main>
 		<div>
 			<h2>あなたの問題</h2>
-			<!-- Coaching リストをループして表示 -->
-			<div th:each="coaching : ${coachingList}">
-				<p th:text="${coaching.question}">問題文が表示されます</p>
+			<!-- 問題がない場合のメッセージ -->
+			<div th:if="${#lists.isEmpty(coachingList)}">
+				<p>問題が作成されていません(´;ω;｀)</p>
+			</div>
+			<!-- 問題がある場合、リストを表示 -->
+			<div th:unless="${#lists.isEmpty(coachingList)}">
+				<div th:each="coaching : ${coachingList}">
+					<p th:text="${coaching.question}">問題文が表示されます</p>
 
-				<!-- パートナーがいる場合のみ共有ボタンを表示 -->
-				<form th:if="${session.loginUser.partner != null}" th:action="@{/dateMaster/shareProblem}"
-					method="post">
-					<input type="hidden" name="coachingId" th:value="${coaching.id}">
-					<button type="submit">共有する</button>
-				</form>
+					<!-- パートナーがいる場合のみ共有ボタンを表示 -->
+					<form th:if="${session.loginUser.partner != null}" th:action="@{/dateMaster/shareProblem}"
+						method="post">
+						<input type="hidden" name="coachingId" th:value="${coaching.id}">
+						<button type="submit">共有する</button>
+					</form>
+				</div>
 			</div>
 		</div>
 

@@ -11,13 +11,15 @@
 	<header>
 		<h1>パートナーコーチング</h1>
 	</header>
-
 	<main>
-		<div th:if="${sharedCoachingList}">
-
+		<!-- 共有された問題がない場合のメッセージ -->
+		<div th:if="${#lists.isEmpty(sharedCoachingList)}">
+			<p>共有された問題がありません(´;ω;｀)</p>
+		</div>
+		<!-- 共有された問題がある場合の表示 -->
+		<div th:unless="${#lists.isEmpty(sharedCoachingList)}">
 			<div th:each="coaching : ${sharedCoachingList}">
 				<p th:text="${coaching.question}"></p>
-
 				<!-- 回答ボタン -->
 				<form th:action="@{/dateMaster/questionAnswer}" method="get">
 					<input type="hidden" th:value="${coaching.id}" name="coachingId">
@@ -25,7 +27,6 @@
 				</form>
 			</div>
 		</div>
-
 		<!-- 戻るボタン -->
 		<form name="backForm" th:action="@{/dateMaster/partnerCoaching}" method="get">
 			<button type="submit">戻る</button>
