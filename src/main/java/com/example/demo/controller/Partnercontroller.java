@@ -91,6 +91,33 @@ public class Partnercontroller {
 			//ユーザーのパートナーIDを取得
 			Long partnerId = user.getPartner();
 
+			// 1. ユーザーが作成した問題のpartner_idをNULLに設定
+			Iterable<Coaching> userCoachings = coachingRepo.findByUserId(user.getId());
+			for (Coaching coaching : userCoachings) {
+				coaching.setPartnerId(null);
+				coachingRepo.save(coaching);
+			}
+
+			// 2. パートナーから共有された問題のpartner_idをNULLに設定
+			Iterable<Coaching> partnerCoachings = coachingRepo.findByPartnerId(user.getId());
+			for (Coaching coaching : partnerCoachings) {
+				coaching.setPartnerId(null);
+				coachingRepo.save(coaching);
+			}
+
+			// 3. 共有されているデートプランの情報をクリア
+			if (user.getDate_share() != null) {
+				Users partnerUser = userRepository.findById(partnerId).orElse(null);
+				if (partnerUser != null && partnerUser.getShared_date_plan() != null &&
+						partnerUser.getShared_date_plan().equals(user.getDate_share())) {
+					partnerUser.setShared_date_plan(null);
+					userRepository.save(partnerUser);
+				}
+			}
+
+			// 4. ログインユーザーの共有されたデートプラン情報をクリア
+			user.setShared_date_plan(null);
+
 			//ユーザーのパートナー情報を削除
 			user.setPartner(null);
 			userRepository.save(user);
@@ -462,7 +489,7 @@ public class Partnercontroller {
 
 		if (user != null && partner != null) {
 			mav.addObject("partner", partner);
-			
+
 			// 診断結果に基づいて画像パスを取得
 			if (partner.getDiagnosis() > 0) {
 				// Positiveテーブルから検索
