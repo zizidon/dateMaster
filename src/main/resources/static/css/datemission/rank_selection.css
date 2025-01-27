@@ -1,115 +1,23 @@
-@charset "UTF-8";
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    height: 100%;
-    overflow: hidden; /* スクロール無効化 */
-}
-
-body {
-    background-color: #f8f9fa;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    position: relative; /* 追加: 戻るボタンの位置設定のために */
-}
-
-/* ヘッダー部分 */
-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    height: 100px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-}
-
-header h1 {
-    color: #333;
-    font-size: 1.5rem;
-    text-align: center;
-}
-
-/* メインコンテンツ */
-main {
-    margin-top: 120px;
-    padding: 1rem;
-    min-height: calc(100vh - 120px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-main p {
-    margin-bottom: 2rem;
-    text-align: center;
-    font-size: 1.2rem;
-    color: #333;
-}
-
-/* 戻るボタン */
+/* 既存のCSSに追加 */
 .back-button {
-    position: absolute;
-    top: 120px;
-    left: 10px;
-    z-index: 101; /* ヘッダーよりも上に表示 */
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.back-button a {
+    text-decoration: none;
+    width: 100%;
+    display: block;
 }
 
 .back-button button {
-    background-color: #e2904a;
-    border: none;
-    color: white;
-    padding: 20px 40px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-}
-
-.back-button button:hover {
-    transform: translateX(-5px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    filter: brightness(1.1);
-}
-
-.back-button button:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    filter: brightness(0.95);
-}
-
-/* ボタングループ */
-.button-group {
-    width: 100%;
-    max-width: 500px;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-}
-
-.button-link {
-    text-decoration: none;
-}
-
-.button-group button {
     width: 100%;
     aspect-ratio: 3/1;
     border: none;
     border-radius: 10px;
+    background-color: #e2904a;
     color: white;
     font-size: 1.5rem;
     font-weight: bold;
@@ -118,30 +26,23 @@ main p {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.button-group a:nth-child(1) button { background-color: #4a90e2; }
-.button-group a:nth-child(2) button { background-color: #e24a90; }
-.button-group a:nth-child(3) button { background-color: #90e24a; }
-
-.button-group button:hover {
+/* ホバーエフェクトを統一 */
+.button-group button:hover,
+.back-button button:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     filter: brightness(1.1);
 }
 
-.button-group button:active {
+/* アクティブエフェクトを統一 */
+.button-group button:active,
+.back-button button:active {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     filter: brightness(0.95);
 }
 
-/* レスポンシブ対応 */
-@media (max-width: 768px) {
-    main {
-        padding: 0.5rem;
-    }
-
-    .button-group {
-        max-width: 100%;
-        padding: 0 1rem;
-    }
+/* スクロールアニメーション用のスタイル */
+.back-button {
+    will-change: transform, opacity;
 }

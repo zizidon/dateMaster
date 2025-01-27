@@ -1,47 +1,79 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // ボタンにホバーエフェクトと音声効果を追加（オプション）
-    const buttons = document.querySelectorAll('.button-group button');
+    const hamburgerButton = document.querySelector('.hamburger-button');
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const backButton = document.querySelector('.back-button');
+    const buttonGroup = document.querySelector('.button-group');
+    let lastScrollTop = 0;
+
+    // オーバーレイ要素を作成
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    document.body.appendChild(overlay);
+
+    function toggleMenu() {
+        hamburgerButton.classList.toggle('active');
+        hamburgerMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+
+        // メニューが開いているときはスクロールを無効化
+        if (hamburgerMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+
+    // スクロールイベントの処理
+    window.addEventListener('scroll', function() {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (currentScroll > lastScrollTop) {
+            // 下スクロール時
+            backButton.style.transform = 'translateY(-5px)';
+            backButton.style.opacity = '0.7';
+        } else {
+            // 上スクロール時
+            backButton.style.transform = 'translateY(0)';
+            backButton.style.opacity = '1';
+        }
+        
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    });
+
+    hamburgerButton.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+
+    // メニューリンクをクリックしたときにメニューを閉じる
+    const menuLinks = document.querySelectorAll('.hamburger-menu a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            toggleMenu();
+        });
+    });
+
+    // ボタンのアニメーション効果
+    const buttons = document.querySelectorAll('.button-group button, .back-button button');
     
     buttons.forEach(button => {
-        // タップまたはクリック時の振動効果（サポートされている場合）
+        // タップまたはクリック時の振動効果
         button.addEventListener('touchstart', function() {
             if (window.navigator.vibrate) {
                 window.navigator.vibrate(50);
             }
         });
-
-        // ボタンにホバーエフェクト（CSSで既に実装されているが、必要に応じて追加のJavaScript効果を入れられます）
-        button.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.02)';
-        });
-
-        button.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
     });
 
-    // オプション：ページ読み込み時のアニメーション
-    const buttonGroup = document.querySelector('.button-group');
-    if (buttonGroup) {
-        buttonGroup.style.opacity = '0';
-        buttonGroup.style.transform = 'translateY(20px)';
+    // ページ読み込み時のアニメーション
+    if (buttonGroup && backButton) {
+        [buttonGroup, backButton].forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
 
-        setTimeout(() => {
-            buttonGroup.style.transition = 'all 0.5s ease';
-            buttonGroup.style.opacity = '1';
-            buttonGroup.style.transform = 'translateY(0)';
-        }, 100);
-    }
-
-    // 戻るボタンにアニメーション
-    const backButton = document.querySelector('.back-button button');
-    if (backButton) {
-        backButton.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(-5px)';
-        });
-
-        backButton.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0)';
+            setTimeout(() => {
+                element.style.transition = 'all 0.5s ease';
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, 100);
         });
     }
 });

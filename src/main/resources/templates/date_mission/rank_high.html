@@ -4,37 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/datemission/rank_high.css">
-    <script src="js/datemission/rank_high.js"></script>
     <title>上級ミッション</title>
+    <link rel="stylesheet" href="/css/datemission/rank_high.css">
 </head>
 
 <body>
-    <h1>上級ミッション</h1>
+    <header>
+        <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+        <div class="hamburger-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
 
-    <!-- 戻るボタン -->
-    <div class="back-button">
-        <a th:href="@{/rankSelection}">
-            <button type="button">ランク選択に戻る</button>
-        </a>
-    </div>
-
-    <!-- ランダムに取得したミッションを表示 -->
-    <ul>
-        <li th:each="mission : ${missions}" th:text="${mission.missionText}"></li>
+    <ul class="hamburger-menu">
+        <li><a th:href="@{/dateMaster/date}">デート</a></li>
+        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
     </ul>
 
-    <!-- ボタンコンテナ -->
-    <div class="button-container">
-        <!-- ミッション更新ボタン -->
-        <form action="/updateMissions3" method="get">
-            <button type="submit" class="update-btn">ミッションを更新</button>
-        </form>
+    <main>
+        <div class="back-button">
+            <a th:href="@{/rankSelection}">
+                <button type="button">ランク選択に戻る</button>
+            </a>
+        </div>
 
-        <!-- スタートボタン -->
-        <form action="/start3" method="get">
-            <button type="submit" class="start-btn">スタート</button>
-        </form>
-    </div>
+        <h2>上級ミッション</h2>
+
+        <div class="mission-list">
+            <ul>
+                <li th:each="mission : ${missions}" th:text="${mission.missionText}"></li>
+            </ul>
+        </div>
+
+        <div class="button-container">
+            <form action="/updateMissions3" method="get">
+                <button type="submit" class="update-btn">ミッションを更新</button>
+            </form>
+
+            <form action="/start3" method="get">
+                <button type="submit" class="start-btn">スタート</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="/js/datemission/rank_high.js"></script>
 </body>
+
 </html>
