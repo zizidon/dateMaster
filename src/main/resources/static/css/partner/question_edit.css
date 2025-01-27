@@ -1,0 +1,240 @@
+@charset "UTF-8";
+@charset "UTF-8";
+
+/* 全体のリセットとベーススタイル */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background: linear-gradient(135deg, #1a0f3c 0%, #2d1b54 100%);
+	min-height: 100vh;
+	font-family: 'Arial', sans-serif;
+	color: #fff;
+	position: relative;
+	overflow-x: hidden;
+}
+
+/* ヘッダー部分 */
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	background-color: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(10px);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: 100px;
+}
+
+header h1 a {
+	color: #fff;
+	text-decoration: none;
+	transition: opacity 0.3s ease;
+	text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+header h1 a:hover {
+	opacity: 0.7;
+}
+
+/* メインコンテンツ */
+main {
+	margin-top: 120px;
+	padding: 2rem;
+	position: relative;
+	z-index: 1;
+}
+
+h2 {
+	color: #fff;
+	text-align: center;
+	margin-bottom: 2rem;
+	font-size: 2em;
+	text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+	position: relative;
+}
+
+/* 問題コンテナ */
+main>div {
+	background: rgba(255, 255, 255, 0.1);
+	backdrop-filter: blur(10px);
+	border-radius: 15px;
+	padding: 2rem;
+	margin-bottom: 2rem;
+	box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* 問題文のスタイリング */
+main>div p {
+	font-size: 1.25rem;/* 文字サイズを大きく */
+	
+	line-height: 1.6;/* 行間を広げる */
+	
+	margin-top: 1.5rem;
+	
+	margin-bottom: 1.5rem;/* 下マージンを追加 */
+	
+	font-weight: 500;/* やや太めに */
+	
+	letter-spacing: 0.5px;/* 文字間隔を少し広げる */
+	
+	padding: 0.5rem 0;/* 上下のパディングを追加 */
+}
+
+main>div:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+/* ボタングループ */
+.button-group {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+	margin-top: 2rem;
+}
+
+button {
+	background: linear-gradient(45deg, #6b3fa0 0%, #9b6dff 100%);
+	color: white;
+	border: none;
+	padding: 1rem 2rem;
+	border-radius: 25px;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+	box-shadow: 0 0 15px rgba(107, 63, 160, 0.3);
+	width: 100%;
+	max-width: 300px;
+}
+
+button:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 0 20px rgba(155, 109, 255, 0.5);
+}
+
+/* ハンバーガーメニュー */
+.hamburger-button {
+	width: 30px;
+	height: 24px;
+	position: relative;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+.hamburger-button span {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	background-color: white;
+	border-radius: 4px;
+	transition: all 0.4s ease-in-out;
+}
+
+.hamburger-button span:nth-child(1) {
+	top: 0;
+}
+
+.hamburger-button span:nth-child(2) {
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.hamburger-button span:nth-child(3) {
+	bottom: 0;
+}
+
+/* ハンバーガーメニューアクティブ状態 */
+.hamburger-button.active span:nth-child(1) {
+	top: 50%;
+	transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger-button.active span:nth-child(2) {
+	opacity: 0;
+}
+
+.hamburger-button.active span:nth-child(3) {
+	bottom: 50%;
+	transform: translateY(50%) rotate(-45deg);
+}
+
+.hamburger-menu {
+	position: fixed;
+	top: 0;
+	right: -100%;
+	width: 300px;
+	height: 100vh;
+	background-color: #fff;
+	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+	transition: all 0.4s ease-in-out;
+	z-index: 999;
+}
+
+.hamburger-menu.active {
+	right: 0;
+}
+
+.hamburger-menu li {
+	list-style: none;
+}
+
+.hamburger-menu a {
+	display: block;
+	padding: 1rem 2rem;
+	color: #333;
+	text-decoration: none;
+	font-size: 1.1rem;
+	transition: all 0.3s ease;
+}
+
+.hamburger-menu a:hover {
+	background-color: #f5f5f5;
+	padding-left: 2.5rem;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.4s ease-in-out;
+	z-index: 998;
+}
+
+.overlay.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+	main {
+		padding: 1rem;
+	}
+
+	button {
+		font-size: 0.9rem;
+		padding: 0.8rem 1.6rem;
+	}
+
+	.button-group {
+		gap: 0.8rem;
+	}
+}

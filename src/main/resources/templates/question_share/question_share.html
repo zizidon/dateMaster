@@ -5,17 +5,31 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>共有問題</title>
-	<link rel="stylesheet" th:href="@{/styles.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link rel="stylesheet" href="/css/partner/question_share.css">
 </head>
 
 <body>
 	<header>
-		<h1>問題を共有する</h1>
+		<h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
 	</header>
+
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	</ul>
 
 	<main>
 		<!-- 問題の内容を表示 -->
-		<div>
+		<div class="question-container">
 			<p><strong>問題文:</strong> <span th:text="${coaching.question}">問題文が表示されます</span></p>
 			<p><strong>選択肢1:</strong> <span th:text="${coaching.option1}">選択肢1が表示されます</span></p>
 			<p><strong>選択肢2:</strong> <span th:text="${coaching.option2}">選択肢2が表示されます</span></p>
@@ -27,15 +41,18 @@
 			<!-- 問題共有ボタン -->
 			<form th:action="@{/dateMaster/shareProblemComplete}" method="post">
 				<input type="hidden" name="coachingId" th:value="${coaching.id}">
-				<button type="submit">共有する</button>
+				<button type="submit">✧ 共有する ✧</button>
 			</form>
 
 			<!-- 戻るボタン -->
 			<form th:action="@{/dateMaster/partnerCoachingList}" method="get">
-				<button type="submit">戻る</button>
+				<button type="submit">✧ 戻る ✧</button>
 			</form>
 		</div>
 	</main>
+
+	<script src="/js/partner/question_share.js"></script>
+
 </body>
 
 </html>
