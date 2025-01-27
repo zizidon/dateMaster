@@ -10,7 +10,7 @@
 
 <body>
 	<header>
-		<h1><a th:href="@{/dateMaster/diagonosis}">自己診断</a></h1>
+			    <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
 		    <div class="hamburger-button">
 		        <span></span>
 		        <span></span>
@@ -46,7 +46,7 @@
 	</main>
 	
 	<!-- 戻るボタン -->
-		<form th:action="@{/dateMaster/home}" method="get">
+		<form th:action="@{/dateMaster/diagonosis}" method="get">
 			<button type="submit">戻る</button>
 		</form>
 	</div>
