@@ -10,7 +10,7 @@
 
 <body>
 	<header>
-		<h1><a th:href="@{/dateMaster/diagonosis}">ＭＢＴＩ診断</a></h1>
+			    <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
 		<!-- ハンバーガーメニューのボタン -->
 		<div class="hamburger-button">
 			<span></span>
@@ -35,29 +35,55 @@
 
 	<!-- 質問フォーム -->
 	<main>
-		<form action="/dateMaster/answers" method="post" class="question-form">
-			<ul>
-				<li th:each="question : ${questions}">
-				    <p th:text="${question.question_text}"></p>
-				    <div class="radio-group">
-				        <input type="radio" th:id="'yes_' + ${question.id}" th:name="'answer_' + ${question.id}" value="yes" required>
-				        <label th:for="'yes_' + ${question.id}">はい</label>
-				        
-				        <input type="radio" th:id="'no_' + ${question.id}" th:name="'answer_' + ${question.id}" value="no">
-				        <label th:for="'no_' + ${question.id}">いいえ</label>
-				    </div>
-				</li>
-			</ul>
-			<p th:if="${#lists.isEmpty(questions)}">質問がありません。</p>
-			<button type="submit">回答を確認</button>
-		</form>
+	    <form id="questionForm" action="/dateMaster/answers" method="post" class="question-form">
+	        <ul>
+	            <li th:each="question : ${questions}">
+	                <p th:text="${question.question_text}"></p>
+	                <div class="radio-group">
+	                    <input type="radio" th:id="'yes_' + ${question.id}" th:name="'answer_' + ${question.id}" value="yes">
+	                    <label th:for="'yes_' + ${question.id}">はい</label>
 
-		<!-- 戻るボタン -->
-		<form name="form1" th:action="@{/dateMaster/diagonosis}" method="get">
-			<button type="submit" class="back-button">戻る</button>
-		</form>
+	                    <input type="radio" th:id="'no_' + ${question.id}" th:name="'answer_' + ${question.id}" value="no">
+	                    <label th:for="'no_' + ${question.id}">いいえ</label>
+	                </div>
+	                <!-- エラー表示エリア -->
+	                <p class="error-message" id="error_${question.id}" style="color: red; display: none;">選択してください。</p>
+	            </li>
+	        </ul>
+	        <p th:if="${#lists.isEmpty(questions)}">質問がありません。</p>
+	        <button type="submit">回答を確認</button>
+	    </form>
+
+	    <!-- 戻るボタン -->
+	    <form name="form1" th:action="@{/dateMaster/diagonosis}" method="get">
+	        <button type="submit" class="back-button">戻る</button>
+	    </form>
 	</main>
 
+	<script>
+	    document.getElementById("questionForm").addEventListener("submit", function (event) {
+	        let isValid = true;
+	        const questions = document.querySelectorAll(".radio-group");
+	        
+	        questions.forEach((group) => {
+	            const radios = group.querySelectorAll("input[type='radio']");
+	            const isAnswered = Array.from(radios).some((radio) => radio.checked);
+	            const errorMessage = group.nextElementSibling;
+
+	            if (!isAnswered) {
+	                isValid = false;
+	                errorMessage.style.display = "block"; // エラー表示
+	            } else {
+	                errorMessage.style.display = "none"; // エラー非表示
+	            }
+	        });
+
+	        if (!isValid) {
+	            event.preventDefault(); // フォーム送信を中止
+	        }
+	    });
+	</script>
+	
 	<script src="/js/home/home.js"></script>
 </body>
 </html>

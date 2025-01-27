@@ -5,38 +5,66 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>パートナー削除画面</title>
-	<link rel="stylesheet" th:href="@{/styles.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link rel="stylesheet" href="/css/partner/partner_delete.css">
 </head>
 
 <body>
 	<header>
-		<h1>パートナー削除</h1>
-
-		<div class="back-button">
-			<button type="button" onclick="history.back()">戻る</button>
+		<h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
 		</div>
 	</header>
 
-	<main>
-		<div class="partner-info">
-			<h2>パートナー情報</h2>
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	</ul>
 
-			<p th:text="'名前: ' + ${partner.name}">名前: パートナー名</p>
-			<p th:text="'ID: ' + ${partner.id}">ID: パートナーID</p>
+	<main>
+		<div class="back-button">
+			<a th:href="@{'/dateMaster/partner'}"><button type="button">戻る</button></a>
 		</div>
 
+		<div class="partner-delete-container">
+			<h2>パートナー削除</h2>
+			<div class="warning-message">
+				<p>本当にパートナーを削除してもよろしいですか？</p>
+				<p class="caution">この操作は取り消せません。</p>
+			</div>
 
-		<div class="button-group">
-			<button type="button" th:onclick="history.back()">戻る</button>
+			<div class="partner-info">
+				<h3>パートナー情報</h3>
+				<p th:text="'名前: ' + ${partner.name}">名前: パートナー名</p>
+				<p th:text="'ID: ' + ${partner.id}">ID: パートナーID</p>
 
-			<form name="form1" th:action="@{/dateMaster/partnerDeleteCheck}" method="get">
-				<button type="submit">削除に進む</button>
+				<!-- 診断結果の画像を追加 -->
+				<div th:if="${diagnosisImage}" class="diagnosis-info">
+					<p th:text="'診断結果: ' + ${diagnosisType}">診断結果</p>
+					<img th:src="${diagnosisImage}" alt="診断結果の画像" class="diagnosis-image">
+				</div>
+			</div>
 
-			</form>
+			<div class="button-group">
+				<a th:href="@{'/dateMaster/partner'}">
+					<button class="cancel-button" type="button">キャンセル</button>
+				</a>
 
-
+				<form name="deleteForm" th:action="@{/dateMaster/partnerDeleteCheck}" method="get">
+					<input type="hidden" name="partnerId" th:value="${partner.id}">
+					<button class="delete-button" type="submit">削除する</button>
+				</form>
+			</div>
 		</div>
 	</main>
+
+	<script src="/js/partner/partner_delete.js"></script>
 </body>
 
 </html>

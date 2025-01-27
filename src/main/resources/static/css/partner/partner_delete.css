@@ -1,0 +1,395 @@
+@charset "UTF-8";
+
+/* 全体のリセットとベーススタイル */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #f0f0f0;
+	min-height: 100vh;
+	font-family: 'Arial', sans-serif;
+	transition: background-color 0.5s ease;
+	position: relative;
+	overflow-x: hidden;
+}
+
+/* ヘッダー部分 (partner_request.cssと同一) */
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+	background-color: #fff;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: 100px;
+}
+
+header h1 a {
+	color: #333;
+	text-decoration: none;
+	transition: opacity 0.3s ease;
+}
+
+header h1 a:hover {
+	opacity: 0.7;
+}
+
+/* メインコンテンツ */
+main {
+	margin-top: 120px;
+	padding: 2rem;
+	min-height: calc(100vh - 120px);
+}
+
+/* 戻るボタン (partner_request.cssと同一) */
+.back-button {
+	margin-bottom: 2rem;
+}
+
+.back-button button {
+	padding: 0.8rem 2rem;
+	background-color: #6c757d;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+}
+
+.back-button button:hover {
+	background-color: #5a6268;
+	transform: translateY(-2px);
+}
+
+/* ハンバーガーメニュー (partner_request.cssと同一) */
+.hamburger-button {
+	width: 30px;
+	height: 24px;
+	position: relative;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+.hamburger-button span {
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	background-color: #333;
+	border-radius: 4px;
+	transition: all 0.4s ease-in-out;
+}
+
+.hamburger-button span:nth-child(1) {
+	top: 0;
+}
+
+.hamburger-button span:nth-child(2) {
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.hamburger-button span:nth-child(3) {
+	bottom: 0;
+}
+
+.hamburger-button.active span:nth-child(1) {
+	top: 50%;
+	transform: translateY(-50%) rotate(45deg);
+}
+
+.hamburger-button.active span:nth-child(2) {
+	opacity: 0;
+}
+
+.hamburger-button.active span:nth-child(3) {
+	bottom: 50%;
+	transform: translateY(50%) rotate(-45deg);
+}
+
+.hamburger-menu {
+	position: fixed;
+	top: 0;
+	right: -100%;
+	width: 300px;
+	height: 100vh;
+	background-color: #fff;
+	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+	transition: all 0.4s ease-in-out;
+	z-index: 999;
+}
+
+.hamburger-menu.active {
+	right: 0;
+}
+
+.hamburger-menu ul {
+	padding: 80px 0 0 0;
+}
+
+.hamburger-menu li {
+	list-style: none;
+}
+
+.hamburger-menu a {
+	display: block;
+	padding: 1rem 2rem;
+	color: #333;
+	text-decoration: none;
+	font-size: 1.1rem;
+	transition: all 0.3s ease;
+}
+
+.hamburger-menu a:hover {
+	background-color: #f5f5f5;
+	padding-left: 2.5rem;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.4s ease-in-out;
+	z-index: 998;
+}
+
+.overlay.active {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* パートナー削除コンテナ (悲しいテーマ) */
+.partner-delete-container {
+	background-color: #f4f4f4;
+	padding: 2rem;
+	border-radius: 15px;
+	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+	max-width: 500px;
+	margin: 0 auto;
+	text-align: center;
+	transition: all 0.3s ease;
+	position: relative;
+	overflow: hidden;
+}
+
+.partner-delete-container h2 {
+	color: #8b0000;
+	margin-bottom: 2rem;
+}
+
+.warning-message {
+	background-color: #ffebee;
+	padding: 1.5rem;
+	border-radius: 10px;
+	margin-bottom: 2rem;
+	position: relative;
+}
+
+.warning-message::before {
+	content: '⚠️';
+	position: absolute;
+	top: 50%;
+	left: 15px;
+	transform: translateY(-50%);
+	font-size: 2rem;
+}
+
+.warning-message p {
+	color: #8b0000;
+	margin-left: 40px;
+	font-weight: bold;
+}
+
+.caution {
+	color: #d32f2f !important;
+	margin-top: 0.5rem;
+}
+
+.partner-info {
+	background-color: #e0e0e0;
+	padding: 1.5rem;
+	border-radius: 10px;
+	margin-bottom: 2rem;
+}
+
+.partner-info h3 {
+	color: #555;
+	margin-bottom: 1rem;
+}
+
+.button-group {
+	display: flex;
+	justify-content: space-between;
+}
+
+.cancel-button,
+.delete-button {
+	padding: 1rem 2rem;
+	border-radius: 10px;
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.cancel-button {
+	background-color: #9e9e9e;
+	color: white;
+	border: none;
+}
+
+.delete-button {
+	background-color: #d32f2f;
+	color: white;
+	border: none;
+}
+
+.cancel-button:hover {
+	background-color: #757575;
+}
+
+.delete-button:hover {
+	background-color: #b71c1c;
+}
+
+/* 既存のCSSに追加または上書き */
+
+body {
+	background: linear-gradient(135deg, #708090, #36454F);
+	background-attachment: fixed;
+	color: #f0f0f0;
+}
+
+.partner-delete-container {
+	background-color: rgba(40, 40, 40, 0.8);
+	color: #f0f0f0;
+	border: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.partner-delete-container h2 {
+	color: #A9A9A9;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.warning-message {
+	background-color: rgba(139, 0, 0, 0.2);
+	border: 1px solid rgba(139, 0, 0, 0.3);
+}
+
+.warning-message p {
+	color: #DC143C;
+}
+
+.partner-info {
+	background-color: rgba(70, 70, 70, 0.5);
+}
+
+.cancel-button,
+.delete-button {
+	transition: all 0.3s ease;
+}
+
+.delete-button {
+	background-color: rgba(139, 0, 0, 0.7);
+	position: relative;
+	overflow: hidden;
+}
+
+.delete-button::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+	transition: all 0.5s ease;
+}
+
+.delete-button:hover::before {
+	left: 100%;
+}
+
+.delete-button:hover {
+	transform: scale(1.05);
+	box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+}
+
+/* ボタンクリック時のエフェクト */
+@keyframes buttonPress {
+	0% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(0.9);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+.button-clicked {
+	animation: buttonPress 0.3s ease;
+}
+
+/* 背景の追加エフェクト */
+@keyframes shadowPulse {
+
+	0%,
+	100% {
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	}
+
+	50% {
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+	}
+}
+
+.partner-delete-container {
+	animation: shadowPulse 3s infinite;
+}
+
+/* パートナー画像の表示 */
+.diagnosis-image {
+	max-width: 200px;
+	max-height: 200px;
+	border-radius: 15px;
+	margin: 1rem auto;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	display: block;
+}
+
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+	.partner-delete-container {
+		margin: 1rem;
+		padding: 1.5rem;
+	}
+
+	.button-group {
+		flex-direction: column;
+	}
+
+	.cancel-button,
+	.delete-button {
+		width: 100%;
+		margin-bottom: 1rem;
+	}
+}
