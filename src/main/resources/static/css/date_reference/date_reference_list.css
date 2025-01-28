@@ -273,6 +273,20 @@ main {
     color: #4299e1;
     animation: bounce 2s infinite;
 }
+.back-botton{
+	padding: 0.8rem 1.5rem;
+	background-color: rgb(128, 128, 128);
+	color: white;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	font-size: 1rem;
+}
+.back-botton:hover {
+    background-color: #6c757d;
+    transform: translateY(-2px);
+}
 
 @keyframes bounce {
     0%, 100% {
