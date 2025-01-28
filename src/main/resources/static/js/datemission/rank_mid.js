@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const hamburgerButton = document.querySelector('.hamburger-button');
     const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const backButton = document.querySelector('.back-button');
+    const missionList = document.querySelector('.mission-list');
+    const buttons = document.querySelectorAll('.update-btn, .start-btn, .back-button button');
+    let lastScrollTop = 0;
 
     // オーバーレイ要素を作成
     const overlay = document.createElement('div');
@@ -20,9 +24,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // ハンバーガーメニューの開閉
     hamburgerButton.addEventListener('click', toggleMenu);
     overlay.addEventListener('click', toggleMenu);
-
+    
     // メニューリンクをクリックしたときにメニューを閉じる
     const menuLinks = document.querySelectorAll('.hamburger-menu a');
     menuLinks.forEach(link => {
@@ -32,8 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ボタンのアニメーション効果
-    const buttons = document.querySelectorAll('button');
-    
     buttons.forEach(button => {
         // タップまたはクリック時の振動効果
         button.addEventListener('touchstart', function() {
@@ -43,28 +46,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ミッションリストのアニメーション
-    const missionItems = document.querySelectorAll('.mission-list li');
-    missionItems.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(20px)';
+    // ページ読み込み時のアニメーション
+    if (missionList && backButton) {
+        [missionList, backButton].forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                element.style.transition = 'all 0.5s ease';
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    }
+
+    // 更新ボタンと開始ボタンのアニメーション
+    const buttonContainer = document.querySelector('.button-container');
+    if (buttonContainer) {
+        buttonContainer.style.opacity = '0';
+        buttonContainer.style.transform = 'translateY(20px)';
 
         setTimeout(() => {
-            item.style.transition = 'all 0.5s ease';
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-        }, 100 * (index + 1));
-    });
-
-    // 戻るボタンのアニメーション
-    const backButton = document.querySelector('.back-button button');
-    if (backButton) {
-        backButton.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(-5px)';
-        });
-
-        backButton.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0)';
-        });
+            buttonContainer.style.transition = 'all 0.5s ease';
+            buttonContainer.style.opacity = '1';
+            buttonContainer.style.transform = 'translateY(0)';
+        }, 300);
     }
 });

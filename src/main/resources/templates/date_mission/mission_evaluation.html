@@ -3,25 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>デート評価画面</title>
+    <title>デート評価</title>
     <link rel="stylesheet" href="/css/datemission/mission_evaluation.css">
-	    <script src="/js/datemission/mission_evaluation.css"></script>
 </head>
 <body>
     <header>
-        <h1>デート評価</h1>
-    </header>
-    <main>
-        <div class="date-evaluation">
-            <p>あなたの評価は…</p>
-            <h2 th:text="${evaluation}">評価結果</h2>
+        <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+        <div class="hamburger-button">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-        <div class="button-group">
-            <a th:href="@{/dateMaster/date}">
-                <button type="button">機能一覧に戻る</button>
-            </a>
+    </header>
+
+    <ul class="hamburger-menu">
+        <li><a th:href="@{/dateMaster/date}">デート</a></li>
+        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+    </ul>
+
+    <main>
+        <div class="evaluation-container">
+            <h2 class="evaluation-title">デート評価</h2>
+            <div class="evaluation-content">
+                <p class="evaluation-text">あなたの評価は…</p>
+                <div class="evaluation-result" th:text="${evaluation}">評価結果</div>
+            </div>
+            <div class="button-container">
+                <a th:href="@{/dateMaster/date}" class="return-button">
+                    <button type="button">機能一覧に戻る</button>
+                </a>
+            </div>
         </div>
     </main>
-    <script src="/js/date-evaluation.js"></script>
+
+    <script src="/js/datemission/mission_evaluation.js"></script>
 </body>
 </html>

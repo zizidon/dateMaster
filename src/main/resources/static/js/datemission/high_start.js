@@ -1,53 +1,84 @@
+// high_start.js
 document.addEventListener('DOMContentLoaded', function() {
-    // 戻るボタンのアニメーション
-    const backButton = document.querySelector('.back-button button');
-    if (backButton) {
-        backButton.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(-5px)';
-        });
+    const hamburgerButton = document.querySelector('.hamburger-button');
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const backButton = document.querySelector('.back-button');
+    const missionContainer = document.querySelector('.mission-container');
+    let lastScrollTop = 0;
 
-        backButton.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0)';
-        });
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    document.body.appendChild(overlay);
+
+    function toggleMenu() {
+        hamburgerButton.classList.toggle('active');
+        hamburgerMenu.classList.toggle('active');
+        overlay.classList.toggle('active');
+
+        // Disable scroll when menu is open
+        if (hamburgerMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
     }
 
-    // 送信ボタンのアニメーションと検証
-    const submitButton = document.querySelector('.submit-button');
-    if (submitButton) {
-        submitButton.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.02)';
+    // Hamburger menu toggle
+    hamburgerButton.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+    
+    // Close menu when links are clicked
+    const menuLinks = document.querySelectorAll('.hamburger-menu a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            toggleMenu();
         });
+    });
 
-        submitButton.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
-
-        const missionForm = document.getElementById('missionForm');
-        missionForm.addEventListener('submit', function(event) {
+    // Form validation
+    const missionForm = document.getElementById('missionForm');
+    if (missionForm) {
+        missionForm.addEventListener('submit', function(e) {
             const radioGroups = document.querySelectorAll('.radio-group');
-            
-            // すべてのミッションで選択が行われているか確認
-            const allMissionsSelected = Array.from(radioGroups).every(group => {
-                return group.querySelector('input:checked');
+            let allChecked = true;
+
+            radioGroups.forEach(group => {
+                const radios = group.querySelectorAll('input[type="radio"]');
+                const checked = Array.from(radios).some(radio => radio.checked);
+                if (!checked) {
+                    allChecked = false;
+                }
             });
 
-            if (!allMissionsSelected) {
-                event.preventDefault();
+            if (!allChecked) {
+                e.preventDefault();
                 alert('すべてのミッションの達成状況を選択してください。');
             }
         });
     }
 
-    // ページ読み込み時のアニメーション
-    const missionContainer = document.querySelector('.mission-container');
-    if (missionContainer) {
-        missionContainer.style.opacity = '0';
-        missionContainer.style.transform = 'translateY(20px)';
+    // Page load animations
+    if (missionContainer && backButton) {
+        [missionContainer, backButton].forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
 
-        setTimeout(() => {
-            missionContainer.style.transition = 'all 0.5s ease';
-            missionContainer.style.opacity = '1';
-            missionContainer.style.transform = 'translateY(0)';
-        }, 100);
+            setTimeout(() => {
+                element.style.transition = 'all 0.5s ease';
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, 100);
+        });
     }
+
+    // Vibration effect for buttons
+    const buttons = document.querySelectorAll('.submit-button, .back-button button');
+    buttons.forEach(button => {
+        button.addEventListener('touchstart', function() {
+            if (window.navigator.vibrate) {
+                window.navigator.vibrate(50);
+            }
+        });
+    });
 });
