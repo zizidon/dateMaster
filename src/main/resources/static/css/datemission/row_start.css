@@ -1,4 +1,4 @@
-/* 全体のリセットとベーススタイル */
+/* row_start.css */
 * {
     margin: 0;
     padding: 0;
@@ -10,7 +10,6 @@ body {
     min-height: 100vh;
 }
 
-/* ヘッダー部分 */
 header {
     display: flex;
     justify-content: space-between;
@@ -22,7 +21,7 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
+    z-index: 99;
     height: 100px;
 }
 
@@ -36,9 +35,8 @@ header h1 a:hover {
     opacity: 0.7;
 }
 
-/* メインコンテンツ */
 main {
-    margin-top: 120px;
+    margin-top: 160px;
     padding: 1rem;
     min-height: calc(100vh - 120px);
     display: flex;
@@ -47,87 +45,91 @@ main {
 }
 
 h2 {
-    margin: 2rem 0;
+    font-size: 2rem;
     color: #333;
+    margin-bottom: 2rem;
     text-align: center;
 }
 
-/* ミッションコンテナ */
 .mission-container {
     width: 100%;
     max-width: 800px;
+    margin: 2rem auto;
     padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .mission-item {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.mission-item:last-child {
+    border-bottom: none;
 }
 
 .mission-item p {
     font-size: 1.1rem;
-    margin-bottom: 1rem;
     color: #333;
+    margin-bottom: 1rem;
 }
 
-/* ラジオボタングループ */
 .radio-group {
     display: flex;
-    justify-content: center;
     gap: 2rem;
+    margin-top: 1rem;
 }
 
 .radio-group div {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
 }
 
 .radio-group input[type="radio"] {
-    margin-right: 0.5rem;
+    cursor: pointer;
 }
 
 .radio-group label {
     font-size: 1rem;
-    color: #666;
+    color: #555;
+    cursor: pointer;
 }
 
-/* 送信ボタン */
 .submit-container {
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 3rem;
 }
 
 .submit-button {
-    background-color: #4a90e2;
+    background-color: #e2904a;
     color: white;
-    border: none;
     padding: 1rem 3rem;
+    font-size: 1.2rem;
+    border: none;
     border-radius: 5px;
-    font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .submit-button:hover {
-    background-color: #357abd;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .submit-button:active {
-    transform: translateY(0);
+    transform: translateY(1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 戻るボタン */
 .back-button {
     position: absolute;
-    top: 120px;
+    top: 160px;
     left: 10px;
-    z-index: 101;
+    z-index: 1;
 }
 
 .back-button a {
@@ -159,7 +161,6 @@ h2 {
     filter: brightness(0.95);
 }
 
-/* ハンバーガーメニュー */
 .hamburger-button {
     width: 30px;
     height: 24px;
@@ -255,10 +256,10 @@ h2 {
     visibility: visible;
 }
 
-/* レスポンシブ対応 */
 @media (max-width: 768px) {
     .mission-container {
         padding: 1rem;
+        margin: 1rem;
     }
 
     .radio-group {
@@ -266,7 +267,7 @@ h2 {
         gap: 1rem;
     }
 
-    .radio-group div {
-        justify-content: center;
+    .submit-button {
+        width: 100%;
     }
 }

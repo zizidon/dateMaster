@@ -22,7 +22,7 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
+    z-index: 99;
     height: 100px;
 }
 
@@ -59,7 +59,7 @@ main p {
     position: absolute;
     top: 160px;
     left: 10px;
-    z-index: 101;
+    z-index: 1;
 }
 
 .back-button a {

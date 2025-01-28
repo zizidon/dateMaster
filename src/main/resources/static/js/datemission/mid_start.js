@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     const hamburgerButton = document.querySelector('.hamburger-button');
     const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const backButton = document.querySelector('.back-button');
+    const missionContainer = document.querySelector('.mission-container');
+    let lastScrollTop = 0;
 
     // オーバーレイ要素を作成
     const overlay = document.createElement('div');
@@ -20,9 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // ハンバーガーメニューの開閉
     hamburgerButton.addEventListener('click', toggleMenu);
     overlay.addEventListener('click', toggleMenu);
-
+    
     // メニューリンクをクリックしたときにメニューを閉じる
     const menuLinks = document.querySelectorAll('.hamburger-menu a');
     menuLinks.forEach(link => {
@@ -31,63 +35,64 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 戻るボタンのアニメーション
-    const backButton = document.querySelector('.back-button button');
-    if (backButton) {
-        backButton.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(-5px)';
-        });
-
-        backButton.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0)';
-        });
-    }
-
-    // ミッションアイテムのアニメーション
-    const missionItems = document.querySelectorAll('.mission-item');
-    missionItems.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(20px)';
-
-        setTimeout(() => {
-            item.style.transition = 'all 0.5s ease';
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-        }, 100 * index); // 各アイテムを順番に表示
-    });
-
-    // フォームの送信処理
+    // フォーム送信前の確認
     const missionForm = document.getElementById('missionForm');
     if (missionForm) {
         missionForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // フォームの値をチェック
-            const radios = document.querySelectorAll('input[type="radio"]:checked');
-            if (radios.length !== missionItems.length) {
+            // すべてのラジオボタンが選択されているか確認
+            const missionItems = document.querySelectorAll('.mission-item');
+            let allSelected = true;
+            
+            missionItems.forEach(item => {
+                const radios = item.querySelectorAll('input[type="radio"]:checked');
+                if (radios.length === 0) {
+                    allSelected = false;
+                }
+            });
+
+            if (!allSelected) {
                 alert('すべてのミッションの達成状況を選択してください。');
                 return;
             }
 
-            // バイブレーション効果（モバイルデバイスの場合）
-            if (window.navigator.vibrate) {
-                window.navigator.vibrate(50);
+            // 確認ダイアログを表示
+            if (confirm('デートを終了してよろしいですか？')) {
+                this.submit();
             }
-
-            // フォームを送信
-            this.submit();
         });
     }
 
-    // ラジオボタンの選択エフェクト
-    const radioInputs = document.querySelectorAll('input[type="radio"]');
-    radioInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            const missionItem = this.closest('.mission-item');
-            missionItem.style.transform = 'scale(1.02)';
+    // ページ読み込み時のアニメーション
+    if (missionContainer && backButton) {
+        [missionContainer, backButton].forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+
             setTimeout(() => {
-                missionItem.style.transform = 'scale(1)';
+                element.style.transition = 'all 0.5s ease';
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    }
+
+    // ラジオボタンのアニメーション効果
+    const radioInputs = document.querySelectorAll('input[type="radio"]');
+    radioInputs.forEach(radio => {
+        radio.addEventListener('change', function() {
+            // 選択された際の視覚的フィードバック
+            const label = this.nextElementSibling;
+            label.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                label.style.transform = 'scale(1)';
             }, 200);
+
+            // タップ/クリック時の振動フィードバック
+            if (window.navigator.vibrate) {
+                window.navigator.vibrate(50);
+            }
         });
     });
 });

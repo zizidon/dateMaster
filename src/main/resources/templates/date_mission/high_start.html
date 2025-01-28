@@ -1,3 +1,4 @@
+<!-- high_start.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -5,12 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>上級ミッション</title>
     <link rel="stylesheet" href="/css/datemission/high_start.css">
-    <script src="/js/datemission/high_start.js"></script>
 </head>
 <body>
     <header>
-        <h1>上級ミッション</h1>
+        <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+        <div class="hamburger-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
+
+    <ul class="hamburger-menu">
+        <li><a th:href="@{/dateMaster/date}">デート</a></li>
+        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+    </ul>
 
     <main>
         <div class="back-button">
@@ -19,18 +32,20 @@
             </a>
         </div>
 
+        <h1 class="mission-title">上級ミッション</h1>
+
         <div class="mission-container">
             <form id="missionForm" action="/missionAchieve" method="post">
                 <div th:each="mission, stat : ${missions}" class="mission-item">
                     <p th:text="${mission.missionText}"></p>
                     <div class="radio-group">
                         <div>
-                            <input type="radio" th:name="'mission' + ${stat.index}" 
+                            <input type="radio" th:name="'mission' + ${stat.index}"
                                    th:id="'achieve' + ${stat.index}" value="1" required>
                             <label th:for="'achieve' + ${stat.index}">達成</label>
                         </div>
                         <div>
-                            <input type="radio" th:name="'mission' + ${stat.index}" 
+                            <input type="radio" th:name="'mission' + ${stat.index}"
                                    th:id="'notAchieve' + ${stat.index}" value="0" required>
                             <label th:for="'notAchieve' + ${stat.index}">未達成</label>
                         </div>
@@ -43,5 +58,7 @@
             </form>
         </div>
     </main>
+
+    <script src="/js/datemission/high_start.js"></script>
 </body>
 </html>

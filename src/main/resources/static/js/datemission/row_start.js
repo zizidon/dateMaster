@@ -1,6 +1,10 @@
+/* row_start.js */
 document.addEventListener('DOMContentLoaded', function() {
     const hamburgerButton = document.querySelector('.hamburger-button');
     const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const backButton = document.querySelector('.back-button');
+    const missionContainer = document.querySelector('.mission-container');
+    const buttons = document.querySelectorAll('.submit-button, .back-button button');
 
     // オーバーレイ要素を作成
     const overlay = document.createElement('div');
@@ -20,9 +24,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // ハンバーガーメニューの開閉
     hamburgerButton.addEventListener('click', toggleMenu);
     overlay.addEventListener('click', toggleMenu);
-
+    
     // メニューリンクをクリックしたときにメニューを閉じる
     const menuLinks = document.querySelectorAll('.hamburger-menu a');
     menuLinks.forEach(link => {
@@ -31,57 +36,49 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ミッションアイテムのアニメーション
-    const missionItems = document.querySelectorAll('.mission-item');
-    missionItems.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(20px)';
-
-        setTimeout(() => {
-            item.style.transition = 'all 0.5s ease';
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-        }, 100 * (index + 1));
-    });
-
-    // 戻るボタンのアニメーション
-    const backButton = document.querySelector('.back-button button');
-    if (backButton) {
-        backButton.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(-5px)';
-        });
-
-        backButton.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0)';
-        });
-    }
-
-    // フォーム送信時の確認
-    const missionForm = document.getElementById('missionForm');
-    if (missionForm) {
-        missionForm.addEventListener('submit', function(e) {
-            const confirmed = confirm('デートを終了してよろしいですか？');
-            if (!confirmed) {
-                e.preventDefault();
-            }
-        });
-    }
-
-    // ラジオボタンの選択時のエフェクト
-    const radioButtons = document.querySelectorAll('input[type="radio"]');
-    radioButtons.forEach(radio => {
-        radio.addEventListener('change', function() {
-            // タップ時の振動効果
+    // ボタンのアニメーション効果
+    buttons.forEach(button => {
+        // タップまたはクリック時の振動効果
+        button.addEventListener('touchstart', function() {
             if (window.navigator.vibrate) {
                 window.navigator.vibrate(50);
             }
-
-            // 選択時のアニメーション
-            const missionItem = this.closest('.mission-item');
-            missionItem.style.transform = 'scale(1.02)';
-            setTimeout(() => {
-                missionItem.style.transform = 'scale(1)';
-            }, 200);
         });
     });
+
+    // ページ読み込み時のアニメーション
+    if (missionContainer && backButton) {
+        [missionContainer, backButton].forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                element.style.transition = 'all 0.5s ease';
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    }
+
+    // フォームのバリデーション
+    const missionForm = document.getElementById('missionForm');
+    if (missionForm) {
+        missionForm.addEventListener('submit', function(e) {
+            const radioGroups = document.querySelectorAll('.radio-group');
+            let allChecked = true;
+
+            radioGroups.forEach(group => {
+                const radios = group.querySelectorAll('input[type="radio"]');
+                const checked = Array.from(radios).some(radio => radio.checked);
+                if (!checked) {
+                    allChecked = false;
+                }
+            });
+
+            if (!allChecked) {
+                e.preventDefault();
+                alert('すべてのミッションについて達成/未達成を選択してください。');
+            }
+        });
+    }
 });

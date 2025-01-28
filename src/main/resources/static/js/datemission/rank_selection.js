@@ -23,26 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // スクロールイベントの処理
-    window.addEventListener('scroll', function() {
-        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (currentScroll > lastScrollTop) {
-            // 下スクロール時
-            backButton.style.transform = 'translateY(-5px)';
-            backButton.style.opacity = '0.7';
-        } else {
-            // 上スクロール時
-            backButton.style.transform = 'translateY(0)';
-            backButton.style.opacity = '1';
-        }
-        
-        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-    });
-
-    hamburgerButton.addEventListener('click', toggleMenu);
-    overlay.addEventListener('click', toggleMenu);
-
+    
     // メニューリンクをクリックしたときにメニューを閉じる
     const menuLinks = document.querySelectorAll('.hamburger-menu a');
     menuLinks.forEach(link => {
