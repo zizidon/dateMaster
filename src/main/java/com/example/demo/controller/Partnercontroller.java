@@ -143,7 +143,8 @@ public class Partnercontroller {
 		if (user != null) {
 			// 浮気チェック
 			if (user.getPartner() != null) {
-				mav.setViewName("partnerAccept/partner_already");
+				mav.addObject("message", "浮気は許しません👁👁");
+				mav.setViewName("partner_request/partner_warning");
 				return mav;
 			}
 
