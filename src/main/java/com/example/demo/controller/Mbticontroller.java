@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -65,25 +66,30 @@ public class Mbticontroller {
 	
 	@PostMapping("result")
 	public String calculateResult(@RequestParam Map<String, String> answers, Model model) {
-	    // セッションからユーザー情報を取得
+	    // セッションからログイン中のユーザー情報を取得
 	    Users user = (Users) session.getAttribute("loginUser");
 
 	    // ユーザーがログインしている場合、診断結果を計算
 	    String resultType = mbtiService.calculateResult(answers, user.getId());
 	    model.addAttribute("resultType", resultType);
 
-	    // ユーザーの診断結果に基づいてMbtiTypeを取得
-	    List<MbtiType> mbtiDetails = mbtiService.getMbtiDetailsByUserId(user.getId());
+	    // ユーザーの診断結果に基づいて MbtiType を取得
+	    Optional<MbtiType> mbtiTypeOpt = mbtiService.getMbtiTypeByResultType(resultType);
 
-	    // 診断結果に関連する説明を取得
-	    if (!mbtiDetails.isEmpty()) {
-	        MbtiType mbtiType = mbtiDetails.get(0);  // 最新の結果のタイプを取得
+	    // MbtiType が存在する場合は特徴をビューに渡す
+	    if (mbtiTypeOpt.isPresent()) {
+	        MbtiType mbtiType = mbtiTypeOpt.get();
+	        System.out.println("ResultType: " + resultType); // デバッグログ
+	        System.out.println("MbtiType: " + mbtiType.getType() + ", Description: " + mbtiType.getDescription()); // デバッグログ
 	        model.addAttribute("description", mbtiType.getDescription());
+	    } else {
+	        System.out.println("MbtiType not found for ResultType: " + resultType);
+	        model.addAttribute("description", "該当する特徴が見つかりませんでした。");
 	    }
 
 	    return "mbti_diagonosis/result"; // 結果を表示するHTMLに遷移
 	}
-	
+
 	@GetMapping("history")
 	public String showHistory(Model model) {
 	    // セッションからログインユーザー情報を取得

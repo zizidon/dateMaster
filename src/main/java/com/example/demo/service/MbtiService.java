@@ -33,6 +33,10 @@ public List<MbtiQuestion> getAllQuestions() {
 return (List<MbtiQuestion>) mbtiQuestionRepository.findAll();
 }
 
+public Optional<MbtiType> getMbtiTypeByResultType(String resultType) {
+    return mbtiTypeRepository.findByType(resultType);
+}
+
 public String calculateResult(Map<String, String> answers, Long userId) {
 	Map<String, Integer> scores = new HashMap<>();
 	scores.put("E", 0);
