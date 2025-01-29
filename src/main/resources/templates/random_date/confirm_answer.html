@@ -11,18 +11,22 @@
   </header>
   <main>
     <div>
-		<button class="back-button" onclick="history.back()">戻る</button>
+      <button class="back-button" onclick="history.back()">戻る</button>
       <h2>以下の内容でよろしいですか？</h2>
-      <p>デートの気分: <span th:text="${mood}"></span></p>
+      <p>行きたい場所: <span th:text="${destination}"></span></p>
       <p>天気: <span th:text="${weather}"></span></p>
       <p>デートプランの数: <span th:text="${planCount}"></span></p>
     </div>
     
-    <form action="#" th:action="@{/dateMaster/finalize}" method="post">
-      <div class="button-group">
-        <button type="submit">確定</button>
-      </div>
-    </form>
+
+	<form action="#" th:action="@{/date_idea_list}" method="post">
+	    <input type="hidden" name="destination" th:value="${destination}">
+	    <input type="hidden" name="weather" th:value="${weather}">
+	    <input type="hidden" name="planCount" th:value="${planCount}">
+	    <div class="button-group">
+	        <button type="submit">確定</button>
+	    </div>
+	</form>
   </main>
 </body>
 </html>

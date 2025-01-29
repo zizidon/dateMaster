@@ -47,6 +47,13 @@ body {
 	margin-bottom: 15px;
 }
 
+/* メッセージ */
+.complete-container .message2 {
+	color:red;
+	font-size: 16px;
+	margin-bottom: 15px;
+}
+
 .complete-container .user-id {
 	font-size: 16px;
 	color: #333333;

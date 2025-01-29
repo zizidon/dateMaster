@@ -1,69 +1,118 @@
-<!-- date_idea_list.html -->
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ランダムデートプラン</title>
+  <style>
+    .plan-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .plan {
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .plan-header {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .spot-details {
+      margin: 10px 0;
+    }
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .button {
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .confirm-button {
+      background-color: #4CAF50;
+      padding: 10px 20px;
+      font-size: 1.1em;
+    }
+    .back-button {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .update-spots-button {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .bottom-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>ランダムデートプラン</h1>
+    <h1 style="text-align: center;">ランダムデートプラン</h1>
   </header>
   <main>
-	<div class="back-button">
-	      <button class="back-button" th:href="@{/dateMaster/back}">戻る</button>
-	    </div>
-		<div class="plan">
-			<div class="plan-header">プラン1: アウトドアデート</div>
-			
-			    <a href="outdoor_park_details.html">
-			        <img src="https://via.placeholder.com/250x200?text=Park" alt="公園">
-			    </a>
-			    <div class="arrow">➡</div>
-			    <a href="outdoor_restaurant_details.html">
-			        <img src="https://via.placeholder.com/250x200?text=Restaurant" alt="レストラン">
-			    </a>
-			
-			               <div class="suggestion-text">公園で散歩して、近くのレストランでランチを楽しんでください。</div>
-			               <!-- これにするボタン -->
-						  <button class="button" th:href="@{/plan_confirmation(plan=1)}">これにする</button>
-		              </div>
+    <div class="back-button">
+      <a href="#" th:href="@{/dateMaster/back}">戻る</a>
+    </div>
 
-		           <!-- プラン2 -->
-		           <div class="plan">
-		               <div class="plan-header">プラン2: ロマンチックデート</div>
-		               <a href="romantic_beach_details.html">
-		                   <img src="https://via.placeholder.com/250x200?text=Beach" alt="ビーチ">
-		               </a>
-		               <div class="arrow">➡</div>
-		               <a href="romantic_cafe_details.html">
-		                   <img src="https://via.placeholder.com/250x200?text=Cafe" alt="カフェ">
-		               </a>
-		               <div class="suggestion-text">ビーチで夕日を見た後、カフェでゆっくり過ごすプランです。</div>
-		               <!-- これにするボタン -->
-		               <button class="button" th:href="@{/plan_confirmation(plan=2)}">これにする</button>
-		           </div>
+	<div class="plan-container">
+	    <div th:each="spot, iterStat : ${spots}" th:if="${iterStat.index < planCount}" class="plan">
+	      <div class="plan-header">
+	        <span th:text="${iterStat.index == 0 ? 'メインスポット' :
+	                      (iterStat.index == 1 ? 'サブスポット1' : 'サブスポット2')}">スポット種別</span>
+	      </div>
 
-		           <!-- プラン3 -->
-		           <div class="plan">
-		               <div class="plan-header">プラン3: アドベンチャーデート</div>
-		               <a href="adventure_hiking_details.html">
-		                   <img src="https://via.placeholder.com/250x200?text=Hiking" alt="ハイキング">
-		               </a>
-		               <div class="arrow">➡</div>
-		               <a href="adventure_bbq_details.html">
-		                   <img src="https://via.placeholder.com/250x200?text=BBQ" alt="BBQ">
-		               </a>
-		               <div class="suggestion-text">ハイキング後にBBQで楽しむアウトドアなデートです。</div>
-		               <!-- これにするボタン -->
-		               <button class="button" th:href="@{/plan_confirmation(plan=3)}">これにする</button>
-		           </div>
-		       </div>
-			   <br>
-			   <br>
-			   <br>
-    
+        <a th:href="@{/spot/details(spotId=${spot.spotId})}">
+          <img src="https://via.placeholder.com/250x200" th:alt="${spot.spotName}" style="max-width: 100%; height: auto;">
+        </a>
+
+        <div class="spot-details">
+          <p>スポット名: <span th:text="${spot.spotName}"></span></p>
+          <p>住所: <span th:text="${spot.spotAddress}"></span></p>
+          <p>カテゴリ: <span th:text="${spot.description}"></span></p>
+        </div>
+
+        <div class="button-group">
+          <th:block th:with="spotType=${iterStat.index == 0 ? 'メインスポット' :
+                               (iterStat.index == 1 ? 'サブスポット1' : 'サブスポット2')}">
+              <a th:href="@{/change_spot(
+                  spotId=${spot.spotId}, 
+                  spotType=${spotType}, 
+                  destination=${destination}, 
+                  weather=${weather}
+              )}" class="button change-button">
+                  スポット変更
+              </a>
+          </th:block>
+        </div>
+      </div>
+
+      <div class="bottom-buttons">
+        <a th:href="@{/update_additional_spots(destination=${destination}, weather=${weather})}" class="button">
+          スポット更新
+        </a>
+        <form th:action="@{/confirm_plan}" method="post">
+          <input type="hidden" name="destination" th:value="${destination}">
+          <input type="hidden" name="weather" th:value="${weather}">
+          <button type="submit" class="button confirm-button">このプランで確定！</button>
+        </form>
+      </div>
+    </div>
   </main>
 </body>
 </html>
