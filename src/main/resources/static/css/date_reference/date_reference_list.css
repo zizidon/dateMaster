@@ -80,6 +80,24 @@ header h1 a:hover {
     transform: translateY(50%) rotate(-45deg);
 }
 
+
+/* 戻るボタン */
+form button[type="submit"] {
+	padding: 0.8rem 1.5rem;
+	background-color: rgb(128, 128, 128);
+	color: white;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	font-size: 1rem;
+}
+
+form button[type="submit"]:hover {
+	background-color: #5a6268;
+	transform: translateY(-2px);
+}
+
 /* ハンバーガーメニュー */
 .hamburger-menu {
     position: fixed;

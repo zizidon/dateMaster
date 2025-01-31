@@ -32,7 +32,9 @@
 
     <main>
 		<br>
-        <button type="button" class="back-botton" onclick="history.back()">戻る</button>
+		<form th:action="@{/dateMaster/home}" method="get">
+		    <button type="submit">戻る</button>
+		</form>
 		<br>
 		<br>
 		
