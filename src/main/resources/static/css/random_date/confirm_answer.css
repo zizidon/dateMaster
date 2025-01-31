@@ -1,0 +1,219 @@
+/* 全体のリセットとベーススタイル */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* ヘッダー部分 */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 80px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.8rem;
+    transition: opacity 0.3s ease;
+}
+
+header h1 a:hover {
+    opacity: 0.7;
+}
+
+/* ハンバーガーメニューのスタイル */
+.hamburger-button {
+    width: 30px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.hamburger-button span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    border-radius: 4px;
+    transition: all 0.4s ease-in-out;
+}
+
+.hamburger-button span:nth-child(1) { top: 0; }
+.hamburger-button span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.hamburger-button span:nth-child(3) { bottom: 0; }
+
+.hamburger-button.active span:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+.hamburger-button.active span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-button.active span:nth-child(3) {
+    bottom: 50%;
+    transform: translateY(50%) rotate(-45deg);
+}
+
+/* ハンバーガーメニュー */
+.hamburger-menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background: #4f9ecf;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease-in-out;
+    z-index: 999;
+}
+
+.hamburger-menu.active { right: 0; }
+
+.hamburger-menu ul {
+    padding: 80px 0 0 0;
+    list-style: none;
+}
+
+.hamburger-menu li {
+    margin: 0;
+    padding: 0;
+}
+
+.hamburger-menu a {
+    display: block;
+    padding: 1rem 2rem;
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu a:hover {
+    background: #3b8bb9;
+    padding-left: 2.5rem;
+}
+
+/* オーバーレイ */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
+    z-index: 998;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* メインコンテンツ */
+main {
+    max-width: 600px;
+    margin: 120px auto 40px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* 確認メッセージ */
+h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+p span {
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+/* ボタンエリア */
+.button-group {
+    margin-top: 20px;
+}
+
+button[type="submit"] {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+    transform: scale(1.05);
+}
+
+/* 戻るボタン */
+.back-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 15px;
+    border: none;
+    background: #ff6b6b;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.back-button:hover {
+    background: #e63946;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    main {
+        width: 90%;
+        padding: 15px;
+    }
+
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .hamburger-menu {
+        right: -250px;
+        width: 250px;
+    }
+}

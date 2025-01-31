@@ -1,29 +1,35 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>スポット変更</title>
-    <style>
-        .search-form {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .search-results {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .spot-item {
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ランダムデートプラン</title>
+	<link rel="stylesheet" href="/css/random_date/change_spot.css">
 </head>
 <body>
+	<header>
+	    <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+	    <div class="hamburger-button">
+	        <span></span>
+	        <span></span>
+	        <span></span>
+	    </div>
+	</header>
+
+	<nav class="hamburger-menu">
+	    <ul>
+	        <li><a th:href="@{/dateMaster/date}">デート</a></li>
+	        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+	        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+	        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+	        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	    </ul>
+	</nav>
+
+	<div class="overlay"></div>
+	
+	<main>
     <div class="search-form">
         <h2>スポット検索</h2>
         <form th:action="@{/search_spots}" method="post">
@@ -64,6 +70,7 @@
             </form>
         </div>
     </div>
+	</main>
     
     <!-- 戻るボタンの追加 -->
     <div style="text-align: center; margin-top: 20px;">
@@ -74,5 +81,6 @@
             <button type="submit">戻る</button>
         </form>
     </div>
+	<script src="/js/home/home.js"></script>
 </body>
 </html>

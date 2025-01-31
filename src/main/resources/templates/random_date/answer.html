@@ -1,14 +1,33 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ランダムデートプラン</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ランダムデートプラン</title>
+	<link rel="stylesheet" href="/css/random_date/answer.css">
 </head>
 <body>
-  <header>
-    <h1>ランダムデートプラン</h1>
-  </header>
+	<header>
+	    <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+	    <div class="hamburger-button">
+	        <span></span>
+	        <span></span>
+	        <span></span>
+	    </div>
+	</header>
+
+	<nav class="hamburger-menu">
+	    <ul>
+	        <li><a th:href="@{/dateMaster/date}">デート</a></li>
+	        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+	        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+	        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+	        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	    </ul>
+	</nav>
+
+	<div class="overlay"></div>
   <main>
     <div class="back-button">
       <a href="#" th:href="@{/dateMaster/back}">
@@ -55,5 +74,6 @@
       </div>
     </form>
   </main>
+  <script src="/js/home/home.js"></script>
 </body> 
 </html>
