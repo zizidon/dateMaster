@@ -35,6 +35,13 @@ public class DatePlanSharecontroller {
 
     @Autowired
     private DatePlanShareService datePlanShareService;
+    
+    //ランダムデートプラン共有に遷移
+    @GetMapping("/randomselect")
+    public String randomselect() {
+        return "date_reference/randomdate_reference_list"; // rank_selection.htmlに遷移
+    }
+    
 
     @GetMapping("/myDatePlans")
     public String myDatePlans(Model model, HttpSession session) {

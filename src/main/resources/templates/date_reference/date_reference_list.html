@@ -35,6 +35,10 @@
         <button type="button" class="back-botton" onclick="history.back()">戻る</button>
 		<br>
 		<br>
+		
+		<a th:href="@{/randomselect}" class="button-link">
+			<button type="button">ランダムデートプラン共有へ</button>
+		</a>
         <!-- Own Date Plan Section -->
         <div class="date-plan-section" th:if="${not #lists.isEmpty(ownPlanSpots)}">
             <h2>自分が作成したプラン</h2>
@@ -98,6 +102,8 @@
         <div th:unless="${not #lists.isEmpty(sharedPlanSpots)}" class="empty-state">
             <p>共有されたデートプランはありません。</p>
         </div>
+		
+		
     </main>
 
     <script>
