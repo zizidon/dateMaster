@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ランダムデートプランランキング</title>
+	<link rel="stylesheet" href="/css/ranking/ranking.css">
+</head>
+
+<body>
+	<header>
+		<h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</header>
+
+	<ul class="hamburger-menu">
+		<li><a th:href="@{/dateMaster/date}">デート</a></li>
+		<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+		<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+		<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+		<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+	</ul>
+
+	<main>
+		<div class="back-button-container">
+			<form th:action="@{/date}" method="get">
+				<button type="submit" class="back-button">
+					<span class="back-arrow"></span>
+					戻る
+				</button>
+			</form>
+		</div>
+
+		<div class="ranking-container">
+			<h2>ランダムデートプランランキング</h2>
+
+			<div th:each="ranking, stat : ${rankings}" class="ranking-item">
+				<div class="rank-number" th:text="'第' + ${stat.count} + '位'"></div>
+
+				<div class="spot-images">
+					<!-- Spot1 -->
+					<div class="spot-card">
+						<img th:if="${ranking.spot1Name != '未設定'}"
+							th:src="@{/spot_images/{name}.jpg(name=${ranking.spot1Name})}" th:alt="${ranking.spot1Name}"
+							class="spot-image">
+						<div class="spot-name" th:text="${ranking.spot1Name}"></div>
+					</div>
+
+					<!-- Spot2 -->
+					<div class="spot-card" th:if="${ranking.spot2Name != '未設定'}">
+						<img th:src="@{/spot_images/{name}.jpg(name=${ranking.spot2Name})}"
+							th:alt="${ranking.spot2Name}" class="spot-image">
+						<div class="spot-name" th:text="${ranking.spot2Name}"></div>
+					</div>
+					<div class="spot-card unset-spot" th:if="${ranking.spot2Name == '未設定'}">
+						<div class="spot-name">スポット2未設定</div>
+					</div>
+
+					<!-- Spot3 -->
+					<div class="spot-card" th:if="${ranking.spot3Name != '未設定'}">
+						<img th:src="@{/spot_images/{name}.jpg(name=${ranking.spot3Name})}"
+							th:alt="${ranking.spot3Name}" class="spot-image">
+						<div class="spot-name" th:text="${ranking.spot3Name}"></div>
+					</div>
+					<div class="spot-card unset-spot" th:if="${ranking.spot3Name == '未設定'}">
+						<div class="spot-name">スポット3未設定</div>
+					</div>
+				</div>
+
+				<div class="count-info" th:text="'選ばれた回数: ' + ${ranking.count} + '回'"></div>
+			</div>
+		</div>
+	</main>
+
+	<script src="/js/ranking/ranking.js"></script>
+</body>
+
+</html>

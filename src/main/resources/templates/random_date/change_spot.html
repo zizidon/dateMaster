@@ -1,86 +1,78 @@
+change_spot.html
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ランダムデートプラン</title>
-	<link rel="stylesheet" href="/css/random_date/change_spot.css">
+	<title>スポット変更</title>
+	<style>
+		.search-form {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+
+		.search-results {
+			max-width: 600px;
+			margin: 0 auto;
+		}
+
+		.spot-item {
+			border: 1px solid #ddd;
+			margin-bottom: 10px;
+			padding: 10px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+	</style>
 </head>
+
 <body>
-	<header>
-	    <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
-	    <div class="hamburger-button">
-	        <span></span>
-	        <span></span>
-	        <span></span>
-	    </div>
-	</header>
+	<div class="search-form">
+		<h2>スポット検索</h2>
+		<form th:action="@{/search_spots}" method="post">
+			<div>
+				<label>スポット名:</label>
+				<input type="text" name="spotName">
+			</div>
+			<div>
+				<label>カテゴリ:</label>
+				<select name="category">
+					<option value="">カテゴリ選択</option>
+					<option th:each="dest : ${destinations}" th:value="${dest}" th:text="${dest}"></option>
+				</select>
+			</div>
+			<!-- 隠しフィールドで必要なパラメータを保持 -->
+			<input type="hidden" name="currentSpotId" th:value="${currentSpotId}">
+			<input type="hidden" name="spotType" th:value="${spotType}">
+			<input type="hidden" name="destination" th:value="${destination}">
+			<input type="hidden" name="weather" th:value="${weather}">
+			<button type="submit">検索</button>
+		</form>
+	</div>
+	<div class="search-results" th:if="${searchResults}">
+		<h3>検索結果</h3>
+		<div th:each="spot : ${searchResults}" class="spot-item">
+			<div>
+				<p th:text="${spot.spotName}"></p>
+				<p th:text="${spot.spotAddress}"></p>
+			</div>
+			<form th:action="@{/update_spots}" method="post">
+				<input type="hidden" name="selectedSpotId" th:value="${spot.spotId}">
+				<input type="hidden" name="currentSpotId" th:value="${currentSpotId}">
+				<input type="hidden" name="spotType" th:value="${spotType}">
+				<input type="hidden" name="destination" th:value="${destination}">
+				<input type="hidden" name="weather" th:value="${weather}">
+				<button type="submit">選択</button>
+			</form>
+		</div>
+	</div>
 
-	<nav class="hamburger-menu">
-	    <ul>
-	        <li><a th:href="@{/dateMaster/date}">デート</a></li>
-	        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
-	        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
-	        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
-	        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
-	    </ul>
-	</nav>
-
-	<div class="overlay"></div>
-	
-	<main>
-    <div class="search-form">
-        <h2>スポット検索</h2>
-        <form th:action="@{/search_spots}" method="post">
-            <div>
-                <label>スポット名:</label>
-                <input type="text" name="spotName">
-            </div>
-            <div>
-                <label>カテゴリ:</label>
-                <select name="category">
-                    <option value="">カテゴリ選択</option>
-                    <option th:each="dest : ${destinations}" th:value="${dest}" th:text="${dest}"></option>
-                </select>
-            </div>
-            <!-- 隠しフィールドで必要なパラメータを保持 -->
-            <input type="hidden" name="currentSpotId" th:value="${currentSpotId}">
-            <input type="hidden" name="spotType" th:value="${spotType}">
-            <input type="hidden" name="destination" th:value="${destination}">
-            <input type="hidden" name="weather" th:value="${weather}">
-            <button type="submit">検索</button>
-        </form>
-    </div>
-
-    <div class="search-results" th:if="${searchResults}">
-        <h3>検索結果</h3>
-        <div th:each="spot : ${searchResults}" class="spot-item">
-            <div>
-                <p th:text="${spot.spotName}"></p>
-                <p th:text="${spot.spotAddress}"></p>
-            </div>
-            <form th:action="@{/update_spots}" method="post">
-                <input type="hidden" name="selectedSpotId" th:value="${spot.spotId}">
-                <input type="hidden" name="currentSpotId" th:value="${currentSpotId}">
-                <input type="hidden" name="spotType" th:value="${spotType}">
-                <input type="hidden" name="destination" th:value="${destination}">
-                <input type="hidden" name="weather" th:value="${weather}">
-                <button type="submit">選択</button>
-            </form>
-        </div>
-    </div>
-	</main>
-    
-    <!-- 戻るボタンの追加 -->
-    <div style="text-align: center; margin-top: 20px;">
-        <form th:action="@{/date_idea_list}" method="post">
-            <input type="hidden" name="destination" th:value="${destination}">
-            <input type="hidden" name="weather" th:value="${weather}">
-            <input type="hidden" name="planCount" value="三個">
-            <button type="submit">戻る</button>
-        </form>
-    </div>
-	<script src="/js/home/home.js"></script>
+	<!-- 戻るボタンをヒストリーバックに変更 -->
+	<div style="text-align: center; margin-top: 20px;">
+		<button type="button" onclick="history.back()">戻る</button>
+	</div>
 </body>
+
 </html>
