@@ -239,6 +239,17 @@ main {
 	background-color: #218838;
 }
 
+/* エラーメッセージの表示 */
+.error-message {
+	color: #dc3545;
+	font-weight: bold;
+	padding: 1rem;
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	margin: 1rem 0;
+}
+
 /* ハート降下アニメーション */
 @keyframes fallHeart {
 	0% {

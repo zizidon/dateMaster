@@ -175,25 +175,37 @@ public class Partnercontroller {
 
 	// applicant を承認
 	@PostMapping("/partnerApprove")
-	public String approveApplicant() {
+	public ModelAndView approveApplicant(ModelAndView mav) {
 		Users user = (Users) session.getAttribute("loginUser");
 
 		if (user != null && user.getApplicant() != null) {
+			//applicantのユーザー情報を取得
+			Users applicant = userRepository.findById(user.getApplicant()).orElse(null);
+
+			if (applicant != null && applicant.getPartner() != null) {
+				// 申請者が既に他のパートナーを持っている場合
+				mav.addObject("errorMessage", "既にパートナーがいるようですね、残念^^");
+				// applicantをクリア
+				user.setApplicant(null);
+				userRepository.save(user);
+				mav.setViewName("partnerAccept/partner_accept");
+				return mav;
+			}
+
 			//自分のpartnerにapplicantのIDを設定
-			Long applicantId = user.getApplicant();
 			user.setPartner(user.getApplicant());
 			user.setApplicant(null);
 			userRepository.save(user);
 
 			//applicantのpartnerに自分のIDを設定
-			Users applicant = userRepository.findById(applicantId).orElse(null);
 			if (applicant != null) {
 				applicant.setPartner(user.getId());
 				userRepository.save(applicant);
 			}
 		}
 
-		return "redirect:/dateMaster/partner";
+		mav.setViewName("redirect:/dateMaster/partner");
+		return mav;
 	}
 
 	//パートナーコーチング画面へ遷移

@@ -36,7 +36,10 @@
 			<div class="partner-info" th:if="${applicant == null}">
 				<p>パートナー申請がありません。</p>
 			</div>
-			<div class="partner-info" th:if="${applicant != null}">
+			<div class="partner-info" th:if="${errorMessage != null}">
+				<p class="error-message" th:text="${errorMessage}">エラーメッセージ</p>
+			</div>
+			<div class="partner-info" th:if="${applicant != null and errorMessage == null}">
 				<p th:text="'名前: ' + ${applicant.name}">名前: 申請者名</p>
 				<p th:text="'ID: ' + ${applicant.id}">ID: 申請者ID</p>
 
