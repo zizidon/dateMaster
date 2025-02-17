@@ -1,79 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ランダムデートプラン</title>
-	<link rel="stylesheet" href="/css/random_date/answer.css">
 </head>
+
 <body>
 	<header>
-	    <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
-	    <div class="hamburger-button">
-	        <span></span>
-	        <span></span>
-	        <span></span>
-	    </div>
+		<h1>ランダムデートプラン</h1>
 	</header>
+	<main>
+		<div class="back-button">
+			<a href="#" th:href="@{/dateMaster/back}">
+				<button type="button">戻る</button>
+			</a>
+		</div>
 
-	<nav class="hamburger-menu">
-	    <ul>
-	        <li><a th:href="@{/dateMaster/date}">デート</a></li>
-	        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
-	        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
-	        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
-	        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
-	    </ul>
-	</nav>
+		<form action="#" method="post" th:action="@{/dateMaster/date_confirm}">
+			<div class="question-message">
+				<p>以下の質問に答えてください</p>
+			</div>
 
-	<div class="overlay"></div>
-  <main>
-    <div class="back-button">
-      <a href="#" th:href="@{/dateMaster/back}">
-        <button type="button">戻る</button>
-      </a>
-    </div>
-    
-    <form action="#" method="post" th:action="@{/dateMaster/date_confirm}">
-      <div class="question-message">
-        <p>以下の質問に答えてください</p>
-      </div>
-      
-      <!-- 質問1: 気分 -->
-	  <div class="question-1">
-	      <p>質問1: どこに行きたい？</p>
-	      <select name="destination" required>
-	          <option value="">選択してください</option>
-	          <option th:each="destination : ${destinations}" th:value="${destination}" th:text="${destination}"></option>
-	      </select>
-	  </div>
-      
-      <!-- 質問2: 天気 -->
-      <div class="question-2">
-        <p>質問2: 今の天気はなに?</p>
-        <select name="weather" required>
-          <option value="">選択してください</option>
-          <option value="晴れ">晴れ</option>
-          <option value="曇り">曇り</option>
-          <option value="雨">雨</option>
-        </select>
-      </div>
-      
-      <!-- 質問3: プラン数 -->
-      <div class="question-3">
-        <p>質問3: デートプランの数を選択してね！</p>
-        <select name="planCount" required>
-          <option value="">選択してください</option>
-          <option th:each="count : ${planCounts}" th:value="${count}" th:text="${count}"></option>
-        </select>
-      </div>
+			<!-- 質問1: 気分 -->
+			<div class="question-1">
+				<p>質問1: どこに行きたい？</p>
+				<select name="destination" required>
+					<option value="">選択してください</option>
+					<option th:each="destination : ${destinations}" th:value="${destination}" th:text="${destination}"
+						th:selected="${destination == selectedDestination}">
+					</option>
+				</select>
+			</div>
 
-      <div class="button-group">
-        <button type="submit">次へ進む</button>
-      </div>
-    </form>
-  </main>
-  <script src="/js/home/home.js"></script>
-</body> 
+			<!-- 質問2: 天気 -->
+			<div class="question-2">
+				<p>質問2: 今の天気はなに?</p>
+				<select name="weather" required>
+					<option value="">選択してください</option>
+					<option value="晴れ" th:selected="${'晴れ' == selectedWeather}">晴れ</option>
+					<option value="曇り" th:selected="${'曇り' == selectedWeather}">曇り</option>
+					<option value="雨" th:selected="${'雨' == selectedWeather}">雨</option>
+				</select>
+			</div>
+
+			<!-- 質問3: プラン数 -->
+			<div class="question-3">
+				<p>質問3: デートプランの数を選択してね！</p>
+				<select name="planCount" required>
+					<option value="">選択してください</option>
+					<option th:each="count : ${planCounts}" th:value="${count}" th:text="${count}"
+						th:selected="${count == selectedPlanCount}">
+					</option>
+				</select>
+			</div>
+
+			<div class="button-group">
+				<button type="submit">次へ進む</button>
+			</div>
+		</form>
+	</main>
+</body>
+
 </html>
