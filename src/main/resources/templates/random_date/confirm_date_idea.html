@@ -1,66 +1,103 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ランダムデートプラン</title>
-	<link rel="stylesheet" href="/css/random_date/confirm_date_idea.css">
+	<title>デートプラン確認</title>
+	<link rel="stylesheet" th:href="@{/css/random/confirm_date.css}">
 </head>
+
 <body>
 	<header>
-	    <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
-	    <div class="hamburger-button">
-	        <span></span>
-	        <span></span>
-	        <span></span>
-	    </div>
+		<h1><a th:href="@{/}">デートプラン確認</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
 	</header>
 
+	<!-- ハンバーガーメニュー -->
 	<nav class="hamburger-menu">
-	    <ul>
-	        <li><a th:href="@{/dateMaster/date}">デート</a></li>
-	        <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
-	        <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
-	        <li><a th:href="@{/dateMaster/setting}">設定</a></li>
-	        <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
-	    </ul>
+		<ul>
+			<li><a th:href="@{/dateMaster/date}">デート</a></li>
+			<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+			<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+			<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+			<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+		</ul>
 	</nav>
 
+	<!-- オーバーレイ -->
 	<div class="overlay"></div>
 
-    <main>
-        <div th:each="spot, iterStat : ${spots}" class="spot-info">
-            <div class="spot-type" th:text="${iterStat.index == 0 ? 'メインスポット' : 
-                                            (iterStat.index == 1 ? 'サブスポット1' : 'サブスポット2')}">
-                スポットタイプ
-            </div>
-
-            <div class="spot-details">
-                <div class="label">スポット名：</div>
-                <div class="value" th:text="${spot.spotName}">スポット名</div>
-
-                <div class="label">住所：</div>
-                <div class="value" th:text="${spot.spotAddress}">住所</div>
-
-                <div class="label">カテゴリ：</div>
-                <div class="value" th:text="${spot.description}">カテゴリ</div>
-            </div>
-        </div>
-
-        <div class="button-container">
-            <form th:action="@{/plan_decision}" method="post">
-                <input type="hidden" name="destination" th:value="${destination}">
-                <input type="hidden" name="weather" th:value="${weather}">
-                <button type="submit" class="save-button">確定</button>
-            </form>
-
-
-        </div>			
-		<div class="back-button">
-				<button type="button" onclick="history.back()">戻る</button>
+	<main>
+		<!-- スポット画像セクション -->
+		<div class="spot-images">
+			<div th:each="spot, iterStat : ${spots}" class="spot-image-container">
+				<img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" th:alt="${spot.spotName}"
+					class="spot-image">
+				<p class="spot-name" th:text="${spot.spotName}">スポット名</p>
+				<span th:if="${!iterStat.last}" class="arrow">→</span>
+			</div>
 		</div>
-    </main>
-	<script src="/js/home/home.js"></script>
+
+		<!-- スポット情報セクション -->
+		<div th:each="spot, iterStat : ${spots}" class="spot-info">
+			<div class="spot-type" th:text="${iterStat.index == 0 ? 'メインスポット' : 
+                                            (iterStat.index == 1 ? 'サブスポット1' : 'サブスポット2')}">
+				スポットタイプ
+			</div>
+
+			<div class="spot-details">
+				<div class="label">スポット名：</div>
+				<div class="value" th:text="${spot.spotName}">スポット名</div>
+
+				<div class="label">住所：</div>
+				<div class="value" th:text="${spot.spotAddress}">住所</div>
+
+
+			</div>
+		</div>
+
+		<!-- ボタンセクション -->
+		<div class="button-container">
+			<form th:action="@{/plan_decision}" method="post">
+				<input type="hidden" name="destination" th:value="${destination}">
+				<input type="hidden" name="weather" th:value="${weather}">
+				<button type="submit" class="save-button">確定</button>
+			</form>
+
+			<form th:action="@{/date_idea_list}" method="post">
+				<input type="hidden" name="destination" th:value="${destination}">
+				<input type="hidden" name="weather" th:value="${weather}">
+				<input type="hidden" name="planCount" th:with="count=${session.planCount}" th:value="${count}">
+				<button type="submit" class="modify-button">戻る</button>
+			</form>
+		</div>
+	</main>
+
+	<!-- ハンバーガーメニューのJavaScript -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const hamburger = document.querySelector('.hamburger-button');
+			const menu = document.querySelector('.hamburger-menu');
+			const overlay = document.querySelector('.overlay');
+
+			hamburger.addEventListener('click', function () {
+				this.classList.toggle('active');
+				menu.classList.toggle('active');
+				overlay.classList.toggle('active');
+			});
+
+			overlay.addEventListener('click', function () {
+				hamburger.classList.remove('active');
+				menu.classList.remove('active');
+				this.classList.remove('active');
+			});
+		});
+	</script>
 </body>
+
 </html>

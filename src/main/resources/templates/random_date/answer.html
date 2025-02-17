@@ -5,17 +5,36 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ランダムデートプラン</title>
+	<link rel="stylesheet" th:href="@{/css/random/answer.css}">
 </head>
 
 <body>
 	<header>
-		<h1>ランダムデートプラン</h1>
+		<h1><a href="#" th:href="@{/}">ランダムデートプラン</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
 	</header>
+
+	<nav class="hamburger-menu">
+		<ul>
+			<li><a th:href="@{/dateMaster/date}">デート</a></li>
+			<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+			<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+			<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+			<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+		</ul>
+	</nav>
+
+	<div class="overlay"></div>
+
 	<main>
 		<div class="back-button">
-			<a href="#" th:href="@{/dateMaster/back}">
-				<button type="button">戻る</button>
-			</a>
+			<form action="#" th:action="@{/dateMaster/date}" method="get">
+				<button type="submit">戻る</button>
+			</form>
 		</div>
 
 		<form action="#" method="post" th:action="@{/dateMaster/date_confirm}">
@@ -23,7 +42,6 @@
 				<p>以下の質問に答えてください</p>
 			</div>
 
-			<!-- 質問1: 気分 -->
 			<div class="question-1">
 				<p>質問1: どこに行きたい？</p>
 				<select name="destination" required>
@@ -34,7 +52,6 @@
 				</select>
 			</div>
 
-			<!-- 質問2: 天気 -->
 			<div class="question-2">
 				<p>質問2: 今の天気はなに?</p>
 				<select name="weather" required>
@@ -45,7 +62,6 @@
 				</select>
 			</div>
 
-			<!-- 質問3: プラン数 -->
 			<div class="question-3">
 				<p>質問3: デートプランの数を選択してね！</p>
 				<select name="planCount" required>
@@ -61,6 +77,20 @@
 			</div>
 		</form>
 	</main>
+
+	<script>
+		document.querySelector('.hamburger-button').addEventListener('click', function () {
+			this.classList.toggle('active');
+			document.querySelector('.hamburger-menu').classList.toggle('active');
+			document.querySelector('.overlay').classList.toggle('active');
+		});
+
+		document.querySelector('.overlay').addEventListener('click', function () {
+			document.querySelector('.hamburger-button').classList.remove('active');
+			document.querySelector('.hamburger-menu').classList.remove('active');
+			this.classList.remove('active');
+		});
+	</script>
 </body>
 
 </html>

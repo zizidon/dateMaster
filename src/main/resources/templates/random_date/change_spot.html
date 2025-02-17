@@ -1,78 +1,117 @@
-change_spot.html
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>スポット変更</title>
-	<style>
-		.search-form {
-			max-width: 600px;
-			margin: 0 auto;
-			padding: 20px;
-		}
-
-		.search-results {
-			max-width: 600px;
-			margin: 0 auto;
-		}
-
-		.spot-item {
-			border: 1px solid #ddd;
-			margin-bottom: 10px;
-			padding: 10px;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-	</style>
+	<link rel="stylesheet" th:href="@{/css/random/change.css}">
 </head>
 
 <body>
-	<div class="search-form">
-		<h2>スポット検索</h2>
-		<form th:action="@{/search_spots}" method="post">
-			<div>
-				<label>スポット名:</label>
-				<input type="text" name="spotName">
-			</div>
-			<div>
-				<label>カテゴリ:</label>
-				<select name="category">
-					<option value="">カテゴリ選択</option>
-					<option th:each="dest : ${destinations}" th:value="${dest}" th:text="${dest}"></option>
-				</select>
-			</div>
-			<!-- 隠しフィールドで必要なパラメータを保持 -->
-			<input type="hidden" name="currentSpotId" th:value="${currentSpotId}">
-			<input type="hidden" name="spotType" th:value="${spotType}">
+	<header>
+		<h1><a th:href="@{/}">スポット変更</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</header>
+
+	<!-- ハンバーガーメニュー -->
+	<nav class="hamburger-menu">
+		<ul>
+			<li><a th:href="@{/dateMaster/date}">デート</a></li>
+			<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+			<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+			<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+			<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+		</ul>
+	</nav>
+
+	<!-- オーバーレイ -->
+	<div class="overlay"></div>
+
+	<!-- 戻るボタン（上部に配置） -->
+	<div class="back-button">
+		<form th:action="@{/date_idea_list}" method="get">
 			<input type="hidden" name="destination" th:value="${destination}">
 			<input type="hidden" name="weather" th:value="${weather}">
-			<button type="submit">検索</button>
+			<input type="hidden" name="planCount" th:value="${session.planCount}">
+			<button type="submit">戻る</button>
 		</form>
 	</div>
-	<div class="search-results" th:if="${searchResults}">
-		<h3>検索結果</h3>
-		<div th:each="spot : ${searchResults}" class="spot-item">
-			<div>
-				<p th:text="${spot.spotName}"></p>
-				<p th:text="${spot.spotAddress}"></p>
-			</div>
-			<form th:action="@{/update_spots}" method="post">
-				<input type="hidden" name="selectedSpotId" th:value="${spot.spotId}">
+
+	<main>
+		<div class="search-form">
+			<form th:action="@{/search_spots}" method="post" class="form-container">
+				<div class="form-group">
+					<label>スポット名</label>
+					<input type="text" name="spotName" placeholder="スポット名を入力">
+				</div>
+				<div class="form-group">
+					<label>カテゴリ</label>
+					<select name="category">
+						<option value="">カテゴリ選択</option>
+						<option th:each="dest : ${destinations}" th:value="${dest}" th:text="${dest}">
+						</option>
+					</select>
+				</div>
+				<!-- 隠しフィールド -->
 				<input type="hidden" name="currentSpotId" th:value="${currentSpotId}">
 				<input type="hidden" name="spotType" th:value="${spotType}">
 				<input type="hidden" name="destination" th:value="${destination}">
 				<input type="hidden" name="weather" th:value="${weather}">
-				<button type="submit">選択</button>
+
+				<button type="submit" class="search-button">検索</button>
 			</form>
 		</div>
-	</div>
 
-	<!-- 戻るボタンをヒストリーバックに変更 -->
-	<div style="text-align: center; margin-top: 20px;">
-		<button type="button" onclick="history.back()">戻る</button>
-	</div>
+		<div class="search-results" th:if="${searchResults}">
+			<h2>検索結果</h2>
+			<div class="results-container">
+				<div th:each="spot : ${searchResults}" class="spot-card">
+					<div class="spot-image-container">
+						<img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" th:alt="${spot.spotName}"
+							class="spot-image">
+					</div>
+					<div class="spot-info">
+						<h3 th:text="${spot.spotName}"></h3>
+						<p th:text="${spot.spotAddress}"></p>
+					</div>
+					<form th:action="@{/update_spots}" method="post">
+						<input type="hidden" name="selectedSpotId" th:value="${spot.spotId}">
+						<input type="hidden" name="currentSpotId" th:value="${currentSpotId}">
+						<input type="hidden" name="spotType" th:value="${spotType}">
+						<input type="hidden" name="destination" th:value="${destination}">
+						<input type="hidden" name="weather" th:value="${weather}">
+						<button type="submit" class="select-button">選択</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- ハンバーガーメニューのJavaScript -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const hamburger = document.querySelector('.hamburger-button');
+			const menu = document.querySelector('.hamburger-menu');
+			const overlay = document.querySelector('.overlay');
+
+			hamburger.addEventListener('click', function () {
+				this.classList.toggle('active');
+				menu.classList.toggle('active');
+				overlay.classList.toggle('active');
+			});
+
+			overlay.addEventListener('click', function () {
+				hamburger.classList.remove('active');
+				menu.classList.remove('active');
+				this.classList.remove('active');
+			});
+		});
+	</script>
 </body>
 
 </html>

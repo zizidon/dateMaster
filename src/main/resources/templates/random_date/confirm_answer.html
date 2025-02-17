@@ -5,27 +5,55 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>確認画面</title>
+	<link rel="stylesheet" th:href="@{/css/random/confirm_answer.css}">
 </head>
 
 <body>
 	<header>
-		<h1>ランダムデートプラン</h1>
+		<h1><a href="/">ランダムデートプラン</a></h1>
+		<div class="hamburger-button">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
 	</header>
+
+	<nav class="hamburger-menu">
+		<ul>
+			<li><a th:href="@{/dateMaster/date}">デート</a></li>
+			<li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+			<li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+			<li><a th:href="@{/dateMaster/setting}">設定</a></li>
+			<li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+		</ul>
+	</nav>
+
+	<div class="overlay"></div>
+
 	<main>
-		<div>
-			<div>
-				<form th:action="@{/randomDate}" method="get">
-					<button type="submit" class="back-button">戻る</button>
-				</form>
-			</div>
+		<form th:action="@{/randomDate}" method="get">
+			<button type="submit">戻る</button>
+		</form>
+
+		<div class="confirm-container">
 			<h2>以下の内容でよろしいですか？</h2>
-			<p>行きたい場所: <span th:text="${destination}"></span></p>
-			<p>天気: <span th:text="${weather}"></span></p>
-			<p>デートプランの数: <span th:text="${planCount}"></span></p>
+			<div class="confirm-details">
+				<div class="detail-item">
+					<span class="label">行きたい場所:</span>
+					<span class="value" th:text="${destination}"></span>
+				</div>
+				<div class="detail-item">
+					<span class="label">天気:</span>
+					<span class="value" th:text="${weather}"></span>
+				</div>
+				<div class="detail-item">
+					<span class="label">デートプランの数:</span>
+					<span class="value" th:text="${planCount}"></span>
+				</div>
+			</div>
 		</div>
 
-
-		<form action="#" th:action="@{/date_idea_list}" method="post">
+		<form action="#" th:action="@{/date_idea_list}" method="post" class="confirm-form">
 			<input type="hidden" name="destination" th:value="${destination}">
 			<input type="hidden" name="weather" th:value="${weather}">
 			<input type="hidden" name="planCount" th:value="${planCount}">
@@ -34,6 +62,23 @@
 			</div>
 		</form>
 	</main>
+
+	<script>
+		document.querySelector('.hamburger-button').addEventListener('click', function () {
+			this.classList.toggle('active');
+			document.querySelector('.hamburger-menu').classList.toggle('active');
+			document.querySelector('.overlay').classList.toggle('active');
+		});
+
+		document.querySelector('.overlay').addEventListener('click', function () {
+			document.querySelector('.hamburger-button').classList.remove('active');
+			document.querySelector('.hamburger-menu').classList.remove('active');
+			this.classList.remove('active');
+		});
+	</script>
+</body>
+
+</html>
 </body>
 
 </html>
