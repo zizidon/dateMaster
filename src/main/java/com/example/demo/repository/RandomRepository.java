@@ -240,9 +240,6 @@ public class RandomRepository {
 				userId,
 				partnerId);
 
-		// ユーザーのdate_shareフラグを更新
-		String updateUserSql = "UPDATE users SET date_share = 1 WHERE id = ?";
-		jdbcTemplate.update(updateUserSql, userId);
 	}
 
 	public void updateRandomRanking(List<DateSpot> spots) {
