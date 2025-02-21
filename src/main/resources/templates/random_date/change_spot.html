@@ -6,6 +6,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>スポット変更</title>
 	<link rel="stylesheet" th:href="@{/css/random/change.css}">
+	<style>
+		.disabled-button {
+			background-color: #ccc;
+			cursor: not-allowed;
+			opacity: 0.6;
+		}
+
+		.warning-text {
+			color: red;
+			font-weight: bold;
+			margin-top: 5px;
+		}
+	</style>
 </head>
 
 <body>
@@ -78,6 +91,12 @@
 					<div class="spot-info">
 						<h3 th:text="${spot.spotName}"></h3>
 						<p th:text="${spot.spotAddress}"></p>
+
+						<!-- 既に選択されているスポットの場合に警告を表示 -->
+						<p th:if="${currentSpotIds != null && currentSpotIds.contains(spot.spotId)}"
+							class="warning-text">
+							このスポットはプランに含まれています。
+						</p>
 					</div>
 					<form th:action="@{/update_spots}" method="post">
 						<input type="hidden" name="selectedSpotId" th:value="${spot.spotId}">
@@ -85,7 +104,13 @@
 						<input type="hidden" name="spotType" th:value="${spotType}">
 						<input type="hidden" name="destination" th:value="${destination}">
 						<input type="hidden" name="weather" th:value="${weather}">
-						<button type="submit" class="select-button">選択</button>
+
+						<!-- 既に選択されているスポットの場合はボタンを無効化 -->
+						<button type="submit" class="select-button"
+							th:disabled="${currentSpotIds != null && currentSpotIds.contains(spot.spotId)}"
+							th:classappend="${currentSpotIds != null && currentSpotIds.contains(spot.spotId) ? 'disabled-button' : ''}">
+							選択
+						</button>
 					</form>
 				</div>
 			</div>

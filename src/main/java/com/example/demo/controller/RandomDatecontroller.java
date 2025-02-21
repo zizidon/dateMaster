@@ -1,3 +1,4 @@
+
 package com.example.demo.controller;
 
 import java.util.ArrayList;
@@ -117,7 +118,21 @@ public class RandomDatecontroller {
 			int weatherId = convertWeatherToId(weather);
 			int count = convertPlanCountToInt(planCount);
 
+			// まず指定された条件で検索
 			List<DateSpot> mainSpots = randomRepository.findByDestinationAndWeather(destinationId, weatherId, 1);
+
+			// 結果が空の場合は、天気条件を無視して検索
+			if (mainSpots.isEmpty()) {
+				String sql = "SELECT * FROM date_spots WHERE category = ? ORDER BY RAND() LIMIT 1";
+				mainSpots = jdbcTemplate.query(sql, new Object[] { destinationId },
+						new RandomRepository.DateSpotRowMapper());
+			}
+
+			// それでも結果が空の場合は、すべてのスポットから検索
+			if (mainSpots.isEmpty()) {
+				String sql = "SELECT * FROM date_spots ORDER BY RAND() LIMIT 1";
+				mainSpots = jdbcTemplate.query(sql, new RandomRepository.DateSpotRowMapper());
+			}
 
 			if (mainSpots.isEmpty()) {
 				modelAndView = new ModelAndView("error");
@@ -184,6 +199,19 @@ public class RandomDatecontroller {
 
 		ModelAndView modelAndView = new ModelAndView("random_date/change_spot");
 
+		// 現在のスポット情報を取得
+		@SuppressWarnings("unchecked")
+		List<DateSpot> currentSpots = (List<DateSpot>) session.getAttribute("currentSpots");
+
+		// 現在のスポットIDリストを作成
+		List<Long> currentSpotIds = new ArrayList<>();
+		if (currentSpots != null) {
+			currentSpotIds = currentSpots.stream()
+					.map(DateSpot::getSpotId)
+					.collect(Collectors.toList());
+		}
+
+		modelAndView.addObject("currentSpotIds", currentSpotIds);
 		modelAndView.addObject("planCount", session.getAttribute("planCount"));
 		modelAndView.addObject("currentSpotId", currentSpotId);
 		modelAndView.addObject("spotType", spotType);
@@ -214,8 +242,21 @@ public class RandomDatecontroller {
 			searchResults = new ArrayList<>();
 		}
 
+		// 現在のスポット情報を取得
+		@SuppressWarnings("unchecked")
+		List<DateSpot> currentSpots = (List<DateSpot>) session.getAttribute("currentSpots");
+
+		// 現在のスポットIDリストを作成
+		List<Long> currentSpotIds = new ArrayList<>();
+		if (currentSpots != null) {
+			currentSpotIds = currentSpots.stream()
+					.map(DateSpot::getSpotId)
+					.collect(Collectors.toList());
+		}
+
 		ModelAndView modelAndView = new ModelAndView("random_date/change_spot");
 		modelAndView.addObject("searchResults", searchResults);
+		modelAndView.addObject("currentSpotIds", currentSpotIds);
 		modelAndView.addObject("destinations", randomDateService.getDestinationOptions());
 		modelAndView.addObject("currentSpotId", currentSpotId);
 		modelAndView.addObject("spotType", spotType);
@@ -304,6 +345,25 @@ public class RandomDatecontroller {
 
 		List<DateSpot> mainSpots = randomRepository.findNewSpotsByDestinationAndWeather(
 				destinationId, weatherId, excludeSpotIds);
+
+		// 結果が空の場合は、天気条件を無視して検索
+		if (mainSpots.isEmpty()) {
+			String sql = "SELECT * FROM date_spots WHERE category = ? "
+					+ "AND spot_id NOT IN ("
+					+ String.join(",", excludeSpotIds.stream().map(String::valueOf).toArray(String[]::new))
+					+ ") ORDER BY RAND() LIMIT 1";
+			mainSpots = jdbcTemplate.query(sql, new Object[] { destinationId },
+					new RandomRepository.DateSpotRowMapper());
+		}
+
+		// それでも結果が空の場合は、すべてのスポットから除外IDを考慮して検索
+		if (mainSpots.isEmpty()) {
+			String sql = "SELECT * FROM date_spots "
+					+ "WHERE spot_id NOT IN ("
+					+ String.join(",", excludeSpotIds.stream().map(String::valueOf).toArray(String[]::new))
+					+ ") ORDER BY RAND() LIMIT 1";
+			mainSpots = jdbcTemplate.query(sql, new RandomRepository.DateSpotRowMapper());
+		}
 
 		if (mainSpots.isEmpty()) {
 			ModelAndView errorView = new ModelAndView("error");
@@ -452,8 +512,6 @@ public class RandomDatecontroller {
 		switch (destination) {
 		case "カフェ":
 			return 1;
-		case "神社系":
-			return 2;
 		case "公園":
 			return 3;
 		case "歴史系":

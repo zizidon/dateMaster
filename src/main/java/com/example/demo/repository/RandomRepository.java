@@ -58,7 +58,7 @@ public class RandomRepository {
 		return jdbcTemplate.query(sql, spotNames.toArray(), new DateSpotRowMapper());
 	}
 
-	private static class DateSpotRowMapper implements RowMapper<DateSpot> {
+	public static class DateSpotRowMapper implements RowMapper<DateSpot> {
 		@Override
 		public DateSpot mapRow(ResultSet rs, int rowNum) throws SQLException {
 			DateSpot spot = new DateSpot();
@@ -82,9 +82,20 @@ public class RandomRepository {
 
 	//目的地と天気に基づいてデートスポットを検索するメソッド
 	public List<DateSpot> findByDestinationAndWeather(int destination, int weather, int planCount) {
+		// まず指定された条件で完全一致検索
 		String sql = "SELECT * FROM date_spots WHERE category = ? AND (spot_type = ? OR spot_type = 4) "
 				+ "ORDER BY RAND() LIMIT ?";
-		return jdbcTemplate.query(sql, new Object[] { destination, weather, planCount }, new DateSpotRowMapper());
+		List<DateSpot> spots = jdbcTemplate.query(sql, new Object[] { destination, weather, planCount },
+				new DateSpotRowMapper());
+
+		// 結果が空の場合は、天気条件を無視して検索
+		if (spots.isEmpty()) {
+			sql = "SELECT * FROM date_spots WHERE category = ? "
+					+ "ORDER BY RAND() LIMIT ?";
+			spots = jdbcTemplate.query(sql, new Object[] { destination, planCount }, new DateSpotRowMapper());
+		}
+
+		return spots;
 	}
 
 	//指定された緯度経度の近くにあるスポットを検索するメソッド
@@ -189,6 +200,7 @@ public class RandomRepository {
 		String sql;
 		List<DateSpot> spots;
 
+		// まず指定された条件（目的地と天気）で検索
 		if (!allExcludeIds.isEmpty()) {
 			sql = "SELECT * FROM date_spots WHERE category = ? AND (spot_type = ? OR spot_type = 4) "
 					+ "AND spot_id NOT IN ("
@@ -201,12 +213,33 @@ public class RandomRepository {
 			spots = jdbcTemplate.query(sql, new Object[] { destination, weather }, new DateSpotRowMapper());
 		}
 
+		// 結果が空の場合、天気条件を無視して検索
+		if (spots.isEmpty()) {
+			if (!allExcludeIds.isEmpty()) {
+				sql = "SELECT * FROM date_spots WHERE category = ? "
+						+ "AND spot_id NOT IN ("
+						+ String.join(",", allExcludeIds.stream().map(String::valueOf).toArray(String[]::new))
+						+ ") ORDER BY RAND() LIMIT 1";
+				spots = jdbcTemplate.query(sql, new Object[] { destination }, new DateSpotRowMapper());
+			} else {
+				sql = "SELECT * FROM date_spots WHERE category = ? "
+						+ "ORDER BY RAND() LIMIT 1";
+				spots = jdbcTemplate.query(sql, new Object[] { destination }, new DateSpotRowMapper());
+			}
+		}
+
 		// 新しいスポットが見つからない場合は、表示済みリストをリセット
 		if (spots.isEmpty()) {
 			displayedSpotIds.clear();
-			sql = "SELECT * FROM date_spots WHERE category = ? AND (spot_type = ? OR spot_type = 4) "
+			sql = "SELECT * FROM date_spots WHERE category = ? "
 					+ "ORDER BY RAND() LIMIT 1";
-			spots = jdbcTemplate.query(sql, new Object[] { destination, weather }, new DateSpotRowMapper());
+			spots = jdbcTemplate.query(sql, new Object[] { destination }, new DateSpotRowMapper());
+
+			// それでも見つからない場合は、カテゴリも無視して検索
+			if (spots.isEmpty()) {
+				sql = "SELECT * FROM date_spots ORDER BY RAND() LIMIT 1";
+				spots = jdbcTemplate.query(sql, new DateSpotRowMapper());
+			}
 		}
 
 		// 見つかったスポットを表示済みリストに追加
