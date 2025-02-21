@@ -1,246 +1,181 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>共有プランマップ</title>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-	<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
-	<style>
-		body {
-			font-family: 'Helvetica Neue', Arial, sans-serif;
-			margin: 0;
-			padding: 20px;
-			background-color: #f5f5f5;
-		}
-
-		header {
-			text-align: center;
-			margin-bottom: 30px;
-		}
-
-		h1 {
-			color: #333;
-			margin: 0;
-			font-size: 24px;
-		}
-
-		#map {
-			height: 400px;
-			width: 100%;
-			margin: 20px 0;
-			border-radius: 8px;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		}
-
-		.location-selector {
-			margin: 20px 0;
-			text-align: center;
-		}
-
-		.location-selector select {
-			padding: 8px 12px;
-			font-size: 16px;
-			border-radius: 4px;
-			border: 1px solid #ddd;
-		}
-
-		.spot-images {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			gap: 20px;
-			margin: 20px 0;
-			flex-wrap: wrap;
-		}
-
-		.spot-image-container {
-			text-align: center;
-		}
-
-		.spot-image {
-			width: 200px;
-			height: 150px;
-			object-fit: cover;
-			border-radius: 8px;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-			transition: transform 0.3s ease;
-		}
-
-		.spot-image:hover {
-			transform: scale(1.05);
-		}
-
-		.arrow {
-			font-size: 24px;
-			color: #333;
-			margin: 0 10px;
-		}
-
-		.button-group {
-			display: flex;
-			justify-content: center;
-			gap: 20px;
-			margin-top: 30px;
-		}
-
-
-
-	
-
-		button {
-		    background-color: #4299e1;
-		    color: white;
-		    border: none;
-		    padding: 0.8rem 1.5rem;
-		    border-radius: 8px;
-		    cursor: pointer;
-		    transition: all 0.3s ease;
-		}
-
-		button:hover {
-		    background-color: #3182ce;
-		    transform: translateY(-2px);
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>共有プランマップ</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/css/date_reference/random_map.css">
 </head>
-
 <body>
-	<header>
-		<h1>共有プランマップ</h1>
-	</header>
+    <header>
+        <h1><a th:href="@{/dateMaster/home}">DatingMaster</a></h1>
+        <div class="hamburger-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
 
-	<main>
-		<div class="location-selector">
-			<label for="start-location">出発地点を選択:</label>
-			<select id="start-location">
-				<option value="kagoshima-chuo">鹿児島中央駅</option>
-				<option value="kagoshima">鹿児島駅</option>
-				<option value="tenmonkan">天文館</option>
-				<option value="taniyama">谷山駅</option>
-				<option value="kagoshima-airport">鹿児島空港</option>
-			</select>
-		</div>
+    <nav class="hamburger-menu">
+        <ul>
+            <li><a th:href="@{/dateMaster/date}">デート</a></li>
+            <li><a th:href="@{/dateMaster/diagonosis}">診断</a></li>
+            <li><a th:href="@{/dateMaster/partner}">パートナー</a></li>
+            <li><a th:href="@{/dateMaster/setting}">設定</a></li>
+            <li><a th:href="@{/dateMaster/logout}">ログアウト</a></li>
+        </ul>
+    </nav>
 
-		<div id="map"></div>
+    <div class="overlay"></div>
+    
+    <main>
+        <div class="map-container">
+            <h2>共有プランマップ</h2>
+            
+            <div class="location-selector">
+                <label for="start-location">出発地点を選択:</label>
+                <select id="start-location">
+                    <option value="kagoshima-chuo">鹿児島中央駅</option>
+                    <option value="kagoshima">鹿児島駅</option>
+                    <option value="tenmonkan">天文館</option>
+                    <option value="taniyama">谷山駅</option>
+                    <option value="kagoshima-airport">鹿児島空港</option>
+                </select>
+            </div>
 
-		<div class="spot-images">
-			<div class="spot-image-container">
-				<img id="start-location-image" src="" alt="出発地点" class="spot-image">
-				<p class="spot-name">出発地点</p>
-				<span class="arrow">→</span>
-			</div>
-			<div th:each="spot, stat : ${spots}" class="spot-image-container">
-				<img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" th:alt="${spot.spotName}"
-					class="spot-image">
-				<p class="spot-name" th:text="${spot.spotName}">スポット名</p>
-				<span th:if="${!stat.last}" class="arrow">→</span>
-			</div>
-		</div>
+            <div id="map"></div>
 
-		<div class="button-group">
-			<a th:href="@{/dateMaster/date}">
-				<button type="button">機能一覧画面へ</button>
-			</a>
-		</div>
-	</main>
+            <div class="spot-images">
+                <div class="spot-image-container">
+                    <img id="start-location-image" src="" alt="出発地点" class="spot-image">
+                    <p class="spot-name">出発地点</p>
+                    <span class="arrow">→</span>
+                </div>
+                <div th:each="spot, stat : ${spots}" class="spot-image-container">
+                    <img th:src="@{/spot_images/{name}.jpg(name=${spot.spotName})}" 
+                        th:alt="${spot.spotName}" 
+                        class="spot-image">
+                    <p class="spot-name" th:text="${spot.spotName}">スポット名</p>
+                    <span th:if="${!stat.last}" class="arrow">→</span>
+                </div>
+            </div>
 
-	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-	<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-	<script th:inline="javascript">
-		// 地点情報の定義
-		const locations = {
-			"kagoshima-chuo": {
-				lat: 31.5837,
-				lng: 130.5412,
-				name: "鹿児島中央駅",
-				image: "/spot_images/鹿児島中央駅.jpg"
-			},
-			"kagoshima": {
-				lat: 31.601668833428423,
-				lng: 130.56298412289036,
-				name: "鹿児島駅",
-				image: "/spot_images/鹿児島駅.jpg"
-			},
-			"tenmonkan": {
-				lat: 31.59125465657467,
-				lng: 130.55504199999436,
-				name: "天文館",
-				image: "/spot_images/天文館.jpg"
-			},
-			"taniyama": {
-				lat: 31.5267,
-				lng: 130.5187,
-				name: "谷山駅",
-				image: "/spot_images/谷山駅.jpg"
-			},
-			"kagoshima-airport": {
-				lat: 31.8031,
-				lng: 130.7219,
-				name: "鹿児島空港",
-				image: "/spot_images/鹿児島空港.jpg"
-			}
-		};
+            <div class="button-group">
+                <a th:href="@{/dateMaster/shareRandomPlan}" class="button">戻る</a>
+            </div>
+        </div>
+    </main>
 
-		// Thymeleafから渡されたデータを取得
-		const spots = /*[[${spots}]]*/[];
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script th:inline="javascript">
+        // 地点情報の定義
+        const locations = {
+            "kagoshima-chuo": { 
+                lat: 31.5837, 
+                lng: 130.5412, 
+                name: "鹿児島中央駅",
+                image: "/spot_images/鹿児島中央駅.jpg"
+            },
+            "kagoshima": { 
+                lat: 31.601668833428423, 
+                lng: 130.56298412289036, 
+                name: "鹿児島駅",
+                image: "/spot_images/鹿児島駅.jpg"
+            },
+            "tenmonkan": { 
+                lat: 31.59125465657467, 
+                lng: 130.55504199999436, 
+                name: "天文館",
+                image: "/spot_images/天文館.jpg"
+            },
+            "taniyama": { 
+                lat: 31.5267, 
+                lng: 130.5187, 
+                name: "谷山駅",
+                image: "/spot_images/谷山駅.jpg"
+            },
+            "kagoshima-airport": { 
+                lat: 31.8031, 
+                lng: 130.7219, 
+                name: "鹿児島空港",
+                image: "/spot_images/鹿児島空港.jpg"
+            }
+        };
 
-		// 初期地点を設定
-		let currentLocation = locations["kagoshima-chuo"];
+        // Thymeleafから渡されたデータを取得
+        const spots = /*[[${spots}]]*/ [];
 
-		// 地図の初期化
-		const map = L.map('map').setView([currentLocation.lat, currentLocation.lng], 13);
-		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-		}).addTo(map);
+        // 初期地点を設定
+        let currentLocation = locations["kagoshima-chuo"];
 
-		// ルート表示の設定
-		function updateRoute() {
-			// ウェイポイントの設定
-			const waypoints = [
-				L.latLng(currentLocation.lat, currentLocation.lng),
-				...spots.map(spot => L.latLng(spot.latitude, spot.longitude))
-			];
+        // 地図の初期化
+        const map = L.map('map').setView([currentLocation.lat, currentLocation.lng], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
-			// 既存のルートを削除
-			if (window.routeControl) {
-				map.removeControl(window.routeControl);
-			}
+        // ルート表示の設定
+        function updateRoute() {
+            // ウェイポイントの設定
+            const waypoints = [
+                L.latLng(currentLocation.lat, currentLocation.lng),
+                ...spots.map(spot => L.latLng(spot.latitude, spot.longitude))
+            ];
 
-			// 新しいルートを追加
-			window.routeControl = L.Routing.control({
-				waypoints: waypoints,
-				routeWhileDragging: true,
-				lineOptions: {
-					styles: [{color: '#4299e1', opacity: 0.6, weight: 4}]
-				},
-				createMarker: function (i, waypoint, n) {
-					let markerContent = i === 0 ?
-						`<b>${currentLocation.name}</b><br>出発地点` :
-						`<b>${spots[i - 1].spotName}</b><br>${spots[i - 1].spotAddress}<br>${spots[i - 1].description}`;
+            // 既存のルートを削除
+            if (window.routeControl) {
+                map.removeControl(window.routeControl);
+            }
 
-					return L.marker(waypoint.latLng).bindPopup(markerContent);
-				},
-				show: false,
-				addWaypoints: false,
-				draggable: false
-			}).addTo(map);
-		}
+            // 新しいルートを追加
+            window.routeControl = L.Routing.control({
+                waypoints: waypoints,
+                routeWhileDragging: true,
+                lineOptions: {
+                    styles: [{color: '#4299e1', opacity: 0.6, weight: 4}]
+                },
+                createMarker: function(i, waypoint, n) {
+                    let markerContent = i === 0 ? 
+                        `<b>${currentLocation.name}</b><br>出発地点` : 
+                        `<b>${spots[i-1].spotName}</b><br>${spots[i-1].spotAddress}<br>${spots[i-1].description}`;
+                    
+                    return L.marker(waypoint.latLng).bindPopup(markerContent);
+                },
+                show: false,
+                addWaypoints: false,
+                draggable: false
+            }).addTo(map);
+        }
+		
+        // 初期ルートの表示
+        updateRoute();
 
-		// 初期ルートの表示
-		updateRoute();
+        // 出発地点変更時の処理
+        document.getElementById('start-location').addEventListener('change', function(event) {
+            currentLocation = locations[event.target.value];
+            document.getElementById('start-location-image').src = currentLocation.image;
+            updateRoute();
+        });
 
-		// 出発地点変更時の処理
-		document.getElementById('start-location').addEventListener('change', function (event) {
-			currentLocation = locations[event.target.value];
-			document.getElementById('start-location-image').src = currentLocation.image;
-			updateRoute();
-		});
+        // 初期画像の設定
+        document.getElementById('start-location-image').src = currentLocation.image;
 
-		// 初期画像の設定
-		document.getElementById('start-location-image').src = currentLocation.image;
-	</script>
+        // ハンバーガーメニューのスクリプト
+        document.querySelector('.hamburger-button').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.hamburger-menu').classList.toggle('active');
+            document.querySelector('.overlay').classList.toggle('active');
+        });
+
+        document.querySelector('.overlay').addEventListener('click', function() {
+            document.querySelector('.hamburger-button').classList.remove('active');
+            document.querySelector('.hamburger-menu').classList.remove('active');
+            this.classList.remove('active');
+        });
+    </script>
 </body>
-
 </html>
